@@ -1,0 +1,19 @@
+---
+import { iconDefinitions, type IconName } from "../lib/icons";
+
+interface Props {
+  name: IconName;
+}
+
+const { name } = Astro.props;
+const [width, height] = iconDefinitions[name].icon;
+---
+
+<svg
+  viewBox={`0 0 ${width} ${height}`}
+  preserveAspectRatio="xMidYMid meet"
+  aria-hidden="true"
+  class="h-4 w-4 fill-current"
+>
+  <use href={`#icon-${name}`}></use>
+</svg>

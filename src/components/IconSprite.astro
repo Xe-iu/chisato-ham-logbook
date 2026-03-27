@@ -1,0 +1,34 @@
+---
+import { iconDefinitions } from "../lib/icons";
+
+const icons = Object.entries(iconDefinitions).map(([name, definition]) => {
+  const [width, height, , , pathData] = definition.icon;
+  const paths = Array.isArray(pathData) ? pathData : [pathData];
+
+  return {
+    name,
+    viewBox: `0 0 ${width} ${height}`,
+    paths,
+  };
+});
+---
+
+<svg
+  aria-hidden="true"
+  width="0"
+  height="0"
+  class="pointer-events-none absolute overflow-hidden"
+  style="inset:-9999px"
+>
+  <defs>
+    {
+      icons.map((icon) => (
+        <symbol id={`icon-${icon.name}`} viewBox={icon.viewBox}>
+          {icon.paths.map((path) => (
+            <path d={path} />
+          ))}
+        </symbol>
+      ))
+    }
+  </defs>
+</svg>

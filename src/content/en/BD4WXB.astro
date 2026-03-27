@@ -1,0 +1,131 @@
+---
+import type { ProfileMeta, ProfileSection } from "../../lib/profile";
+import Cards from "../../components/Cards.astro";
+import GalleryCard from "../../components/GalleryCard.astro";
+import InfoCard from "../../components/InfoCard.astro";
+import LogbookCard from "../../components/LogbookCard.astro";
+import SectionBlock from "../../components/SectionBlock.astro";
+import SectionCluster from "../../components/SectionCluster.astro";
+
+export const profile: ProfileMeta = {
+  lang: "en",
+  stationId: "BD4WXB",
+  callsign: "BD4WXB",
+  status: "inactive",
+  pageTitle: "chariri's Personal Amateur Radio Station",
+  hero: {
+    quote: "忘れたくない想い、ありますか？",
+    quoteSource: "ef - a tale of memories.",
+    blurb:
+      "Welcome to the homepage of my personal amateur radio station. This callsign (BD4WXB) has been inactive since September 3, 2025 because I left Nanjing.",
+  },
+};
+
+export const sections: readonly ProfileSection[] = [
+  { id: "basic-info", label: "Basic Info" },
+  { id: "showcase", label: "Showcase" },
+  { id: "logbook", label: "Logbook" },
+];
+---
+
+<SectionBlock id="basic-info" title="Basic Info">
+  <Cards columns="2u">
+    <InfoCard label="QTH" value="OL39" icon="grid">CRAC Area 8 - Chongqing</InfoCard>
+    <InfoCard label="License" value="Class B, China Amateur Radio License" icon="signal">
+      <p>144 / 430 MHz @ 25 W</p>
+      <p>HF @ 15 W</p>
+    </InfoCard>
+    <InfoCard
+      label="Contact"
+      value="chariri@chariri.moe"
+      href="mailto:chariri@chariri.moe"
+      icon="email"
+    />
+    <InfoCard
+      label="Postal Address"
+      value="P.O. Box 21004294, Nanjing, Jiangsu 210042, P.R. China"
+      icon="mail"
+    />
+  </Cards>
+
+  <SectionCluster icon="gear" title="Gear">
+    <Cards columns="2">
+      <InfoCard label="Rig" value="Wouxun KG-UV9D Plus" icon="radio">
+        FM @ VHF (144 MHz), 5 W
+      </InfoCard>
+      <InfoCard label="Rig" value="ICOM IC-7300" icon="radio">SSB, FT8 @ HF, 15 W</InfoCard>
+      <InfoCard label="Antenna" value="DIAMOND SRH771" icon="antenna" />
+      <InfoCard label="Antenna" value="HF Portable V-Dipole by BG8GVJ" icon="antenna" />
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster icon="policy" title="QSL Policy">
+    <InfoCard largeText={true}>
+      <p>
+        I will send a paper QSL card to contacted stations either when I receive a card first, or
+        when the station's postal address can be easily looked up.
+      </p>
+      <p>No SASE is needed when sending me cards for a card in return.</p>
+      <p>I <strong>do not</strong> exchange eyeball QSL cards without meeting in person offline.</p>
+    </InfoCard>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="showcase" title="Showcase">
+  <SectionCluster title="QSL Card" icon="gallery">
+    <Cards columns="2">
+      <GalleryCard
+        src="/images/qsl/QSLCard.webp"
+        alt="QSL card with blanks to fill in the worked station's callsign and confirmation type. There is a table for printing on the date, frequency, mode, signal report, power and other remarks."
+        title="QSL v2 - Front"
+      >
+        The design is based on the <a href="https://forum.hamcq.cn/d/418">design</a> by <a
+          href="https://shiro.love/"
+        >
+          Shiro
+        </a> aka BI3AR, modified for printing instead of filling by hand.
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-Back.webp"
+        alt="The Chinese VOCALOID character Luo Tianyi operating a wall of amateur radio equipment, with a large callsign plate reading BD4WXB."
+        title="QSL v2 - Back"
+      >
+        The <a href="https://t.bilibili.com/1054583074411511815">illustration</a> on the back is by
+        <a href="https://space.bilibili.com/524445763">乐韵Jewel</a>.
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-v1.webp"
+        alt="QSL card with blanks to fill in the worked station's callsign, boxes for ticking confirming QSO, SQL report or EYEBALL QSO, and a detailed table for handwriting date, time, mode, frequency, signal report, rig, power, and antenna."
+        title="QSL v1 - Front"
+      >
+        The <a href="https://forum.hamcq.cn/d/418">design</a> is by <a href="https://shiro.love/">
+          Shiro
+        </a> aka BI3AR.
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-Back-v1.webp"
+        alt="The callsign BD4WXB and name '茶栗chariri' on an illustration featuring Luo Tianyi with a water-wave and clover concept."
+        title="QSL v1 - Back"
+      >
+        The back illustration is <a href="https://www.pixiv.net/artworks/99486679">「🍀」</a> by artist
+        <a href="https://www.pixiv.net/users/418969">TID</a>.
+      </GalleryCard>
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster title="Awards" icon="award">
+    <GalleryCard
+      src="/images/award/202505zjvhf.avif"
+      alt="Award certificate for the 2025.5.5 ZARA Zhejiang Province VHF DX Contest to BD4WXB with the ranking of 6th place and a score of 251."
+      title="2025-55ZJVHF"
+    >
+      <p>May 5, 2025 Zhejiang Province VHF DX Contest</p>
+      <p><strong>Rank</strong>: 6th</p>
+      <p><strong>Score</strong>: 251</p>
+    </GalleryCard>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="logbook" title="Logbook">
+  <LogbookCard lang="en" callsign={profile.callsign} />
+</SectionBlock>

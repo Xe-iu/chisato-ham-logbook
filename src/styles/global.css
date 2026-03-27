@@ -1,0 +1,274 @@
+@import "tailwindcss";
+@import "./vars.css";
+
+/* #region Document */
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(20, 184, 166, 0.12), transparent 28%),
+    radial-gradient(circle at top right, rgba(245, 158, 11, 0.14), transparent 24%),
+    linear-gradient(180deg, var(--color-station-bg-start) 0%, var(--color-station-bg-end) 100%);
+  color: var(--color-station-ink);
+  font-family: var(--font-sans);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(var(--color-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(180deg, var(--color-grid-mask), transparent 92%);
+  pointer-events: none;
+}
+
+a {
+  color: inherit;
+}
+
+pre {
+  margin: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* #endregion Document */
+
+/* #region Accessibility */
+
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-station-accent) 60%, transparent);
+  outline-offset: 3px;
+}
+
+/* #endregion Accessibility */
+
+/* #region Typography */
+
+.title-smalltext-l2 {
+  @apply font-mono text-xs uppercase tracking-[0.28em];
+}
+
+.meta-label {
+  @apply font-mono text-xs uppercase tracking-[0.3em] text-station-soft;
+}
+
+.meta-label-accent {
+  @apply font-mono text-xs uppercase tracking-[0.34em] text-station-accent;
+}
+
+.meta-label-large {
+  @apply font-mono text-base tracking-widest uppercase text-station-soft;
+}
+
+.body-copy {
+  @apply text-sm leading-6 text-station-muted;
+}
+
+/* #endregion Typography */
+
+/* #region Surfaces */
+
+.panel-shell {
+  @apply rounded-4xl border border-station-line bg-white/80 backdrop-blur-sm;
+  box-shadow: var(--shadow-panel);
+}
+
+.panel-shell[role="dialog"] {
+  @apply backdrop-blur-none bg-white;
+}
+
+.info-card {
+  @apply rounded-3xl border border-station-line bg-white/85 p-5 shadow-sm backdrop-blur-sm;
+}
+
+.icon-chip {
+  @apply inline-flex h-9 w-9 items-center justify-center rounded-full border border-station-line-accent-strong bg-station-surface-accent text-station-accent;
+}
+
+/* #endregion Surfaces */
+
+/* #region Links And Controls */
+
+.skip-link {
+  @apply sr-only fixed left-4 top-4 z-[60] rounded-full border border-station-line bg-white px-4 py-2 text-sm font-medium text-station-ink shadow-lg;
+}
+
+.skip-link:focus {
+  @apply not-sr-only;
+}
+
+.text-link {
+  @apply block text-station-ink underline underline-offset-4 decoration-station-accent-soft transition;
+}
+
+.text-link:hover {
+  @apply text-station-accent-strong;
+}
+
+.switch-pill {
+  @apply inline-flex items-center justify-center rounded-full border border-station-line bg-white px-4 py-2 text-sm font-medium text-station-muted transition;
+}
+
+.switch-pill:hover {
+  @apply border-station-accent/30 bg-station-surface-accent/55 text-station-accent-strong;
+}
+
+.switch-pill[data-active="true"] {
+  @apply border-station-accent-strong bg-station-accent-strong text-white shadow-sm;
+}
+
+.switch-pill[data-active="true"]:hover {
+  @apply bg-station-accent-strong/80 text-white;
+}
+
+.status-pill {
+  @apply rounded-full px-2 py-1 text-[0.65rem] uppercase tracking-[0.28em];
+}
+
+.status-pill[data-status="active"] {
+  @apply bg-station-surface-accent/85 text-station-accent-strong;
+}
+
+.status-pill[data-status="inactive"] {
+  @apply bg-station-surface-subtle/90 text-station-muted;
+}
+
+/* #endregion Links And Controls */
+
+/* #region Layout Helpers */
+
+.header-row {
+  @apply mb-0 flex items-start justify-between gap-4;
+}
+
+.quotation-mark {
+  @apply pointer-events-none absolute font-mono text-[clamp(4rem,10vw,7rem)] leading-none text-station-accent-soft;
+}
+
+.section-block .section-count::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+}
+
+.section-block > [data-section-cluster] + [data-section-cluster],
+.section-block > [data-card-grid] + [data-section-cluster] {
+  @apply mt-4 border-t border-dashed border-station-ink/10 pt-8;
+}
+
+/* #endregion Layout Helpers */
+
+/* #region Motion */
+
+.is-typing::after {
+  content: "_";
+  margin-left: 0.18rem;
+  color: var(--color-terminal-text-soft);
+  animation: terminal-blink 1s step-end infinite;
+}
+
+@keyframes terminal-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* #endregion Motion */
+
+/* #region Print */
+
+@page {
+  margin: 12mm;
+}
+
+@media print {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    min-height: auto;
+    background: white;
+    color: black;
+  }
+
+  body::before {
+    display: none;
+  }
+
+  .panel-shell,
+  .info-card {
+    border-color: rgb(15 23 42 / 0.18);
+    background: white;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .panel-shell,
+  .info-card,
+  .section-block,
+  [data-section-cluster] {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .section-block {
+    scroll-margin-top: 0;
+  }
+
+  .section-block > [data-section-cluster] + [data-section-cluster] {
+    border-top-color: rgb(15 23 42 / 0.18);
+  }
+
+  .meta-label,
+  .meta-label-accent,
+  .body-copy,
+  .text-link,
+  .status-pill,
+  .switch-pill {
+    color: black;
+  }
+
+  .text-link {
+    text-decoration-color: rgb(15 23 42 / 0.28);
+  }
+
+  .icon-chip,
+  .status-pill[data-status="active"],
+  .status-pill[data-status="inactive"] {
+    border-color: rgb(15 23 42 / 0.18);
+    background: white;
+    color: black;
+  }
+
+  .is-typing::after {
+    display: none;
+  }
+}
+
+/* #endregion Print */

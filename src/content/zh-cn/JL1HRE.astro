@@ -1,0 +1,104 @@
+---
+import type { ProfileMeta, ProfileSection } from "../../lib/profile";
+import Cards from "../../components/Cards.astro";
+import GalleryCard from "../../components/GalleryCard.astro";
+import InfoCard from "../../components/InfoCard.astro";
+import LogbookCard from "../../components/LogbookCard.astro";
+import SectionBlock from "../../components/SectionBlock.astro";
+import SectionCluster from "../../components/SectionCluster.astro";
+
+export const profile: ProfileMeta = {
+  lang: "zh-cn",
+  stationId: "JL1HRE",
+  callsign: "JL1HRE",
+  status: "active",
+  pageTitle: "茶栗的个人业余电台",
+  hero: {
+    quote: "聴こえますか？真実のメロディ。",
+    quoteSource: "ef - a tale of melodies.",
+    blurb:
+      "这是当前使用中的日本呼号页面，把常用操作信息、QSL 规则和设备备注集中在一个轻量静态站点里。",
+  },
+};
+
+export const sections: readonly ProfileSection[] = [
+  { id: "basic-info", label: "基本信息" },
+  { id: "showcase", label: "展示" },
+  { id: "logbook", label: "日志" },
+];
+---
+
+<SectionBlock id="basic-info" title="基本信息">
+  <Cards columns="2u">
+    <InfoCard label="QTH" value="PM95" icon="grid">日本东京</InfoCard>
+    <InfoCard label="资格" value="日本一级业余无线技士" icon="license">
+      当前以便携 VHF/UHF 为主，并为未来的 HF 扩展预留空间。
+    </InfoCard>
+    <InfoCard
+      label="联系邮箱"
+      value="chariri@chariri.moe"
+      href="mailto:chariri@chariri.moe"
+      icon="mail"
+    />
+    <InfoCard label="优先 QSL" value="LoTW + Bureau" icon="mail">
+      成功通联后的纸卡交换也欢迎。
+    </InfoCard>
+  </Cards>
+
+  <SectionCluster icon="gear" title="设备">
+    <Cards columns="2">
+      <InfoCard label="Rig" value="Yaesu FT5D + 手台短天线组" icon="radio">
+        当前用于日常操作、守听和外场测试的便携 V/UHF 主力设备链。
+      </InfoCard>
+      <InfoCard label="工作流" value="笔记本 + 日志整理流程" icon="gear">
+        以纸面和终端为主的轻量记录方式，方便后续整理和上传日志。
+      </InfoCard>
+      <InfoCard label="台站计划" value="HF 固定台筹备中" icon="radio">
+        馈线、天线和桌面布局都在逐步准备，后续会扩展为固定台配置。
+      </InfoCard>
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster icon="policy" title="QSL 政策">
+    <InfoCard largeText={true}>
+      <p>常规确认优先使用 LoTW。对于纪念性通联或排程，也欢迎通过 Bureau 或直寄交换纸质 QSL。</p>
+      <p>如果需要修正日志或确认细节，发邮件是最快的方式。</p>
+      <p>常规本地 V/UHF 通联建议优先使用电子确认。</p>
+    </InfoCard>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="showcase" title="展示">
+  <SectionCluster title="QSL 卡片" icon="gallery">
+    <Cards columns="2">
+      <GalleryCard src="/images/qsl/QSLCard.webp" alt="现行 QSL 卡正面。" title="现行 QSL - 正面">
+        现行版式保持整洁，适合打印并清晰展示台站信息。
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-Back.webp"
+        alt="现行 QSL 卡背面。"
+        title="现行 QSL - 背面"
+      >
+        背面在书写空间、插图和确认信息之间做了平衡。
+      </GalleryCard>
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster title="资质 / 说明" icon="award">
+    <Cards columns="3">
+      <InfoCard label="资质" value="一级操作资格" icon="award">
+        为更广泛的操作权限和未来更完整的固定台建设提供基础。
+      </InfoCard>
+      <InfoCard label="操作风格" value="便携优先" icon="signal">
+        当前电台强调快速部署、简单检查和本地 V/UHF 试验。
+      </InfoCard>
+      <InfoCard label="网站方针" value="静态优先" icon="gear">
+        保持必要信息清晰可读，不依赖重量级客户端逻辑。
+      </InfoCard>
+    </Cards>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="logbook" title="日志">
+  <LogbookCard lang="zh-cn" callsign={profile.callsign} />
+</SectionBlock>

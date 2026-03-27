@@ -1,0 +1,45 @@
+---
+import { localeIds } from "../../lib/i18n";
+import { buildProfileHref, getMainStationId, availableProfiles } from "../../lib/routing";
+const lang = Astro.params.lang ?? "en";
+const destination = buildProfileHref(lang, getMainStationId());
+
+export function getStaticPaths() {
+  return localeIds.map((it) => ({
+    params: { lang: it },
+  }));
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="refresh" content={`3;url=${destination}`} />
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <script is:inline define:vars={{ destination }}>
+      window.location.replace(destination);
+    </script>
+    <main>
+      <p>Redirecting... 重定向中... 画面遷移中...</p>
+      <a href={destination}>
+        If the redirection fails, click the here or links below.
+        如果未重定向成功，点这里或下面的链接。画面が遷移しなければ、ここや下記のリンクをクリックしてください。
+      </a>
+      <ul>
+        {
+          availableProfiles
+            .filter((entry) => entry.lang === lang)
+            .map((entry) => (
+              <li>
+                <a href={buildProfileHref(lang, entry.stationId)}>{entry.callsign}</a>
+              </li>
+            ))
+        }
+      </ul>
+    </main>
+  </body>
+</html>

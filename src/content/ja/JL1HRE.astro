@@ -1,0 +1,111 @@
+---
+import type { ProfileMeta, ProfileSection } from "../../lib/profile";
+import Cards from "../../components/Cards.astro";
+import GalleryCard from "../../components/GalleryCard.astro";
+import InfoCard from "../../components/InfoCard.astro";
+import LogbookCard from "../../components/LogbookCard.astro";
+import SectionBlock from "../../components/SectionBlock.astro";
+import SectionCluster from "../../components/SectionCluster.astro";
+
+export const profile: ProfileMeta = {
+  lang: "ja",
+  stationId: "JL1HRE",
+  callsign: "JL1HRE",
+  status: "active",
+  pageTitle: "茶栗の個人アマチュア無線局",
+  hero: {
+    quote: "聴こえますか？真実のメロディ。",
+    quoteSource: "ef - a tale of melodies.",
+    blurb:
+      "現在運用中の日本のコールサイン用ページです。必要な運用情報、QSL 方針、設備メモを軽量な静的サイトにまとめています。",
+  },
+};
+
+export const sections: readonly ProfileSection[] = [
+  { id: "basic-info", label: "基本情報" },
+  { id: "showcase", label: "展示" },
+  { id: "logbook", label: "ログ" },
+];
+---
+
+<SectionBlock id="basic-info" title="基本情報">
+  <Cards columns="2u">
+    <InfoCard label="QTH" value="PM95" icon="grid">東京都</InfoCard>
+    <InfoCard label="資格" value="第一級アマチュア無線技士" icon="license">
+      現在はポータブル VHF/UHF が中心で、将来的な HF 拡張も見込んでいます。
+    </InfoCard>
+    <InfoCard
+      label="連絡先"
+      value="chariri@chariri.moe"
+      href="mailto:chariri@chariri.moe"
+      icon="mail"
+    />
+    <InfoCard label="優先 QSL" value="LoTW + Bureau" icon="mail">
+      交信確認後の紙 QSL も歓迎です。
+    </InfoCard>
+  </Cards>
+
+  <SectionCluster icon="gear" title="設備">
+    <Cards columns="2">
+      <InfoCard label="Rig" value="Yaesu FT5D + ハンディ用ホイップ" icon="radio">
+        日常運用、モニター、フィールドテスト用の現行ポータブル V/UHF 構成です。
+      </InfoCard>
+      <InfoCard label="ワークフロー" value="ノート + ログ整理フロー" icon="gear">
+        紙とターミナル中心の軽い運用メモ環境で、後日のログ整理にも向いています。
+      </InfoCard>
+      <InfoCard label="局計画" value="HF 固定局を準備中" icon="radio">
+        給電線、アンテナ、机周りを段階的に整え、後の常設構成につなげています。
+      </InfoCard>
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster icon="policy" title="QSL ポリシー">
+    <InfoCard largeText={true}>
+      <p>
+        日常的な確認は LoTW を優先します。思い出に残る交信やスケジュール QSO では、Bureau
+        やダイレクトの紙 QSL も歓迎です。
+      </p>
+      <p>ログ修正や確認の問い合わせはメールが最速です。</p>
+      <p>通常の近距離 V/UHF 交信では電子確認を優先しています。</p>
+    </InfoCard>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="showcase" title="展示">
+  <SectionCluster title="QSL カード" icon="gallery">
+    <Cards columns="2">
+      <GalleryCard
+        src="/images/qsl/QSLCard.webp"
+        alt="現行 QSL カードの表面。"
+        title="現行 QSL - 表"
+      >
+        印字しやすく、局情報が読みやすいように整えた現行レイアウトです。
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-Back.webp"
+        alt="現行 QSL カードの裏面。"
+        title="現行 QSL - 裏"
+      >
+        書き込みスペースとビジュアル、確認情報のバランスを重視しています。
+      </GalleryCard>
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster title="資格 / ノート" icon="award">
+    <Cards columns="3">
+      <InfoCard label="資格" value="第一級の資格" icon="award">
+        より広い運用権限と、将来の本格的な固定局構築に向けた基盤です。
+      </InfoCard>
+      <InfoCard label="運用スタイル" value="ポータブル優先" icon="signal">
+        素早い展開、簡単な局チェック、ローカル V/UHF の試行を重視しています。
+      </InfoCard>
+      <InfoCard label="サイト方針" value="静的構成を優先" icon="gear">
+        重要な局情報を、重いクライアントコードなしで読みやすく保っています。
+      </InfoCard>
+    </Cards>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="logbook" title="ログ">
+  <LogbookCard lang="ja" callsign={profile.callsign} />
+</SectionBlock>

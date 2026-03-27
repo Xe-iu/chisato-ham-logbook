@@ -1,0 +1,130 @@
+---
+import type { ProfileMeta, ProfileSection } from "../../lib/profile";
+import Cards from "../../components/Cards.astro";
+import GalleryCard from "../../components/GalleryCard.astro";
+import InfoCard from "../../components/InfoCard.astro";
+import LogbookCard from "../../components/LogbookCard.astro";
+import SectionBlock from "../../components/SectionBlock.astro";
+import SectionCluster from "../../components/SectionCluster.astro";
+
+export const profile: ProfileMeta = {
+  lang: "ja",
+  stationId: "BD4WXB",
+  callsign: "BD4WXB",
+  status: "inactive",
+  pageTitle: "茶栗の個人アマチュア無線局",
+  hero: {
+    quote: "忘れたくない想い、ありますか？",
+    quoteSource: "ef - a tale of memories.",
+    blurb:
+      "個人アマチュア無線局のホームページへようこそ。このコールサイン BD4WXB は、南京を離れたため 2025 年 9 月 3 日以降は運用していません。",
+  },
+};
+
+export const sections: readonly ProfileSection[] = [
+  { id: "basic-info", label: "基本情報" },
+  { id: "showcase", label: "展示" },
+  { id: "logbook", label: "ログ" },
+];
+---
+
+<SectionBlock id="basic-info" title="基本情報">
+  <Cards columns="2u">
+    <InfoCard label="QTH" value="OL39" icon="grid">CRAC 第 8 エリア - 重慶</InfoCard>
+    <InfoCard label="資格" value="中国アマチュア無線 B 級" icon="signal">
+      <p>144 / 430 MHz @ 25 W</p>
+      <p>HF @ 15 W</p>
+    </InfoCard>
+    <InfoCard
+      label="連絡先"
+      value="chariri@chariri.moe"
+      href="mailto:chariri@chariri.moe"
+      icon="email"
+    />
+    <InfoCard
+      label="郵送先"
+      value="P.O. Box 21004294, Nanjing, Jiangsu 210042, P.R. China"
+      icon="mail"
+    />
+  </Cards>
+
+  <SectionCluster icon="gear" title="設備">
+    <Cards columns="2">
+      <InfoCard label="Rig" value="Wouxun KG-UV9D Plus" icon="radio">
+        FM @ VHF (144 MHz), 5 W
+      </InfoCard>
+      <InfoCard label="Rig" value="ICOM IC-7300" icon="radio">SSB, FT8 @ HF, 15 W</InfoCard>
+      <InfoCard label="アンテナ" value="DIAMOND SRH771" icon="antenna" />
+      <InfoCard label="アンテナ" value="BG8GVJ 製 HF ポータブル V ダイポール" icon="antenna" />
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster icon="policy" title="QSL ポリシー">
+    <InfoCard largeText={true}>
+      <p>
+        交信した局には、先にカードを受け取った場合、または相手局の郵送先を容易に確認できる場合に紙
+        QSL を送ります。
+      </p>
+      <p>返信用封筒を同封する必要はありません。</p>
+      <p>オフラインで実際に会っていない限り、アイボール QSL は交換しません。</p>
+    </InfoCard>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="showcase" title="展示">
+  <SectionCluster title="QSL カード" icon="gallery">
+    <Cards columns="2">
+      <GalleryCard
+        src="/images/qsl/QSLCard.webp"
+        alt="交信局のコールサインや確認種別を書き込める QSL カード表面。日付、周波数、モード、信号報告、出力、備考を印字する表があります。"
+        title="QSL v2 - 表"
+      >
+        デザインは <a href="https://forum.hamcq.cn/d/418">Shiro</a> aka BI3AR による原案をもとに、 手書きではなく印字向けに調整したものです。
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-Back.webp"
+        alt="中国 VOCALOID の洛天依が多数の無線機器を操作しているイラストで、大きな BD4WXB のコールサイン表示がある裏面。"
+        title="QSL v2 - 裏"
+      >
+        裏面の <a href="https://t.bilibili.com/1054583074411511815">イラスト</a> は
+        <a href="https://space.bilibili.com/524445763">乐韵Jewel</a> によるものです。
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-v1.webp"
+        alt="交信局のコールサイン、確認種別、日付、時刻、モード、周波数、信号報告、設備、出力、アンテナを書き込める初代 QSL カード表面。"
+        title="QSL v1 - 表"
+      >
+        <a href="https://forum.hamcq.cn/d/418">デザイン</a> は <a href="https://shiro.love/">
+          Shiro
+        </a> aka BI3AR によるものです。
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-Back-v1.webp"
+        alt="洛天依のイラストを背景に、左上に BD4WXB と 茶栗chariri の表記がある初代 QSL カード裏面。"
+        title="QSL v1 - 裏"
+      >
+        裏面イラストは <a href="https://www.pixiv.net/artworks/99486679">「🍀」</a>、 作者は <a
+          href="https://www.pixiv.net/users/418969"
+        >
+          TID
+        </a> です。
+      </GalleryCard>
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster title="アワード" icon="award">
+    <GalleryCard
+      src="/images/award/202505zjvhf.avif"
+      alt="2025 年 5 月 5 日浙江省 VHF DX コンテストで BD4WXB が 6 位、251 点を獲得した賞状。"
+      title="2025-55ZJVHF"
+    >
+      <p>2025 年 5 月 5 日 浙江省 VHF DX コンテスト</p>
+      <p><strong>順位</strong>: 6 位</p>
+      <p><strong>得点</strong>: 251</p>
+    </GalleryCard>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="logbook" title="ログ">
+  <LogbookCard lang="ja" callsign={profile.callsign} />
+</SectionBlock>

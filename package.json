@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "chisato-ham-lgbook",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -8,10 +8,20 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "logbook:index": "node scripts/generate-logbook-callsign-index.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.0.6"
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0",
+    "@tailwindcss/vite": "^4.2.2",
+    "astro": "^6.0.6",
+    "astro-minify-html-swc": "^0.1.11",
+    "tailwindcss": "^4.2.2"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "prettier-plugin-astro": "^0.14.1"
   }
 }

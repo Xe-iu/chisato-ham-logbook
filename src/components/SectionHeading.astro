@@ -1,0 +1,16 @@
+---
+interface Props {
+  id: string;
+  title: string;
+}
+
+const { id, title } = Astro.props;
+---
+
+<div class="relative mb-5 flex items-end justify-between gap-4">
+  <div class="space-y-2">
+    <p class="section-count meta-label-accent"></p>
+    <h2 id={id} class="font-mono text-2xl text-station-ink sm:text-3xl">{title}</h2>
+  </div>
+  <div class="hidden h-px flex-1 bg-station-line sm:block"></div>
+</div>

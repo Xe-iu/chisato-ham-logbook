@@ -1,0 +1,26 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  title: string;
+  icon?: Parameters<typeof Icon>[0]["name"];
+}
+
+const { title, icon } = Astro.props;
+---
+
+<div class="space-y-5" data-section-cluster>
+  <div class="flex items-center gap-3">
+    {
+      icon && (
+        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-station-line-accent-strong bg-station-surface-accent text-station-accent">
+          <Icon name={icon} />
+        </span>
+      )
+    }
+    <p class="shrink-0 meta-label">{title}</p>
+    <span class="h-px flex-1 border-t border-dashed border-station-soft/45" aria-hidden="true">
+    </span>
+  </div>
+  <slot />
+</div>

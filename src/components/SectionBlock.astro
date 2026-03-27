@@ -1,0 +1,16 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+
+interface Props {
+  id: string;
+  title: string;
+}
+
+const { id, title } = Astro.props;
+const headingId = `${id}-heading`;
+---
+
+<section id={id} class="section-block scroll-mt-32" data-section={id} aria-labelledby={headingId}>
+  <SectionHeading id={headingId} title={title} />
+  <slot />
+</section>

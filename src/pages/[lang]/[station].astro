@@ -1,0 +1,78 @@
+---
+import {
+  buildProfileHref,
+  getStationsOrdered,
+  availableProfiles,
+  availableProfileModules,
+} from "../../lib/routing";
+import MorseHero from "../../components/MorseHero.astro";
+import { getLocale, locales, type LocaleLink } from "../../lib/i18n";
+import type { ProfileMeta } from "../../lib/profile";
+import Layout from "../../layouts/Layout.astro";
+
+export function getStaticPaths() {
+  return availableProfiles.map((it) => ({
+    params: {
+      lang: it.lang,
+      station: it.stationId,
+    },
+  }));
+}
+
+const station: string = Astro.params.station;
+const lang: string = Astro.params.lang;
+
+const entry = availableProfileModules.find(
+  ({ profile }) => profile.lang === lang && profile.stationId === station
+);
+
+if (!entry) {
+  throw new Error(`Profile not found for /${Astro.params.lang}/${Astro.params.station}`);
+}
+
+const profile = entry.profile;
+const locale = getLocale(profile.lang);
+const localesWithHref = locales
+  .map((localeMeta) => [
+    localeMeta,
+    availableProfiles.find((it) => it.lang === localeMeta.id && it.stationId === profile.stationId),
+  ])
+  .filter((it): it is [(typeof locales)[number], ProfileMeta] => Boolean(it[1]))
+  .map((it) => ({
+    id: it[0].id,
+    switchLabel: it[0].switchLabel,
+    languageName: it[0].languageName,
+    href: buildProfileHref(it[0].id, it[1].stationId),
+    current: it[1].lang === profile.lang,
+  })) satisfies LocaleLink[];
+
+const stations = getStationsOrdered(profile.lang).map((it) => ({
+  id: it.stationId,
+  callsign: it.callsign,
+  status: it.status,
+  statusLabel: locale.stationStatus[it.status],
+  href: buildProfileHref(it.lang, it.stationId),
+  current: it.stationId === profile.stationId,
+}));
+const sections = entry.sections;
+const Content = entry.default as any;
+---
+
+<Layout
+  profile={profile}
+  locale={locale}
+  locales={localesWithHref}
+  stations={stations}
+  sections={sections}
+>
+  <article class="[counter-reset:section] space-y-8 md:space-y-10">
+    <MorseHero
+      callsign={profile.callsign}
+      quote={profile.hero.quote}
+      blurb={profile.hero.blurb}
+      quoteSource={profile.hero.quoteSource}
+    />
+
+    <Content />
+  </article>
+</Layout>

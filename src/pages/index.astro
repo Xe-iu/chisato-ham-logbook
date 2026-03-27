@@ -1,11 +1,61 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { localeIds } from "../lib/i18n";
+import { buildProfileHref, getMainStationId } from "../lib/routing";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const activeStationId = getMainStationId();
+const fallbackHref = buildProfileHref(localeIds[0], activeStationId);
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="refresh" content={`3;url=${fallbackHref}`} />
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <script is:inline define:vars={{ localeIds, activeStationId }}>
+      function resolveLang() {
+        const languages = navigator.languages?.length
+          ? navigator.languages
+          : [navigator.language || "en"];
+        for (const language of languages) {
+          const normalized = String(language || "").toLowerCase();
+          if (localeIds.includes(normalized)) {
+            return normalized;
+          }
+          if (normalized.startsWith("zh")) {
+            return "zh-cn";
+          }
+          if (normalized.startsWith("ja")) {
+            return "ja";
+          }
+          if (normalized.startsWith("en")) {
+            return "en";
+          }
+        }
+        return "en";
+      }
+      const language = resolveLang();
+      window.location.replace(`/${language}/${activeStationId}/`);
+    </script>
+
+    <main>
+      <p>Redirecting... 重定向中... 画面遷移中...</p>
+      <a href={fallbackHref}>
+        If the redirection fails, click the here or links below.
+        如果未重定向成功，点这里或下面的链接。画面が遷移しなければ、ここや下記のリンクをクリックしてください。
+      </a>
+      <ul>
+        {
+          localeIds.map((lang) => (
+            <li>
+              <a href={buildProfileHref(lang, activeStationId)}>{lang}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+  </body>
+</html>

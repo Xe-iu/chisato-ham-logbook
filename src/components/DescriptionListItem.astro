@@ -1,0 +1,31 @@
+---
+interface Props {
+  label: string;
+  value?: string;
+  href?: string;
+}
+
+const { label, value, href } = Astro.props;
+const hasContent = Astro.slots.has("default");
+---
+
+<div class="border-t border-slate-900/10 pt-4 first:border-t-0 first:pt-0">
+  <p class="meta-label text-[0.7rem]! tracking-normal!">{label}</p>
+  {
+    value &&
+      (href ? (
+        <a class="text-link mt-2 text-base font-medium" href={href}>
+          {value}
+        </a>
+      ) : (
+        <p class="mt-2 text-base font-medium text-slate-950">{value}</p>
+      ))
+  }
+  {
+    hasContent && (
+      <div class:list={["body-copy", value ? "mt-2" : "mt-0"]}>
+        <slot />
+      </div>
+    )
+  }
+</div>

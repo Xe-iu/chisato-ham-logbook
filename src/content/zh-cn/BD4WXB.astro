@@ -1,0 +1,123 @@
+---
+import type { ProfileMeta, ProfileSection } from "../../lib/profile";
+import Cards from "../../components/Cards.astro";
+import GalleryCard from "../../components/GalleryCard.astro";
+import InfoCard from "../../components/InfoCard.astro";
+import LogbookCard from "../../components/LogbookCard.astro";
+import SectionBlock from "../../components/SectionBlock.astro";
+import SectionCluster from "../../components/SectionCluster.astro";
+
+export const profile: ProfileMeta = {
+  lang: "zh-cn",
+  stationId: "BD4WXB",
+  callsign: "BD4WXB",
+  status: "inactive",
+  pageTitle: "茶栗的个人业余电台",
+  hero: {
+    quote: "忘れたくない想い、ありますか？",
+    quoteSource: "ef - a tale of memories.",
+    blurb:
+      "欢迎来到我的个人业余无线电台主页。由于我已离开南京，呼号 BD4WXB 自 2025 年 9 月 3 日起停止使用。",
+  },
+};
+
+export const sections: readonly ProfileSection[] = [
+  { id: "basic-info", label: "基本信息" },
+  { id: "showcase", label: "展示" },
+  { id: "logbook", label: "日志" },
+];
+---
+
+<SectionBlock id="basic-info" title="基本信息">
+  <Cards columns="2u">
+    <InfoCard label="QTH" value="OL39" icon="grid">CRAC 第 8 区 - 重庆</InfoCard>
+    <InfoCard label="执照" value="中国业余无线电 B 类执照" icon="signal">
+      <p>144 / 430 MHz @ 25 W</p>
+      <p>HF @ 15 W</p>
+    </InfoCard>
+    <InfoCard
+      label="联系邮箱"
+      value="chariri@chariri.moe"
+      href="mailto:chariri@chariri.moe"
+      icon="email"
+    />
+    <InfoCard
+      label="邮寄地址"
+      value="P.O. Box 21004294, Nanjing, Jiangsu 210042, P.R. China"
+      icon="mail"
+    />
+  </Cards>
+
+  <SectionCluster icon="gear" title="设备">
+    <Cards columns="2">
+      <InfoCard label="Rig" value="Wouxun KG-UV9D Plus" icon="radio">
+        FM @ VHF (144 MHz), 5 W
+      </InfoCard>
+      <InfoCard label="Rig" value="ICOM IC-7300" icon="radio">SSB, FT8 @ HF, 15 W</InfoCard>
+      <InfoCard label="天线" value="DIAMOND SRH771" icon="antenna" />
+      <InfoCard label="天线" value="BG8GVJ 制作的 HF 便携 V 偶极" icon="antenna" />
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster icon="policy" title="QSL 政策">
+    <InfoCard largeText={true}>
+      <p>对于已通联的电台，我会在先收到对方卡片，或能方便查到对方邮寄地址时寄出纸质 QSL 卡。</p>
+      <p>给我寄卡片时无需附回邮信封。</p>
+      <p>如果没有在线下真实见面，我<strong>不会</strong>交换 Eyeball QSL 卡。</p>
+    </InfoCard>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="showcase" title="展示">
+  <SectionCluster title="QSL 卡片" icon="gallery">
+    <Cards columns="2">
+      <GalleryCard
+        src="/images/qsl/QSLCard.webp"
+        alt="QSL 卡正面，可填写对方呼号与确认种类，并带有可打印日期、频率、模式、信号报告、功率与备注的表格。"
+        title="QSL v2 - 正面"
+      >
+        这版设计基于 <a href="https://forum.hamcq.cn/d/418">Shiro</a> aka BI3AR 的原设计，并针对打印填写做了修改。
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-Back.webp"
+        alt="QSL 卡背面，图中为中国 VOCALOID 角色洛天依操作一整墙业余无线电设备，旁边有大型 BD4WXB 呼号牌。"
+        title="QSL v2 - 背面"
+      >
+        背面 <a href="https://t.bilibili.com/1054583074411511815">插画</a> 由
+        <a href="https://space.bilibili.com/524445763">乐韵Jewel</a> 绘制。
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-v1.webp"
+        alt="第一版 QSL 卡正面，可手写呼号、确认种类、日期、时间、模式、频率、信号报告、设备、功率与天线信息。"
+        title="QSL v1 - 正面"
+      >
+        <a href="https://forum.hamcq.cn/d/418">设计</a> 出自 <a href="https://shiro.love/">Shiro</a> aka
+        BI3AR。
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-Back-v1.webp"
+        alt="第一版 QSL 卡背面，以洛天依插画为背景，左上角写有 BD4WXB 和 茶栗chariri。"
+        title="QSL v1 - 背面"
+      >
+        背面插画为 <a href="https://www.pixiv.net/artworks/99486679">「🍀」</a>，作者
+        <a href="https://www.pixiv.net/users/418969">TID</a>。
+      </GalleryCard>
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster title="奖项" icon="award">
+    <GalleryCard
+      src="/images/award/202505zjvhf.avif"
+      alt="2025 年 5 月 5 日浙江省 VHF DX Contest 奖状，BD4WXB 获得第 6 名，得分 251。"
+      title="2025-55ZJVHF"
+    >
+      <p>2025 年 5 月 5 日 浙江省 VHF DX Contest</p>
+      <p><strong>名次</strong>: 第 6 名</p>
+      <p><strong>得分</strong>: 251</p>
+    </GalleryCard>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="logbook" title="日志">
+  <LogbookCard lang="zh-cn" callsign={profile.callsign} />
+</SectionBlock>

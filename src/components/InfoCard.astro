@@ -1,0 +1,46 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  label?: string;
+  value?: string;
+  href?: string;
+  icon?: Parameters<typeof Icon>[0]["name"];
+  largeText?: boolean;
+}
+
+const { label, value, href, icon, largeText = false } = Astro.props;
+const hasContent = Astro.slots.has("default");
+---
+
+<article class="info-card">
+  {
+    (label || icon) && (
+      <div class="header-row">
+        <p class="meta-label-large">{label}</p>
+        {icon && (
+          <span class="icon-chip">
+            <Icon name={icon} />
+          </span>
+        )}
+      </div>
+    )
+  }
+  {
+    value &&
+      (href ? (
+        <a class="text-link text-lg font-semibold" href={href}>
+          {value}
+        </a>
+      ) : (
+        <p class="text-lg font-semibold text-slate-950">{value}</p>
+      ))
+  }
+  {
+    hasContent && (
+      <div class:list={["space-y-4 leading-6", largeText ? "text-base" : "text-sm", value ? "mt-3" : ""]}>
+        <slot />
+      </div>
+    )
+  }
+</article>

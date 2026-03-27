@@ -1,0 +1,72 @@
+/* #region Font */
+@font-face {
+  font-family: "JuliaMono";
+  src: url("/fonts/JuliaMono-RegularLatin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JuliaMono";
+  src: url("/fonts/JuliaMono-BoldLatin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --font-cjk:
+      "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Source Sans CN";
+  }
+  :root:lang(ja) {
+    --font-cjk: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Meiryo", "Yu Gothic";
+  }
+}
+
+@theme inline {
+  --font-sans-wo-fallback:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    var(--font-cjk);
+
+  --font-sans: var(--font-sans-wo-fallback), sans-serif;
+  /* 中文字体没有等宽的概念 */
+  --font-mono: "JuliaMono", var(--font-sans-wo-fallback), ui-monospace, monospace;
+}
+
+/* #endregion Font */
+
+/* #region Color */
+
+@theme inline{
+  --color-station-bg-start: #f7f6ef;
+  --color-station-bg-end: #f1f3ee;
+  --color-station-ink: #0f172a;
+  --color-station-muted: #475569;
+  --color-station-soft: #64748b;
+
+  --color-station-line: rgb(15 23 42 / 0.1);
+  --color-station-line-accent: rgb(15 118 110 / 0.18);
+  --color-station-line-accent-strong: rgb(19 78 74 / 0.16);
+
+  --color-station-accent: #0f766e;
+  --color-station-accent-strong: #134e4a;
+  --color-station-accent-soft: rgb(15 118 110 / 0.25);
+  --color-station-surface-accent: #ccfbf1;
+  --color-station-surface-subtle: #f1f5f9;
+
+  --color-terminal-border: rgb(52 211 153 / 0.2);
+  --color-terminal-divider: rgb(52 211 153 / 0.2);
+  --color-terminal-text: rgb(209 250 229);
+  --color-terminal-text-soft: rgb(110 231 183 / 0.8);
+  --color-terminal-text-muted: rgb(110 231 183 / 0.7);
+
+  --color-grid: rgba(15, 23, 42, 0.135);
+  --color-grid-mask: rgba(0, 0, 0, 0.4);
+  --color-terminal-glow: rgba(16, 185, 129, 0.16);
+
+  --shadow-panel: 0 20px 70px -36px rgba(15, 23, 42, 0.35);
+}
+
+/* #endregion Color */

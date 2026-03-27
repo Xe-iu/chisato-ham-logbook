@@ -1,0 +1,17 @@
+---
+interface Props {
+  columns?: "2" | "2u" | "3" | "4";
+}
+
+const { columns = "3" } = Astro.props;
+const classes = {
+  "2": "grid gap-4 print:grid-cols-2 xl:grid-cols-2",
+  "2u": "grid gap-4 print:grid-cols-[1fr_2fr] xl:grid-cols-[1fr_2fr]",
+  "3": "grid gap-4 print:grid-cols-2 xl:grid-cols-3",
+  "4": "grid gap-4 sm:grid-cols-2 print:grid-cols-2 xl:grid-cols-4",
+}[columns];
+---
+
+<div class={classes} data-card-grid>
+  <slot />
+</div>

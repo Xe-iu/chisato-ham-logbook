@@ -1,0 +1,21 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  title: string;
+}
+
+const { src, alt, title } = Astro.props;
+---
+
+<figure class="panel-shell overflow-hidden">
+  <figcaption class="border-b border-station-line p-5 pb-0">
+    <div class="header-row pb-3">
+      <p class="meta-label-large">{title}</p>
+    </div>
+  </figcaption>
+  <img src={src} alt={alt} loading="lazy" class="block w-full h-auto" />
+  <div class="body-copy p-5">
+    <slot />
+  </div>
+</figure>

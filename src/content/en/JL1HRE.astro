@@ -1,0 +1,114 @@
+---
+import type { ProfileMeta, ProfileSection } from "../../lib/profile";
+import Cards from "../../components/Cards.astro";
+import GalleryCard from "../../components/GalleryCard.astro";
+import InfoCard from "../../components/InfoCard.astro";
+import LogbookCard from "../../components/LogbookCard.astro";
+import SectionBlock from "../../components/SectionBlock.astro";
+import SectionCluster from "../../components/SectionCluster.astro";
+
+export const profile: ProfileMeta = {
+  lang: "en",
+  stationId: "JL1HRE",
+  callsign: "JL1HRE",
+  status: "active",
+  pageTitle: "chariri's Personal Amateur Radio Station",
+  hero: {
+    quote: "聴こえますか？真実のメロディ。",
+    quoteSource: "ef - a tale of melodies.",
+    blurb:
+      "Active Japanese callsign profile. This page keeps operating essentials, QSL policy, and station notes in one lightweight static hub.",
+  },
+};
+
+export const sections: readonly ProfileSection[] = [
+  { id: "basic-info", label: "Basic Info" },
+  { id: "showcase", label: "Showcase" },
+  { id: "logbook", label: "Logbook" },
+];
+---
+
+<SectionBlock id="basic-info" title="Basic Info">
+  <Cards columns="2u">
+    <InfoCard label="QTH" value="PM95" icon="grid">Tokyo, Japan</InfoCard>
+    <InfoCard label="License" value="Japanese First-Class Amateur Radio Operator" icon="license">
+      Portable VHF/UHF today, with room for later HF expansion.
+    </InfoCard>
+    <InfoCard
+      label="Contact"
+      value="chariri@chariri.moe"
+      href="mailto:chariri@chariri.moe"
+      icon="mail"
+    />
+    <InfoCard label="Preferred QSL" value="LoTW + Bureau" icon="mail">
+      Paper cards are welcome after confirmed QSOs.
+    </InfoCard>
+  </Cards>
+
+  <SectionCluster icon="gear" title="Gear">
+    <Cards columns="2">
+      <InfoCard label="Rig" value="Yaesu FT5D + handheld whip set" icon="radio">
+        Current portable V/UHF chain for day-to-day operation, monitoring, and field testing.
+      </InfoCard>
+      <InfoCard label="Workflow" value="Notebook + logging workflow" icon="gear">
+        A low-friction paper-and-terminal workflow for station notes and later digital log prep.
+      </InfoCard>
+      <InfoCard label="Station plan" value="HF fixed station in planning" icon="radio">
+        Feedline, antenna, and desk layout are being staged for a later permanent installation.
+      </InfoCard>
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster icon="policy" title="QSL Policy">
+    <InfoCard largeText={true}>
+      <p>
+        LoTW is the preferred confirmation route for routine contacts. Bureau and direct paper cards
+        are both fine for memorable QSOs and schedule work.
+      </p>
+      <p>
+        If you need a correction, confirmation check, or carding detail, email is the fastest path.
+      </p>
+      <p>Digital confirmations are preferred for routine local V/UHF contacts.</p>
+    </InfoCard>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="showcase" title="Showcase">
+  <SectionCluster title="QSL Card" icon="gallery">
+    <Cards columns="2">
+      <GalleryCard
+        src="/images/qsl/QSLCard.webp"
+        alt="Front side of the current QSL card design."
+        title="Current QSL - Front"
+      >
+        The current print layout keeps a clean, machine-friendly front with a crisp station block.
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-Back.webp"
+        alt="Back side of the current QSL card design."
+        title="Current QSL - Back"
+      >
+        The reverse side balances writing room with illustration and confirmation details.
+      </GalleryCard>
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster title="Awards / Notes" icon="award">
+    <Cards columns="3">
+      <InfoCard label="Qualification" value="First-class operator qualification" icon="award">
+        Prepared for broader operating privileges and a cleaner path toward a fuller home station.
+      </InfoCard>
+      <InfoCard label="Operating style" value="Portable-first operation" icon="signal">
+        The station is optimized for fast deployment, simple checks, and local V/UHF
+        experimentation.
+      </InfoCard>
+      <InfoCard label="Site approach" value="Static by design" icon="gear">
+        The homepage keeps essential station information readable without heavy client code.
+      </InfoCard>
+    </Cards>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="logbook" title="Logbook">
+  <LogbookCard lang="en" callsign={profile.callsign} />
+</SectionBlock>
