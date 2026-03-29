@@ -1,7 +1,6 @@
 ---
 import type { ProfileMeta, ProfileSection } from "../../lib/profile";
 import Cards from "../../components/Cards.astro";
-import GalleryCard from "../../components/GalleryCard.astro";
 import InfoCard from "../../components/InfoCard.astro";
 import LogbookCard from "../../components/LogbookCard.astro";
 import Prose from "../../components/Prose.astro";
@@ -14,7 +13,7 @@ export const profile: ProfileMeta = {
   callsign: "JL1HRE",
   status: "active",
   pageTitle: "茶栗の個人アマチュア無線局",
-  description: "現行コールサイン JL1HRE の局情報と QSL 案内です。",
+  description: "東京に設置している個人アマチュア無線局 JL1HRE の局情報、QSL 案内、ログページです。",
   hero: {
     quote: "聴こえますか？真実のメロディ。",
     quoteSource: "ef - a tale of melodies.",
@@ -29,8 +28,32 @@ export const sections: readonly ProfileSection[] = [
 ---
 
 <Prose>
-  <p>現在運用中の日本のコールサイン用ページです。</p>
-  <p>必要な運用情報、QSL 方針、設備メモを軽量な静的サイトにまとめています。</p>
+  <p>
+    私のアマチュア無線局のホームページへようこそ。よければ <a href="https://chariri.moe/">
+      私のブログ
+    </a>
+    ものぞいてみてください。
+  </p>
+  <p>
+    これは現在使っているアマチュア無線のコールサインで、局は東京都に設置しています。ページ上部の
+    リンクから、以前使っていたコールサインBD4WXBのページにも切り替えられます。
+  </p>
+  <p>
+    ご覧の通り、このページはvibecodingで生成されました。
+    これは私の初めてのvibecodeプロジェクトでしたが、結局26時間もかかってしまい、予想をはるかに上回る時間となりました。
+    個人の印象では、AIが生成するコードは往々にして洗練さに欠けるものです。
+    高性能なLLMモデルを使えば、「使える」フロントエンドコードをvibecodeするのは簡単です。
+    しかし、洗練されていて、全面的（例えば、このページにはI18n、A11y、印刷、ダークモードを対応していること）、かつ視覚的にもダサくないなコードを生成するのは難しいものです。
+    とはいえ、一から書くよりははるかに簡単です。
+  </p>
+  <p>
+    アマチュア無線についてのつぶやきは主にブログに置いてあります。
+    <a href="https://chariri.moe/archives/1957/amateur-radio/">リンクはこちらです。</a>
+  </p>
+  <p>
+    この局には固定と移動局、両方の局免があります。
+    前者は最大100Wまで許可されており、現時点で唯一の短波リグであるIC-7300に使っています。後者はハンディ機用です。
+  </p>
 </Prose>
 
 <SectionBlock id="basic-info" title="基本情報">
@@ -40,39 +63,30 @@ export const sections: readonly ProfileSection[] = [
       <Fragment slot="description">東京都</Fragment>
     </InfoCard>
     <InfoCard label="資格" icon="license">
-      第一級アマチュア無線技士
+      日本第一級アマチュア無線技士 + 固定局局免 + 移動局局免
       <Fragment slot="description">
-        現在はポータブル VHF/UHF が中心で、将来的な HF 拡張も見込んでいます。
+        144 / 430 MHz @ 50 W<br />
+        HF @ 100 W
       </Fragment>
     </InfoCard>
-    <InfoCard label="連絡先" icon="mail">
+    <InfoCard label="メールアドレス" icon="email">
       <a href="mailto:chariri@chariri.moe">chariri@chariri.moe</a>
     </InfoCard>
-    <InfoCard label="優先 QSL" icon="mail">
-      LoTW + Bureau
-      <Fragment slot="description">交信確認後の紙 QSL も歓迎です。</Fragment>
-    </InfoCard>
+    <InfoCard label="郵送先" icon="mail">準備中</InfoCard>
   </Cards>
 
   <SectionCluster icon="gear" title="設備">
     <Cards columns="2">
       <InfoCard label="Rig" icon="radio">
-        Yaesu FT5D + ハンディ用ホイップ
-        <Fragment slot="description">
-          日常運用、モニター、フィールドテスト用の現行ポータブル V/UHF 構成です。
-        </Fragment>
+        YAESU FT-70D
+        <Fragment slot="description">FM / C4FM @ VHF/UHF (144 / 430 MHz), 5 W</Fragment>
       </InfoCard>
-      <InfoCard label="ワークフロー" icon="gear">
-        ノート + ログ整理フロー
-        <Fragment slot="description">
-          紙とターミナル中心の軽い運用メモ環境で、後日のログ整理にも向いています。
-        </Fragment>
+      <InfoCard label="Rig" icon="radio">
+        ICOM IC-7300
+        <Fragment slot="description">SSB, FT8 @ HF, 100 W</Fragment>
       </InfoCard>
-      <InfoCard label="局計画" icon="radio">
-        HF 固定局を準備中
-        <Fragment slot="description">
-          給電線、アンテナ、机周りを段階的に整え、後の常設構成につなげています。
-        </Fragment>
+      <InfoCard label="アンテナ" icon="antenna">
+        依薇特通信 BG8GVJ 製 HF V型ポータブル P-SWA アンテナ
       </InfoCard>
     </Cards>
   </SectionCluster>
@@ -80,57 +94,20 @@ export const sections: readonly ProfileSection[] = [
   <SectionCluster icon="policy" title="QSL ポリシー">
     <Prose>
       <p>
-        日常的な確認は LoTW を優先します。思い出に残る交信やスケジュール QSO では、Bureau
-        やダイレクトの紙 QSL も歓迎です。
+        QSLカードはまだ準備できていないため、現在は紙QSLカードの交換を行っていません。
+        交信していただいた方でカード交換をご希望の場合は、まずメールでご連絡ください。
+        カードの準備ができ次第、まとめて発送します。
       </p>
-      <p>ログ修正や確認の問い合わせはメールが最速です。</p>
-      <p>通常の近距離 V/UHF 交信では電子確認を優先しています。</p>
+      <p>
+        オフラインで実際に会ったことがない場合、Eyeball QSLカードは<strong>交換しません</strong>。
+      </p>
+      <p>その他のQSLポリシーについては、BD4WXBコールサインのページをご参照ください。</p>
     </Prose>
   </SectionCluster>
 </SectionBlock>
 
 <SectionBlock id="showcase" title="展示">
-  <SectionCluster title="QSL カード" icon="gallery">
-    <Cards columns="2">
-      <GalleryCard
-        src="/images/qsl/QSLCard.webp"
-        alt="現行 QSL カードの表面。"
-        title="現行 QSL - 表"
-      >
-        印字しやすく、局情報が読みやすいように整えた現行レイアウトです。
-      </GalleryCard>
-      <GalleryCard
-        src="/images/qsl/QSLCard-Back.webp"
-        alt="現行 QSL カードの裏面。"
-        title="現行 QSL - 裏"
-      >
-        書き込みスペースとビジュアル、確認情報のバランスを重視しています。
-      </GalleryCard>
-    </Cards>
-  </SectionCluster>
-
-  <SectionCluster title="資格 / ノート" icon="award">
-    <Cards columns="3">
-      <InfoCard label="資格" icon="award">
-        第一級の資格
-        <Fragment slot="description">
-          より広い運用権限と、将来の本格的な固定局構築に向けた基盤です。
-        </Fragment>
-      </InfoCard>
-      <InfoCard label="運用スタイル" icon="signal">
-        ポータブル優先
-        <Fragment slot="description">
-          素早い展開、簡単な局チェック、ローカル V/UHF の試行を重視しています。
-        </Fragment>
-      </InfoCard>
-      <InfoCard label="サイト方針" icon="gear">
-        静的構成を優先
-        <Fragment slot="description">
-          重要な局情報を、重いクライアントコードなしで読みやすく保っています。
-        </Fragment>
-      </InfoCard>
-    </Cards>
-  </SectionCluster>
+  <p>ここにはまだ何もありません……これから頑張ります。</p>
 </SectionBlock>
 
 <SectionBlock id="logbook" title="ログ">

@@ -14,7 +14,7 @@ export const profile: ProfileMeta = {
   callsign: "BD4WXB",
   status: "inactive",
   pageTitle: "茶栗の個人アマチュア無線局",
-  description: "旧コールサイン BD4WXB の局情報と QSL 案内です。",
+  description: "個人アマチュア無線局 BD4WXB の局情報、QSL 方針、ギャラリーをまとめたページです。",
   hero: {
     quote: "忘れたくない想い、ありますか？",
     quoteSource: "ef - a tale of memories.",
@@ -29,8 +29,28 @@ export const sections: readonly ProfileSection[] = [
 ---
 
 <Prose>
-  <p>個人アマチュア無線局のホームページへようこそ。</p>
-  <p>このコールサイン BD4WXB は、南京を離れたため 2025 年 9 月 3 日以降は運用していません。</p>
+  <p>
+    私のアマチュア無線局のホームページへようこそ。よければ <a href="https://chariri.moe/">
+      私のブログ
+    </a>
+    ものぞいてみてください。
+  </p>
+  <p>
+    南京を離れたため、コールサインBD4WXBは2025年9月3日以降運用を停止しています。
+    現在使っているコールサインJL1HREへは、ページ上部のリンクから切り替えられます。
+  </p>
+  <p>
+    ご覧の通り、このページはvibecodingで生成されました。
+    これは私の初めてのvibecodeプロジェクトでしたが、結局26時間もかかってしまい、予想をはるかに上回る時間となりました。
+    個人の印象では、AIが生成するコードは往々にして洗練さに欠けるものです。
+    高性能なLLMモデルを使えば、「使える」フロントエンドコードをvibecodeするのは簡単です。
+    しかし、洗練されていて、全面的（例えば、このページにはI18n、A11y、印刷、ダークモードを対応していること）、かつ視覚的にもダサくないなコードを生成するのは難しいものです。
+    とはいえ、一から書くよりははるかに簡単です。
+  </p>
+  <p>
+    アマチュア無線についてのつぶやきは主にブログに置いてあります。
+    <a href="https://chariri.moe/archives/1957/amateur-radio/">リンクはこちらです。</a>
+  </p>
 </Prose>
 
 <SectionBlock id="basic-info" title="基本情報">
@@ -40,43 +60,59 @@ export const sections: readonly ProfileSection[] = [
       <Fragment slot="description">CRAC 第 8 エリア - 重慶</Fragment>
     </InfoCard>
     <InfoCard label="資格" icon="signal">
-      中国アマチュア無線 B 級
+      中国アマチュア無線 B 級従免 + B 級局免
       <Fragment slot="description">
-        <p>144 / 430 MHz @ 25 W</p>
-        <p>HF @ 15 W</p>
+        144 MHz @ 25 W<br />
+        HF @ 15 W
       </Fragment>
     </InfoCard>
     <InfoCard label="連絡先" icon="email">
       <a href="mailto:chariri@chariri.moe">chariri@chariri.moe</a>
     </InfoCard>
     <InfoCard label="郵送先" icon="mail">
-      P.O. Box 21004294, Nanjing, Jiangsu 210042, P.R. China
+      P.O. Box 21004294, Nanjing, Jiangsu 210042, P.R. China <br />
+      江苏省南京市21004294信箱, 210042 P.R. CHINA
     </InfoCard>
   </Cards>
 
   <SectionCluster icon="gear" title="設備">
     <Cards columns="2">
       <InfoCard label="Rig" icon="radio">
-        Wouxun KG-UV9D Plus
+        Wouxun KG-UV9D (Plus)
         <Fragment slot="description">FM @ VHF (144 MHz), 5 W</Fragment>
       </InfoCard>
       <InfoCard label="Rig" icon="radio">
         ICOM IC-7300
         <Fragment slot="description">SSB, FT8 @ HF, 15 W</Fragment>
       </InfoCard>
-      <InfoCard label="アンテナ" icon="antenna">DIAMOND SRH771</InfoCard>
-      <InfoCard label="アンテナ" icon="antenna">BG8GVJ 製 HF ポータブル V ダイポール</InfoCard>
+      <InfoCard label="アンテナ" icon="antenna">
+        DIAMOND SRH771
+        <Fragment slot="description">少し曲がっていますが、なんとか使えています。</Fragment>
+      </InfoCard>
+      <InfoCard label="アンテナ" icon="antenna">
+        依薇特通信 BG8GVJ 製 HF V型ポータブル P-SWA アンテナ
+      </InfoCard>
     </Cards>
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL ポリシー">
     <Prose>
+      <p>各交信について、次のいずれかに当てはまる場合は紙の QSL カードをお送りいたします。</p>
+      <ul>
+        <li>交信中にカードのやり取り方法を取り決めていた場合</li>
+        <li>
+          相手局の住所がQRZ.comなどで簡単に確認でき、かつその交信がコンテストやFT8の交信ではない場合
+        </li>
+        <li>相手局からカードが届いた場合</li>
+      </ul>
       <p>
-        交信した局には、先にカードを受け取った場合、または相手局の郵送先を容易に確認できる場合に紙
-        QSL を送ります。
+        それ以外の場合は、このサイト、LoTW、QRZ.comへのログ掲載のみにします。
+        それでもカードをご希望なら、上記のメールアドレスまたは郵送先からご連絡ください。
+        カードや手紙を送る際にSASEは不要です。頻繁に交信するOM方については、複数の交信をまとめて発送したり、一部を送らなかったりすることがあります。
       </p>
-      <p>返信用封筒を同封する必要はありません。</p>
-      <p>オフラインで実際に会っていない限り、アイボール QSL は交換しません。</p>
+      <p>
+        実際にオフラインで会ったことがない限り、私は<strong>Eyeball QSL</strong>を交換いたしません。
+      </p>
     </Prose>
   </SectionCluster>
 </SectionBlock>
@@ -86,14 +122,14 @@ export const sections: readonly ProfileSection[] = [
     <Cards columns="2">
       <GalleryCard
         src="/images/qsl/QSLCard.webp"
-        alt="交信局のコールサインや確認種別を書き込める QSL カード表面。日付、周波数、モード、信号報告、出力、備考を印字する表があります。"
+        alt="QSLカード表面。相手局コールサインとQSL確認種別を書き込める欄があり、日付時刻、周波数、モード、シグナルレポート、出力電力、備考を印字できる表も付いています。"
         title="QSL v2 - 表"
       >
-        デザインは <a href="https://forum.hamcq.cn/d/418">Shiro</a> aka BI3AR による原案をもとに、 手書きではなく印字向けに調整したものです。
+        この版は <a href="https://forum.hamcq.cn/d/418">Shiro</a> aka BI3AR のデザインをベースに、 手書きではなく印字向けに調整したものです。
       </GalleryCard>
       <GalleryCard
         src="/images/qsl/QSLCard-Back.webp"
-        alt="中国 VOCALOID の洛天依が多数の無線機器を操作しているイラストで、大きな BD4WXB のコールサイン表示がある裏面。"
+        alt="QSLカード裏面。中国語ボカロキャラの洛天依が多数の無線機器を操作しているイラストで、傍らに大きな BD4WXB のコールサインプレートがあります。"
         title="QSL v2 - 裏"
       >
         裏面の <a href="https://t.bilibili.com/1054583074411511815">イラスト</a> は
@@ -101,7 +137,7 @@ export const sections: readonly ProfileSection[] = [
       </GalleryCard>
       <GalleryCard
         src="/images/qsl/QSLCard-v1.webp"
-        alt="交信局のコールサイン、確認種別、日付、時刻、モード、周波数、信号報告、設備、出力、アンテナを書き込める初代 QSL カード表面。"
+        alt="最初の QSL カード表面。コールサイン、QSL 確認種別、日付時刻、モード、周波数、シグナルレポート、リグ、出力電力、アンテナを手書きで記入できます。"
         title="QSL v1 - 表"
       >
         <a href="https://forum.hamcq.cn/d/418">デザイン</a> は <a href="https://shiro.love/">
@@ -110,7 +146,7 @@ export const sections: readonly ProfileSection[] = [
       </GalleryCard>
       <GalleryCard
         src="/images/qsl/QSLCard-Back-v1.webp"
-        alt="洛天依のイラストを背景に、左上に BD4WXB と 茶栗chariri の表記がある初代 QSL カード裏面。"
+        alt="初代 QSL カード裏面。洛天依のイラストを背景に、左上へ BD4WXB と 茶栗chariri の表記があります。"
         title="QSL v1 - 裏"
       >
         裏面イラストは <a href="https://www.pixiv.net/artworks/99486679">「🍀」</a>、 作者は <a
@@ -126,10 +162,10 @@ export const sections: readonly ProfileSection[] = [
     <div class="max-w-3xl">
       <GalleryCard
         src="/images/award/202505zjvhf.avif"
-        alt="2025 年 5 月 5 日浙江省 VHF DX コンテストで BD4WXB が 6 位、251 点を獲得した賞状。"
-        title="2025-55ZJVHF"
+        alt="2025 年 5 月 5 日浙江省 VHF DX コンテストの賞状。背景に浙江省の地図があり、左上に浙江省アマチュア無線協会のロゴ、BD4WXB が第 6 位・251 点、右下に ZARA-VHF-1008 の番号が記されています。"
+        title="2025 五五節浙江 VHF DX 通信コンテスト"
       >
-        <p>2025 年 5 月 5 日 浙江省 VHF DX コンテスト</p>
+        <p>2025 年 5 月 5 日 浙江省アマチュア無線協会 浙江省 VHF DX 通信コンテスト</p>
         <p><strong>順位</strong>: 6 位</p>
         <p><strong>得点</strong>: 251</p>
       </GalleryCard>

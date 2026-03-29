@@ -55,7 +55,7 @@ const stations = getStationsOrdered(profile.lang).map((it) => ({
   current: it.stationId === profile.stationId,
 }));
 const sections = entry.sections;
-const Content = entry.default as any;
+const Content = entry.default as any; // eslint-disable-line
 ---
 
 <Layout

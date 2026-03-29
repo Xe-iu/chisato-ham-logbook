@@ -39,7 +39,7 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
       class="m-4 px-4 py-4 rounded-xl \
       border border-station-line \
       bg-station-surface-subtle \
-      text-sm leading-7 text-station-muted"
+      text-sm text-station-muted"
       role="note"
       aria-label={t.clusterTitle}
     >
@@ -89,12 +89,14 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
     </div>
 
     <p id={tableDescriptionId} class="sr-only">
-      {t.intro}
       {t.clickHint}
     </p>
 
-    <div class="overflow-x-auto">
-      <div class="max-h-136 overflow-auto" data-logbook-viewport>
+    <div class="overflow-x-auto print:overflow-visible">
+      <div
+        class="max-h-136 overflow-auto print:max-h-none print:overflow-visible"
+        data-logbook-viewport
+      >
         <table
           class="w-full min-w-235 border-collapse text-left text-sm"
           aria-describedby={`${tableDescriptionId} ${resultsId}`}
@@ -110,7 +112,9 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
             <col class="w-16" />
             <col class="w-16" />
           </colgroup>
-          <thead class="sticky top-0 z-10 bg-station-surface-table-head print:static print:bg-white">
+          <thead
+            class="sticky top-0 z-10 bg-station-surface-table-head print:static print:bg-white"
+          >
             <tr>
               <th scope="col" class={tableHeaderCellClass}>{t.columns.utc}</th>
               <th scope="col" class={tableHeaderCellClass}>{t.columns.callsign}</th>
@@ -136,8 +140,7 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
 
   <template data-logbook-message-template>
     <tr>
-      <td colspan="8" class={messageCellClass} data-logbook-message-cell>
-      </td>
+      <td colspan="8" class={messageCellClass} data-logbook-message-cell></td>
     </tr>
   </template>
 
@@ -204,7 +207,8 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
       <dt
         class="m-0 font-mono text-xs uppercase tracking-[0.1rem] text-station-soft"
         data-logbook-detail-label
-      ></dt>
+      >
+      </dt>
       <dd class="m-0 text-sm text-station-ink" data-logbook-detail-value></dd>
     </div>
   </template>
@@ -253,6 +257,17 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
 </section>
 
 <style is:global>
+  @media print {
+    @page logbook-landscape {
+      size: landscape;
+    }
+    .logbook-app {
+      break-before: page;
+      break-after: page;
+      page: logbook-landscape;
+    }
+  }
+
   body.logbook-printing-dialog > * {
     display: none !important;
   }
@@ -281,16 +296,28 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
         this.printSheetId = `${this.dialogId}-print`;
         this.rowHeight = 36;
         this.overscan = 10;
-        this.state = {
+        this.state = this.createInitialState();
+
+        this.setupElements();
+        this.bindEvents();
+        this.loadData();
+      }
+
+      createInitialState() {
+        return {
           all: [],
           filtered: [],
           callsignIndex: null,
           activeRowIndex: 0,
           query: "",
+          printSliceRange: null,
           renderPending: false,
+          renderScrollTopOverride: null,
           escapeHandler: null,
+          savedViewportScrollTop: 0,
           triggerElement: null,
           currentEntry: null,
+          wasTablePreparedForPrint: false,
           wasDialogOpenBeforePrint: false,
           beforePrintHandler: null,
           afterPrintHandler: null,
@@ -299,21 +326,11 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
             html: "",
           },
         };
-
-        this.setupElements();
-        this.bindEvents();
-        this.loadData();
       }
 
       setupElements() {
-        const dialogTemplate = this.root.querySelector("[data-logbook-dialog-template]");
-        if (!document.getElementById(this.dialogId) && dialogTemplate) {
-          document.body.append(dialogTemplate.content.cloneNode(true));
-        }
-        const printSheetTemplate = this.root.querySelector("[data-logbook-print-sheet-template]");
-        if (!document.getElementById(this.printSheetId) && printSheetTemplate) {
-          document.body.append(printSheetTemplate.content.cloneNode(true));
-        }
+        this.mountDetachedTemplate("[data-logbook-dialog-template]", this.dialogId);
+        this.mountDetachedTemplate("[data-logbook-print-sheet-template]", this.printSheetId);
 
         this.elements = {
           searchInput: this.root.querySelector("[data-logbook-search]"),
@@ -333,6 +350,18 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
           return;
         }
 
+        this.setupDialogElements();
+        this.setupPrintSheetElements();
+      }
+
+      mountDetachedTemplate(templateSelector, mountedId) {
+        const template = this.root.querySelector(templateSelector);
+        if (!document.getElementById(mountedId) && template instanceof HTMLTemplateElement) {
+          document.body.append(template.content.cloneNode(true));
+        }
+      }
+
+      setupDialogElements() {
         this.elements.dialogTitle = this.elements.dialog.querySelector(
           "[data-logbook-dialog-title]"
         );
@@ -340,17 +369,22 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
         this.elements.dialogPanel = this.elements.dialog.querySelector("[data-logbook-panel]");
         this.elements.closeButtons =
           this.elements.dialog.querySelectorAll("[data-logbook-close]") || [];
-        if (this.elements.printSheet) {
-          this.elements.printSheetTitle = this.elements.printSheet.querySelector(
-            "[data-logbook-print-title]"
-          );
-          this.elements.printSheetDescription = this.elements.printSheet.querySelector(
-            "[data-logbook-print-description]"
-          );
-          this.elements.printSheetDetailList = this.elements.printSheet.querySelector(
-            "[data-logbook-print-detail-list]"
-          );
+      }
+
+      setupPrintSheetElements() {
+        if (!this.elements.printSheet) {
+          return;
         }
+
+        this.elements.printSheetTitle = this.elements.printSheet.querySelector(
+          "[data-logbook-print-title]"
+        );
+        this.elements.printSheetDescription = this.elements.printSheet.querySelector(
+          "[data-logbook-print-description]"
+        );
+        this.elements.printSheetDetailList = this.elements.printSheet.querySelector(
+          "[data-logbook-print-detail-list]"
+        );
       }
 
       bindEvents() {
@@ -386,7 +420,7 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
               (this.elements.viewport?.clientHeight || this.rowHeight * 6) / this.rowHeight
             )
           );
-          let nextIndex = null;
+          let nextIndex;
 
           switch (event.key) {
             case "ArrowDown":
@@ -429,7 +463,7 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
           }
         });
 
-        this.state.beforePrintHandler = () => this.preparePrintSheet();
+        this.state.beforePrintHandler = () => this.prepareBeforePrint();
         this.state.afterPrintHandler = () => this.restoreAfterPrint();
         window.addEventListener("beforeprint", this.state.beforePrintHandler);
         window.addEventListener("afterprint", this.state.afterPrintHandler);
@@ -706,6 +740,27 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
         return fragment;
       }
 
+      appendSpacer(fragment, height) {
+        if (height <= 0) {
+          return;
+        }
+
+        const spacer = this.createSpacerRow(height);
+        if (spacer) {
+          fragment.append(spacer);
+        }
+      }
+
+      appendDataRows(fragment, start, end) {
+        for (let index = start; index < end; index += 1) {
+          const entry = this.state.filtered[index];
+          const row = this.createDataRow(entry, index);
+          if (row) {
+            fragment.append(row);
+          }
+        }
+      }
+
       scheduleRender() {
         if (this.state.renderPending) {
           return;
@@ -716,6 +771,43 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
           this.state.renderPending = false;
           this.renderRows();
         });
+      }
+
+      getVirtualRange() {
+        if (!this.elements.viewport) {
+          return { start: 0, end: 0 };
+        }
+
+        const scrollTop = this.state.renderScrollTopOverride ?? this.elements.viewport.scrollTop;
+        const viewportHeight = Math.max(this.elements.viewport.clientHeight, this.rowHeight * 6);
+        const visibleCount = Math.ceil(viewportHeight / this.rowHeight);
+        const start = Math.max(0, Math.floor(scrollTop / this.rowHeight) - this.overscan);
+        const end = Math.min(this.state.filtered.length, start + visibleCount + this.overscan * 2);
+
+        return { start, end };
+      }
+
+      getPrintSliceRange() {
+        if (!this.elements.viewport) {
+          return { start: 0, end: 0 };
+        }
+
+        const viewportHeight = Math.max(this.elements.viewport.clientHeight, this.rowHeight);
+        const visibleCount = Math.max(1, Math.ceil(viewportHeight / this.rowHeight));
+        const start = Math.max(0, Math.floor(this.elements.viewport.scrollTop / this.rowHeight));
+        const end = Math.min(this.state.filtered.length, start + visibleCount);
+
+        return { start, end };
+      }
+
+      getRenderRange() {
+        const { start, end } = this.state.printSliceRange ?? this.getVirtualRange();
+        const topPad = this.state.printSliceRange ? 0 : start * this.rowHeight;
+        const bottomPad = this.state.printSliceRange
+          ? 0
+          : (this.state.filtered.length - end) * this.rowHeight;
+
+        return { start, end, topPad, bottomPad };
       }
 
       renderRows() {
@@ -736,44 +828,17 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
           return;
         }
 
-        const viewportHeight = Math.max(this.elements.viewport.clientHeight, this.rowHeight * 6);
-        const visibleCount = Math.ceil(viewportHeight / this.rowHeight);
-        const start = Math.max(
-          0,
-          Math.floor(this.elements.viewport.scrollTop / this.rowHeight) - this.overscan
-        );
-        const end = Math.min(this.state.filtered.length, start + visibleCount + this.overscan * 2);
+        const { start, end, topPad, bottomPad } = this.getRenderRange();
         const tabbableIndex =
           this.state.activeRowIndex >= start && this.state.activeRowIndex < end
             ? this.state.activeRowIndex
             : start;
-        const topPad = start * this.rowHeight;
-        const bottomPad = (this.state.filtered.length - end) * this.rowHeight;
         const fragment = document.createDocumentFragment();
 
         this.state.activeRowIndex = tabbableIndex;
-
-        if (topPad > 0) {
-          const spacer = this.createSpacerRow(topPad);
-          if (spacer) {
-            fragment.append(spacer);
-          }
-        }
-
-        for (let index = start; index < end; index += 1) {
-          const entry = this.state.filtered[index];
-          const row = this.createDataRow(entry, index);
-          if (row) {
-            fragment.append(row);
-          }
-        }
-
-        if (bottomPad > 0) {
-          const spacer = this.createSpacerRow(bottomPad);
-          if (spacer) {
-            fragment.append(spacer);
-          }
-        }
+        this.appendSpacer(fragment, topPad);
+        this.appendDataRows(fragment, start, end);
+        this.appendSpacer(fragment, bottomPad);
 
         this.elements.body.replaceChildren(fragment);
         this.setResultsText(
@@ -1042,29 +1107,41 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
         }
       }
 
-      preparePrintSheet() {
-        if (
-          !this.elements.dialog ||
-          this.elements.dialog.hidden ||
-          !this.state.currentEntry ||
-          !this.elements.printSheet ||
-          !(this.elements.printSheetTitle instanceof HTMLElement) ||
-          !(this.elements.printSheetDescription instanceof HTMLElement) ||
-          !(this.elements.printSheetDetailList instanceof HTMLDListElement)
-        ) {
+      prepareBeforePrint() {
+        if (!this.elements.dialog?.hidden) {
+          // Print the dialog only
+          if (
+            !this.elements.dialog ||
+            this.elements.dialog.hidden ||
+            !this.state.currentEntry ||
+            !this.elements.printSheet ||
+            !(this.elements.printSheetTitle instanceof HTMLElement) ||
+            !(this.elements.printSheetDescription instanceof HTMLElement) ||
+            !(this.elements.printSheetDetailList instanceof HTMLDListElement)
+          ) {
+            return;
+          }
+
+          this.state.wasDialogOpenBeforePrint = true;
+          this.elements.printSheetTitle.textContent = this.getDetailTitle(this.state.currentEntry);
+          this.renderDetailContent(
+            this.elements.printSheetDescription,
+            this.elements.printSheetDetailList,
+            this.state.currentEntry
+          );
+          this.elements.printSheet.classList.remove("hidden");
+          document.body.classList.add("logbook-printing-dialog");
+          this.closeDialog({ restoreFocus: false });
+          return;
+        }
+        if (!this.elements.viewport || this.state.wasTablePreparedForPrint) {
           return;
         }
 
-        this.state.wasDialogOpenBeforePrint = true;
-        this.elements.printSheetTitle.textContent = this.getDetailTitle(this.state.currentEntry);
-        this.renderDetailContent(
-          this.elements.printSheetDescription,
-          this.elements.printSheetDetailList,
-          this.state.currentEntry
-        );
-        this.elements.printSheet.classList.remove("hidden");
-        document.body.classList.add("logbook-printing-dialog");
-        this.closeDialog({ restoreFocus: false });
+        this.state.savedViewportScrollTop = this.elements.viewport.scrollTop;
+        this.state.printSliceRange = this.getPrintSliceRange();
+        this.state.wasTablePreparedForPrint = true;
+        this.renderRows();
       }
 
       restoreAfterPrint() {
@@ -1073,6 +1150,19 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
         }
 
         document.body.classList.remove("logbook-printing-dialog");
+        if (!this.state.wasTablePreparedForPrint) {
+          return;
+        }
+
+        this.state.printSliceRange = null;
+        this.state.wasTablePreparedForPrint = false;
+        this.state.renderScrollTopOverride = this.state.savedViewportScrollTop;
+        this.renderRows();
+        this.state.renderScrollTopOverride = null;
+
+        if (this.elements.viewport) {
+          this.elements.viewport.scrollTop = this.state.savedViewportScrollTop;
+        }
 
         if (!this.state.wasDialogOpenBeforePrint || !this.state.currentEntry) {
           this.state.wasDialogOpenBeforePrint = false;
@@ -1086,6 +1176,9 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
       applyFilter() {
         this.state.filtered = this.filterByCallsignQuery(this.state.query);
         this.state.activeRowIndex = this.state.filtered.length ? 0 : -1;
+        this.state.printSliceRange = null;
+        this.state.renderScrollTopOverride = null;
+        this.state.wasTablePreparedForPrint = false;
 
         if (this.elements.viewport) {
           this.elements.viewport.scrollTop = 0;

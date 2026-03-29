@@ -166,7 +166,7 @@ const { profile, locale, locales, stations, sections } = Astro.props;
       <nav
         class="fixed inset-x-0 bottom-0 z-40 print:hidden lg:hidden \
         border-t border-station-line bg-station-surface-chrome"
-        aria-label={locale.labels.quickSectionShortcuts}
+        aria-label={locale.labels.sectionShortcuts}
       >
         <div
           class="flex flex-wrap gap-2 mx-auto max-w-xl \
@@ -194,10 +194,8 @@ const { profile, locale, locales, stations, sections } = Astro.props;
         px-4 pt-5 pb-24 sm:px-6 lg:px-8 lg:pb-10 print:px-0 print:pb-0 border-t border-station-line \
         text-sm text-station-muted"
       >
-        <p>{locale.footer.copyright}</p>
-        <p class="mt-1 min-h-5 max-w-3xl">
-          {locale.footer.note}
-        </p>
+        <p>Chisato HAM Logbook, Copyleft by 茶栗chariri</p>
+        <p class="mt-1 min-h-5 max-w-3xl" set:html={locale.footer} />
       </footer>
     </div>
   </body>

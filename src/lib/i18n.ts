@@ -4,7 +4,6 @@ export type StationStatus = "active" | "inactive";
 export interface LogbookUi {
   clusterTitle: string;
   cardLabel: string;
-  intro: string;
   noscript: string;
   searchLabel: string;
   searchPlaceholder: string;
@@ -47,7 +46,6 @@ export interface LogbookUi {
     otherGrid: string;
     propagation: string;
     satellite: string;
-    notAvailable: string;
   };
 }
 
@@ -63,16 +61,12 @@ export interface LocaleContext {
     station: string;
     sections: string;
     sectionShortcuts: string;
-    quickSectionShortcuts: string;
     heroOverview: string;
     homeLink: string;
     languageSwitcher: string;
     stationSwitcher: string;
   };
-  footer: {
-    note: string;
-    copyright: string;
-  };
+  footer: string;
   stationStatus: Record<StationStatus, string>;
   logbook: LogbookUi;
 }
@@ -98,35 +92,32 @@ const localeDefinitions = {
       station: "Station",
       sections: "Sections",
       sectionShortcuts: "Section shortcuts",
-      quickSectionShortcuts: "Quick section shortcuts",
       heroOverview: "Station Overview",
-      homeLink: "Go to chariri.moe",
+      homeLink: "Go to my blog chariri.moe",
       languageSwitcher: "Language switcher",
       stationSwitcher: "Callsign switcher",
     },
-    footer: {
-      note: "Static page, local assets, and a lightweight toolchain.",
-      copyright: "Chisato HAM Logbook, Copyleft by 茶栗chariri",
-    },
+    footer:
+      'Made with Astro, TailwindCSS, heavy-prompted GPT 5.4 + codex and ❤️. \
+      This site is <a href="https://github.com/cqjjjzr/chisato-log-hambook">open source</a> on GitHub.',
     stationStatus: {
-      active: "On Air",
-      inactive: "Archive",
+      active: "Active",
+      inactive: "Inactive",
     },
     logbook: {
       clusterTitle: "Logbook",
       cardLabel: "Recent log archive",
-      intro:
-        "Search first, then scroll. Only the visible rows are rendered, so browser find will miss most records.",
       noscript:
-        "The interactive logbook viewer requires JavaScript. You can still read the rest of the station page without it.",
+        "The interactive logbook viewer requires JavaScript. \
+        You can still read the rest of the station page without it.",
       searchLabel: "Search",
       searchPlaceholder: "Their callsign...",
       resultsTemplate: "{visible} / {total} QSOs",
-      empty: "No log records are available for this callsign yet.",
+      empty: "No log records available.",
       noMatches: "No records matched the current search.",
       loading: "Loading logbook...",
       errorTitle: "Unable to load the logbook.",
-      errorBody: "Check that the JSON file exists and try again.",
+      errorBody: "Try refresh. If it persists, the server may have an issue.",
       clickHint:
         "Use Up and Down arrow keys to move through rows. Press Enter to open the full QSO details.",
       close: "Close",
@@ -144,7 +135,8 @@ const localeDefinitions = {
       },
       details: {
         noteTimezone:
-          "Note: The 'Local' times below are relative to the browser timezone, not the timezone where the contact happened.",
+          "Note: The 'Local' times below are relative to the browser timezone, \
+          not the timezone where the contact happened.",
         startUtc: "Start time (UTC)",
         startLocal: "Start time (local)",
         endUtc: "End time (UTC)",
@@ -162,7 +154,6 @@ const localeDefinitions = {
         otherGrid: "Their gridsquare",
         propagation: "Propagation",
         satellite: "Satellite",
-        notAvailable: "N/A",
       },
     },
   },
@@ -177,34 +168,31 @@ const localeDefinitions = {
       language: "语言",
       station: "电台",
       sections: "章节",
-      sectionShortcuts: "章节快捷导航",
-      quickSectionShortcuts: "快速章节导航",
-      heroOverview: "电台概览",
-      homeLink: "前往 chariri.moe",
+      sectionShortcuts: "章节导航",
+      heroOverview: "业余无线电台概览",
+      homeLink: "前往我的blog：chariri.moe",
       languageSwitcher: "语言切换",
       stationSwitcher: "呼号切换",
     },
-    footer: {
-      note: "静态页面、本地资源，以及轻量的工具链。",
-      copyright: "Chisato HAM Logbook",
-    },
+    footer:
+      'Made with Astro, TailwindCSS, 大量提示词的 GPT 5.4 + codex 与 ❤️. \
+      本站点<a href="https://github.com/cqjjjzr/chisato-log-hambook">开源在</a>GitHub.',
     stationStatus: {
       active: "活跃",
-      inactive: "存档",
+      inactive: "休止",
     },
     logbook: {
       clusterTitle: "通联日志",
-      cardLabel: "日志归档",
-      intro: "请先搜索，再滚动。这里只渲染当前可见的行，所以浏览器自带查找无法覆盖全部记录。",
-      noscript: "交互式日志查看器需要 JavaScript。关闭脚本时，页面其余内容仍可正常阅读。",
+      cardLabel: "近期日志归档",
+      noscript: "日志查看器需要 JavaScript。不过页面其余内容仍可正常阅读。",
       searchLabel: "搜索",
       searchPlaceholder: "对方呼号...",
       resultsTemplate: "{visible} / {total} 条",
-      empty: "这个呼号暂时没有日志记录。",
+      empty: "此电台暂时没有日志记录。",
       noMatches: "当前搜索条件没有匹配记录。",
       loading: "正在加载日志...",
       errorTitle: "无法加载日志。",
-      errorBody: "请检查 JSON 文件是否存在，然后重试。",
+      errorBody: "请重试。如果问题持续则服务器可能出现故障。",
       clickHint: "可用上下方向键切换行，并按回车查看完整 QSO 详情。",
       close: "关闭",
       detailTitleTemplate: "{self} → {other}",
@@ -237,8 +225,7 @@ const localeDefinitions = {
         selfGrid: "己方网格",
         otherGrid: "对方网格",
         propagation: "传播方式",
-        satellite: "卫星",
-        notAvailable: "无",
+        satellite: "卫星名",
       },
     },
   },
@@ -251,38 +238,34 @@ const localeDefinitions = {
     siteTitle: "アマチュア無線局ホームページ - Chisato HAM Logbook",
     labels: {
       language: "言語",
-      station: "局",
+      station: "コールサイン",
       sections: "セクション",
       sectionShortcuts: "セクションショートカット",
-      quickSectionShortcuts: "クイックセクションショートカット",
-      heroOverview: "局の概要",
-      homeLink: "chariri.moe へ移動",
+      heroOverview: "当無線局の概要",
+      homeLink: "私のブログ chariri.moe へ移動",
       languageSwitcher: "言語切り替え",
       stationSwitcher: "コールサイン切り替え",
     },
-    footer: {
-      note: "静的ページ、ローカル配信アセット、軽量なツールチェーンで構成しています。",
-      copyright: "Chisato HAM Logbook",
-    },
+    footer:
+      'Made with Astro, TailwindCSS, heavy-prompted GPT 5.4 + codex and ❤️. \
+      当サイトはGitHubにて<a href="https://github.com/cqjjjzr/chisato-log-hambook">オープンソース</a>です.',
     stationStatus: {
       active: "運用中",
-      inactive: "アーカイブ",
+      inactive: "休止",
     },
     logbook: {
       clusterTitle: "交信ログ",
       cardLabel: "ログアーカイブ",
-      intro:
-        "先に検索してからスクロールしてください。表示中の行だけ描画するため、ブラウザ検索では大半の記録を拾えません。",
       noscript:
         "インタラクティブなログビューアには JavaScript が必要です。無効でもページ本文は閲覧できます。",
       searchLabel: "検索",
       searchPlaceholder: "相手コールサイン...",
       resultsTemplate: "{visible} / {total} 件",
-      empty: "このコールサインにはまだログ記録がありません。",
+      empty: "当局はまだログがありません。",
       noMatches: "現在の検索条件に一致する記録はありません。",
       loading: "ログを読み込み中...",
       errorTitle: "ログを読み込めませんでした。",
-      errorBody: "JSON ファイルの配置を確認して、もう一度試してください。",
+      errorBody: "もう一度試してください。問題が続くと、サーバーが落ちた可能性があります。",
       clickHint: "上下キーで行を移動し、Enter で QSO 詳細を開きます。",
       close: "閉じる",
       detailTitleTemplate: "{self} → {other}",
@@ -299,7 +282,7 @@ const localeDefinitions = {
       },
       details: {
         noteTimezone:
-          "Note: “ローカル”時刻はブラウザのタイムゾーンに則っており、交信地のタイムゾーンではありません。",
+          "Note: “ローカル”時刻はブラウザのタイムゾーンに則っており、交信地のローカル時刻ではありません。",
         startUtc: "開始時刻（UTC）",
         startLocal: "開始時刻（ローカル）",
         endUtc: "終了時刻（UTC）",
@@ -313,11 +296,10 @@ const localeDefinitions = {
         comment: "メモ",
         qth: "QTH",
         rig: "設備",
-        selfGrid: "自局グリッド",
-        otherGrid: "相手局グリッド",
+        selfGrid: "自局ローケーター",
+        otherGrid: "相手局ローケーター",
         propagation: "伝搬方式",
-        satellite: "衛星",
-        notAvailable: "なし",
+        satellite: "衛星名",
       },
     },
   },

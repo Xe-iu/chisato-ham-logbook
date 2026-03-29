@@ -84,24 +84,24 @@ const callsignMorse = toMorse(callsign);
 </section>
 
 <style>
-.is-typing::after {
-  content: "_";
-  margin-left: 0.18rem;
-  color: currentColor;
-  animation: terminal-blink 1s step-end infinite;
-}
-
-@keyframes terminal-blink {
-  50% {
-    opacity: 0;
-  }
-}
-
-@media print {
   .is-typing::after {
-    display: none;
+    content: "_";
+    margin-left: 0.18rem;
+    color: currentColor;
+    animation: terminal-blink 1s step-end infinite;
   }
-}
+
+  @keyframes terminal-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media print {
+    .is-typing::after {
+      display: none;
+    }
+  }
 </style>
 
 <script is:inline>

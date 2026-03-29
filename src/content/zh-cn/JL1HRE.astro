@@ -1,7 +1,6 @@
 ---
 import type { ProfileMeta, ProfileSection } from "../../lib/profile";
 import Cards from "../../components/Cards.astro";
-import GalleryCard from "../../components/GalleryCard.astro";
 import InfoCard from "../../components/InfoCard.astro";
 import LogbookCard from "../../components/LogbookCard.astro";
 import Prose from "../../components/Prose.astro";
@@ -14,7 +13,7 @@ export const profile: ProfileMeta = {
   callsign: "JL1HRE",
   status: "active",
   pageTitle: "茶栗的个人业余电台",
-  description: "现行呼号 JL1HRE 的台站信息与 QSL 说明。",
+  description: "个人业余无线电台 JL1HRE 的台站信息，QSL 说明，与图集展示。。",
   hero: {
     quote: "聴こえますか？真実のメロディ。",
     quoteSource: "ef - a tale of melodies.",
@@ -29,8 +28,30 @@ export const sections: readonly ProfileSection[] = [
 ---
 
 <Prose>
-  <p>这是当前使用中的日本呼号页面。</p>
-  <p>这里把常用操作信息、QSL 规则和设备备注集中在一个轻量静态站点里。</p>
+  <p>
+    欢迎来到我的个人业余无线电台主页。同时也欢迎去<a href="https://chariri.moe/">我的blog看看。</a>
+  </p>
+  <p>
+    这是我目前正在使用的业余无线电台呼号，设台在日本东京。
+    您可以用页面顶端的链接切换到我先前使用的呼号：BD4WXB。
+  </p>
+  <p>
+    正如您所见，这个页面是vibecoding
+    出来的，这也是我第一次vibecoding项目，结果花了远超预期的26个小时。
+    我的感受是AI经常写出缺乏品味的代码。有了高性能的LLM模型，要vibecoding出能用的前端代码是很容易的事。
+    但vibecoding出优雅、全面（比如您会发现这个页面有完善的I18n、A11y、打印、深色模式支持）、好看的代码很困难。不过这还是比从零开始写简单多了。
+  </p>
+  <p>
+    关于我的业余无线电台的碎碎念放在了我的blog上， <a
+      href="https://chariri.moe/archives/1957/amateur-radio/"
+    >
+      链接在这里。
+    </a>
+  </p>
+  <p>
+    本电台同时设固定台与移动台，前者最大天线功率为 100W，用于目前唯一的短波设备
+    IC-7300。后者用于手台。
+  </p>
 </Prose>
 
 <SectionBlock id="basic-info" title="基本信息">
@@ -39,87 +60,46 @@ export const sections: readonly ProfileSection[] = [
       PM95
       <Fragment slot="description">日本东京</Fragment>
     </InfoCard>
-    <InfoCard label="资格" icon="license">
-      日本一级业余无线技士
+    <InfoCard label="执照" icon="license">
+      日本一级业余无线技士 + 固定台 + 移动台
       <Fragment slot="description">
-        当前以便携 VHF/UHF 为主，并为未来的 HF 扩展预留空间。
+        144 / 430 MHz @ 50 W<br />
+        HF @ 100 W
       </Fragment>
     </InfoCard>
-    <InfoCard label="联系邮箱" icon="mail">
+    <InfoCard label="联系邮箱" icon="email">
       <a href="mailto:chariri@chariri.moe">chariri@chariri.moe</a>
     </InfoCard>
-    <InfoCard label="优先 QSL" icon="mail">
-      LoTW + Bureau
-      <Fragment slot="description">成功通联后的纸卡交换也欢迎。</Fragment>
-    </InfoCard>
+    <InfoCard label="邮寄地址" icon="mail"> 准备中 </InfoCard>
   </Cards>
 
   <SectionCluster icon="gear" title="设备">
     <Cards columns="2">
-      <InfoCard label="Rig" icon="radio">
-        Yaesu FT5D + 手台短天线组
-        <Fragment slot="description">
-          当前用于日常操作、守听和外场测试的便携 V/UHF 主力设备链。
-        </Fragment>
+      <InfoCard label="电台" icon="radio">
+        YAESU FT-70D
+        <Fragment slot="description">FM / C4FM @ VHF/UHF (144 / 430 MHz), 5 W</Fragment>
       </InfoCard>
-      <InfoCard label="工作流" icon="gear">
-        笔记本 + 日志整理流程
-        <Fragment slot="description">
-          以纸面和终端为主的轻量记录方式，方便后续整理和上传日志。
-        </Fragment>
+      <InfoCard label="电台" icon="radio">
+        ICOM IC-7300
+        <Fragment slot="description">SSB, FT8 @ HF, 100 W</Fragment>
       </InfoCard>
-      <InfoCard label="台站计划" icon="radio">
-        HF 固定台筹备中
-        <Fragment slot="description">
-          馈线、天线和桌面布局都在逐步准备，后续会扩展为固定台配置。
-        </Fragment>
-      </InfoCard>
+      <InfoCard label="天线" icon="antenna">依薇特通信BG8GVJ产短波便携正V P-SWA天线</InfoCard>
     </Cards>
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL 政策">
     <Prose>
-      <p>常规确认优先使用 LoTW。对于纪念性通联或排程，也欢迎通过 Bureau 或直寄交换纸质 QSL。</p>
-      <p>如果需要修正日志或确认细节，发邮件是最快的方式。</p>
-      <p>常规本地 V/UHF 通联建议优先使用电子确认。</p>
+      <p>
+        QSL卡片暂未准备完成，因此目前暂时不交换QSL卡片。与我通联的友台若想交换卡片可先邮件联系我，我在准备好卡片后会一并寄出。
+      </p>
+      <p>如果没有在线下见过面，我<strong>不会交换</strong>Eyeball QSL卡。</p>
+      <p>其它QSL政策请参阅BD4WXB呼号的主页。</p>
     </Prose>
   </SectionCluster>
 </SectionBlock>
 
 <SectionBlock id="showcase" title="展示">
-  <SectionCluster title="QSL 卡片" icon="gallery">
-    <Cards columns="2">
-      <GalleryCard src="/images/qsl/QSLCard.webp" alt="现行 QSL 卡正面。" title="现行 QSL - 正面">
-        现行版式保持整洁，适合打印并清晰展示台站信息。
-      </GalleryCard>
-      <GalleryCard
-        src="/images/qsl/QSLCard-Back.webp"
-        alt="现行 QSL 卡背面。"
-        title="现行 QSL - 背面"
-      >
-        背面在书写空间、插图和确认信息之间做了平衡。
-      </GalleryCard>
-    </Cards>
-  </SectionCluster>
-
-  <SectionCluster title="资质 / 说明" icon="award">
-    <Cards columns="3">
-      <InfoCard label="资质" icon="award">
-        一级操作资格
-        <Fragment slot="description">
-          为更广泛的操作权限和未来更完整的固定台建设提供基础。
-        </Fragment>
-      </InfoCard>
-      <InfoCard label="操作风格" icon="signal">
-        便携优先
-        <Fragment slot="description"> 当前电台强调快速部署、简单检查和本地 V/UHF 试验。 </Fragment>
-      </InfoCard>
-      <InfoCard label="网站方针" icon="gear">
-        静态优先
-        <Fragment slot="description"> 保持必要信息清晰可读，不依赖重量级客户端逻辑。 </Fragment>
-      </InfoCard>
-    </Cards>
-  </SectionCluster>
+  <p>这里还什么也没有... 我会努力的...</p>
 </SectionBlock>
 
 <SectionBlock id="logbook" title="日志">

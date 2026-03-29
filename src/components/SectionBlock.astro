@@ -14,13 +14,19 @@ const headingId = `${id}-heading`;
   [&+&]:mt-14 [&+&]:border-t [&+&]:border-station-line [&+&]:pt-12"
   aria-labelledby={headingId}
 >
-  <div class="mb-6 grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-end print:break-after-avoid">
+  <div
+    class="mb-6 grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-end print:break-after-avoid"
+  >
     <div class="space-y-3">
       <span
         aria-hidden="true"
         class="section-count block font-mono text-ui-label uppercase tracking-[0.24rem] text-station-accent-strong"
-      ></span>
-      <h2 id={headingId} class="font-sans text-[clamp(2rem,4vw,3.2rem)] leading-none text-station-ink">
+      >
+      </span>
+      <h2
+        id={headingId}
+        class="font-sans text-[clamp(2rem,4vw,3.2rem)] leading-none text-station-ink"
+      >
         {title}
       </h2>
     </div>

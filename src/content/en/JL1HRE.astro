@@ -1,7 +1,6 @@
 ---
 import type { ProfileMeta, ProfileSection } from "../../lib/profile";
 import Cards from "../../components/Cards.astro";
-import GalleryCard from "../../components/GalleryCard.astro";
 import InfoCard from "../../components/InfoCard.astro";
 import LogbookCard from "../../components/LogbookCard.astro";
 import Prose from "../../components/Prose.astro";
@@ -14,7 +13,8 @@ export const profile: ProfileMeta = {
   callsign: "JL1HRE",
   status: "active",
   pageTitle: "chariri's Personal Amateur Radio Station",
-  description: "Active JL1HRE amateur radio station profile, QSL information, and operating notes.",
+  description:
+    "Station information, QSL notes, and logbook for the JL1HRE amateur radio station in Tokyo.",
   hero: {
     quote: "聴こえますか？真実のメロディ。",
     quoteSource: "ef - a tale of melodies.",
@@ -29,8 +29,31 @@ export const sections: readonly ProfileSection[] = [
 ---
 
 <Prose>
-  <p>Active Japanese callsign profile.</p>
-  <p>This page keeps operating essentials, QSL policy, and station notes in one lightweight static hub.</p>
+  <p>
+    Welcome to the homepage of my personal amateur radio station. You are also welcome to visit
+    <a href="https://chariri.moe/">my blog</a>.
+  </p>
+  <p>
+    This is the amateur radio callsign I currently use, with the station located in Tokyo, Japan.
+    You can switch to my previous callsign, BD4WXB, using the link at the top of the page.
+  </p>
+  <p>
+    As you can see, this page vibecoded. This was my first vibecoding project, and it ended up
+    taking 26 hours -- far longer than I expected. My feeling is that AI often produces code that
+    lacks taste. With high-performance LLM models, it’s easy to vibecode 'usable' front-end code.
+    But it’s difficult to generate code that’s elegant, comprehensive (for example, you’ll notice
+    this page has I18n, A11y, printing, and dark mode support), and visually appealing. Yet, it's
+    still far easier than writing from scratch.
+  </p>
+  <p>
+    I put some longer notes about my amateur radio station on my blog.
+    <a href="https://chariri.moe/archives/1957/amateur-radio/">The link is here.</a>
+  </p>
+  <p>
+    This station has both a fixed station and a mobile station license. The former currently
+    supports up to 100 W and is used for my only HF rig at the moment, the IC-7300. The latter is
+    for handheld operation.
+  </p>
 </Prose>
 
 <SectionBlock id="basic-info" title="Basic Info">
@@ -40,39 +63,31 @@ export const sections: readonly ProfileSection[] = [
       <Fragment slot="description">Tokyo, Japan</Fragment>
     </InfoCard>
     <InfoCard label="License" icon="license">
-      Japanese First-Class Amateur Radio Operator
+      Japan 1st Class Amateur Radio Operator License + Fixed Station License + Mobile Station
+      License
       <Fragment slot="description">
-        Portable VHF/UHF today, with room for later HF expansion.
+        144 / 430 MHz @ 50 W<br />
+        HF @ 100 W
       </Fragment>
     </InfoCard>
-    <InfoCard label="Contact" icon="mail">
+    <InfoCard label="Contact Email" icon="email">
       <a href="mailto:chariri@chariri.moe">chariri@chariri.moe</a>
     </InfoCard>
-    <InfoCard label="Preferred QSL" icon="mail">
-      LoTW + Bureau
-      <Fragment slot="description">Paper cards are welcome after confirmed QSOs.</Fragment>
-    </InfoCard>
+    <InfoCard label="Mailing Address" icon="mail">Preparing</InfoCard>
   </Cards>
 
   <SectionCluster icon="gear" title="Gear">
     <Cards columns="2">
       <InfoCard label="Rig" icon="radio">
-        Yaesu FT5D + handheld whip set
-        <Fragment slot="description">
-          Current portable V/UHF chain for day-to-day operation, monitoring, and field testing.
-        </Fragment>
+        YAESU FT-70D
+        <Fragment slot="description">FM / C4FM @ VHF/UHF (144 / 430 MHz), 5 W</Fragment>
       </InfoCard>
-      <InfoCard label="Workflow" icon="gear">
-        Notebook + logging workflow
-        <Fragment slot="description">
-          A low-friction paper-and-terminal workflow for station notes and later digital log prep.
-        </Fragment>
+      <InfoCard label="Rig" icon="radio">
+        ICOM IC-7300
+        <Fragment slot="description">SSB, FT8 @ HF, 100 W</Fragment>
       </InfoCard>
-      <InfoCard label="Station plan" icon="radio">
-        HF fixed station in planning
-        <Fragment slot="description">
-          Feedline, antenna, and desk layout are being staged for a later permanent installation.
-        </Fragment>
+      <InfoCard label="Antenna" icon="antenna">
+        Portable HF V-Dipole P-SWA antenna made by BG8GVJ
       </InfoCard>
     </Cards>
   </SectionCluster>
@@ -80,58 +95,18 @@ export const sections: readonly ProfileSection[] = [
   <SectionCluster icon="policy" title="QSL Policy">
     <Prose>
       <p>
-        LoTW is the preferred confirmation route for routine contacts. Bureau and direct paper cards
-        are both fine for memorable QSOs and schedule work.
+        My QSL cards are not ready yet, so I am not exchanging paper QSL cards for the time being.
+        If you would like to exchange cards after a QSO with me, feel free to contact me by E-Mail
+        and I will send them together once the cards are prepared.
       </p>
-      <p>If you need a correction, confirmation check, or carding detail, email is the fastest path.</p>
-      <p>Digital confirmations are preferred for routine local V/UHF contacts.</p>
+      <p>If we have not met off-line in person, I <strong>will not exchange</strong> eyeball QSL cards.</p>
+      <p>For other QSL policies, please refer to the BD4WXB callsign page.</p>
     </Prose>
   </SectionCluster>
 </SectionBlock>
 
 <SectionBlock id="showcase" title="Showcase">
-  <SectionCluster title="QSL Card" icon="gallery">
-    <Cards columns="2">
-      <GalleryCard
-        src="/images/qsl/QSLCard.webp"
-        alt="Front side of the current QSL card design."
-        title="Current QSL - Front"
-      >
-        The current print layout keeps a clean, machine-friendly front with a crisp station block.
-      </GalleryCard>
-      <GalleryCard
-        src="/images/qsl/QSLCard-Back.webp"
-        alt="Back side of the current QSL card design."
-        title="Current QSL - Back"
-      >
-        The reverse side balances writing room with illustration and confirmation details.
-      </GalleryCard>
-    </Cards>
-  </SectionCluster>
-
-  <SectionCluster title="Awards / Notes" icon="award">
-    <Cards columns="3">
-      <InfoCard label="Qualification" icon="award">
-        First-class operator qualification
-        <Fragment slot="description">
-          Prepared for broader operating privileges and a cleaner path toward a fuller home station.
-        </Fragment>
-      </InfoCard>
-      <InfoCard label="Operating style" icon="signal">
-        Portable-first operation
-        <Fragment slot="description">
-          The station is optimized for fast deployment, simple checks, and local V/UHF
-          experimentation.
-        </Fragment>
-      </InfoCard>
-      <InfoCard label="Site approach" icon="gear">
-        Static by design
-        <Fragment slot="description">
-          The homepage keeps essential station information readable without heavy client code.
-        </Fragment>
-      </InfoCard>
-    </Cards>
-  </SectionCluster>
+  <p>There is still nothing here yet... I will work on it.</p>
 </SectionBlock>
 
 <SectionBlock id="logbook" title="Logbook">
