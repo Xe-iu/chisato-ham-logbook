@@ -4,6 +4,7 @@ import Cards from "../../components/Cards.astro";
 import GalleryCard from "../../components/GalleryCard.astro";
 import InfoCard from "../../components/InfoCard.astro";
 import LogbookCard from "../../components/LogbookCard.astro";
+import Prose from "../../components/Prose.astro";
 import SectionBlock from "../../components/SectionBlock.astro";
 import SectionCluster from "../../components/SectionCluster.astro";
 
@@ -13,13 +14,10 @@ export const profile: ProfileMeta = {
   callsign: "JL1HRE",
   status: "active",
   pageTitle: "chariri's Personal Amateur Radio Station",
+  description: "Active JL1HRE amateur radio station profile, QSL information, and operating notes.",
   hero: {
     quote: "聴こえますか？真実のメロディ。",
     quoteSource: "ef - a tale of melodies.",
-    descriptionHtml: `
-      <p>Active Japanese callsign profile.</p>
-      <p>This page keeps operating essentials, QSL policy, and station notes in one lightweight static hub.</p>
-    `,
   },
 };
 
@@ -29,6 +27,11 @@ export const sections: readonly ProfileSection[] = [
   { id: "logbook", label: "Logbook" },
 ];
 ---
+
+<Prose>
+  <p>Active Japanese callsign profile.</p>
+  <p>This page keeps operating essentials, QSL policy, and station notes in one lightweight static hub.</p>
+</Prose>
 
 <SectionBlock id="basic-info" title="Basic Info">
   <Cards columns="2u">
@@ -75,16 +78,14 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL Policy">
-    <div class="section-prose">
+    <Prose>
       <p>
         LoTW is the preferred confirmation route for routine contacts. Bureau and direct paper cards
         are both fine for memorable QSOs and schedule work.
       </p>
-      <p>
-        If you need a correction, confirmation check, or carding detail, email is the fastest path.
-      </p>
+      <p>If you need a correction, confirmation check, or carding detail, email is the fastest path.</p>
       <p>Digital confirmations are preferred for routine local V/UHF contacts.</p>
-    </div>
+    </Prose>
   </SectionCluster>
 </SectionBlock>
 

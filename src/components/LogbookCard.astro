@@ -1,7 +1,6 @@
 ---
 import { getLocale, type LocaleId } from "../lib/i18n";
 import "../styles/logbook.css";
-import Icon from "./Icon.astro";
 
 interface Props {
   lang: LocaleId;
@@ -15,12 +14,13 @@ const indexUrl = "/logdata.callsign-3gram-index.json";
 const dialogId = `logbook-dialog-${lang}-${callsign}`.toLowerCase();
 const dialogTitleId = `${dialogId}-title`;
 const dialogDescriptionId = `${dialogId}-description`;
+const printSheetId = `${dialogId}-print`;
 const resultsId = `${dialogId}-results`;
 const tableDescriptionId = `${dialogId}-table-description`;
 ---
 
 <section
-  class="panel-shell overflow-hidden"
+  class="overflow-hidden rounded-[1.35rem] border border-station-line bg-[rgba(255,255,255,0.9)] shadow-[var(--shadow-panel)] print:border-[rgb(28_23_19_/_0.18)] print:bg-white print:shadow-none"
   data-logbook-root
   data-logbook-url={dataUrl}
   data-logbook-index-url={indexUrl}
@@ -164,6 +164,17 @@ const tableDescriptionId = `${dialogId}-table-description`;
     <dl class="grid gap-0" data-logbook-detail-list></dl>
   </template>
 
+  <template data-logbook-print-sheet-template>
+    <section id={printSheetId} class="hidden px-6 py-6 logbook-print-sheet">
+      <div class="mx-auto max-w-4xl">
+        <p class="meta-label">{t.clusterTitle}</p>
+        <h2 class="mt-3 text-2xl font-semibold text-station-ink" data-logbook-print-title></h2>
+        <p class="mt-4 text-sm text-station-muted" data-logbook-print-description></p>
+        <dl class="mt-6 grid gap-0" data-logbook-print-detail-list></dl>
+      </div>
+    </section>
+  </template>
+
   <template data-logbook-detail-row-template>
     <div class="logbook-detail-row" data-logbook-detail-row>
       <dt class="logbook-detail-label" data-logbook-detail-label></dt>
@@ -179,7 +190,7 @@ const tableDescriptionId = `${dialogId}-table-description`;
         data-logbook-close-surface
       >
         <div
-          class="panel-shell flex w-full max-w-4xl flex-col overflow-hidden"
+          class="flex w-full max-w-4xl flex-col overflow-hidden rounded-[1.35rem] border border-station-line bg-[rgba(255,255,255,0.985)] shadow-[var(--shadow-panel)]"
           style="max-height: calc(100dvh - 2rem);"
           role="dialog"
           aria-modal="true"
@@ -225,6 +236,7 @@ const tableDescriptionId = `${dialogId}-table-description`;
         this.indexUrl = root.dataset.logbookIndexUrl || "";
         this.dialogId = root.dataset.logbookDialogId || "";
         this.dialogDescriptionId = root.dataset.logbookDialogDescriptionId || "";
+        this.printSheetId = `${this.dialogId}-print`;
         this.rowHeight = 36;
         this.overscan = 10;
         this.state = {
@@ -236,6 +248,10 @@ const tableDescriptionId = `${dialogId}-table-description`;
           renderPending: false,
           escapeHandler: null,
           triggerElement: null,
+          currentEntry: null,
+          wasDialogOpenBeforePrint: false,
+          beforePrintHandler: null,
+          afterPrintHandler: null,
           previousOverflow: {
             body: "",
             html: "",
@@ -252,6 +268,10 @@ const tableDescriptionId = `${dialogId}-table-description`;
         if (!document.getElementById(this.dialogId) && dialogTemplate) {
           document.body.append(dialogTemplate.content.cloneNode(true));
         }
+        const printSheetTemplate = this.root.querySelector("[data-logbook-print-sheet-template]");
+        if (!document.getElementById(this.printSheetId) && printSheetTemplate) {
+          document.body.append(printSheetTemplate.content.cloneNode(true));
+        }
 
         this.elements = {
           searchInput: this.root.querySelector("[data-logbook-search]"),
@@ -262,6 +282,7 @@ const tableDescriptionId = `${dialogId}-table-description`;
           spacerTemplate: this.root.querySelector("[data-logbook-spacer-template]"),
           rowTemplate: this.root.querySelector("[data-logbook-row-template]"),
           dialogContentTemplate: this.root.querySelector("[data-logbook-dialog-content-template]"),
+          printSheet: document.getElementById(this.printSheetId),
           detailRowTemplate: this.root.querySelector("[data-logbook-detail-row-template]"),
           dialog: document.getElementById(this.dialogId),
         };
@@ -277,6 +298,17 @@ const tableDescriptionId = `${dialogId}-table-description`;
         this.elements.dialogPanel = this.elements.dialog.querySelector("[data-logbook-panel]");
         this.elements.closeButtons =
           this.elements.dialog.querySelectorAll("[data-logbook-close]") || [];
+        if (this.elements.printSheet) {
+          this.elements.printSheetTitle = this.elements.printSheet.querySelector(
+            "[data-logbook-print-title]"
+          );
+          this.elements.printSheetDescription = this.elements.printSheet.querySelector(
+            "[data-logbook-print-description]"
+          );
+          this.elements.printSheetDetailList = this.elements.printSheet.querySelector(
+            "[data-logbook-print-detail-list]"
+          );
+        }
       }
 
       bindEvents() {
@@ -354,6 +386,11 @@ const tableDescriptionId = `${dialogId}-table-description`;
             this.closeDialog();
           }
         });
+
+        this.state.beforePrintHandler = () => this.preparePrintSheet();
+        this.state.afterPrintHandler = () => this.restoreAfterPrint();
+        window.addEventListener("beforeprint", this.state.beforePrintHandler);
+        window.addEventListener("afterprint", this.state.afterPrintHandler);
       }
 
       setResultsText(text) {
@@ -775,6 +812,22 @@ const tableDescriptionId = `${dialogId}-table-description`;
         return fragment;
       }
 
+      getDetailTitle(entry) {
+        return this.fillTemplate(this.translations.detailTitleTemplate, {
+          self: entry.selfCallsign || this.fallbackCallsign,
+          other: entry.destCallsign || "",
+        });
+      }
+
+      renderDetailContent(targetDescriptionNode, targetDetailList, entry) {
+        if (!targetDescriptionNode || !targetDetailList) {
+          return;
+        }
+
+        targetDescriptionNode.textContent = this.translations.details.noteTimezone;
+        targetDetailList.replaceChildren(this.buildDetailRows(entry));
+      }
+
       findRecordRow(target) {
         return target instanceof Element
           ? target.closest("[data-record-index]")
@@ -863,13 +916,7 @@ const tableDescriptionId = `${dialogId}-table-description`;
           return;
         }
 
-        this.elements.dialogTitle.textContent = this.fillTemplate(
-          this.translations.detailTitleTemplate,
-          {
-            self: entry.selfCallsign || this.fallbackCallsign,
-            other: entry.destCallsign || "",
-          }
-        );
+        this.elements.dialogTitle.textContent = this.getDetailTitle(entry);
 
         const dialogContent = this.cloneTemplate(this.elements.dialogContentTemplate);
         const descriptionNode = dialogContent?.querySelector("[data-logbook-dialog-description]");
@@ -883,11 +930,11 @@ const tableDescriptionId = `${dialogId}-table-description`;
         }
 
         descriptionNode.id = this.dialogDescriptionId;
-        descriptionNode.textContent = this.translations.details.noteTimezone;
-        detailList.append(this.buildDetailRows(entry));
+        this.renderDetailContent(descriptionNode, detailList, entry);
         this.elements.dialogBody.replaceChildren(dialogContent);
         this.elements.dialog.hidden = false;
         this.lockScroll();
+        this.state.currentEntry = entry;
         this.state.triggerElement =
           triggerElement instanceof HTMLElement
             ? triggerElement
@@ -935,7 +982,7 @@ const tableDescriptionId = `${dialogId}-table-description`;
         });
       }
 
-      closeDialog() {
+      closeDialog({ restoreFocus = true } = {}) {
         if (!this.elements.dialog || this.elements.dialog.hidden) {
           return;
         }
@@ -948,9 +995,50 @@ const tableDescriptionId = `${dialogId}-table-description`;
           this.state.escapeHandler = null;
         }
 
-        if (this.state.triggerElement instanceof HTMLElement) {
+        if (restoreFocus && this.state.triggerElement instanceof HTMLElement) {
           this.state.triggerElement.focus();
         }
+      }
+
+      preparePrintSheet() {
+        if (
+          !this.elements.dialog ||
+          this.elements.dialog.hidden ||
+          !this.state.currentEntry ||
+          !this.elements.printSheet ||
+          !(this.elements.printSheetTitle instanceof HTMLElement) ||
+          !(this.elements.printSheetDescription instanceof HTMLElement) ||
+          !(this.elements.printSheetDetailList instanceof HTMLDListElement)
+        ) {
+          return;
+        }
+
+        this.state.wasDialogOpenBeforePrint = true;
+        this.elements.printSheetTitle.textContent = this.getDetailTitle(this.state.currentEntry);
+        this.renderDetailContent(
+          this.elements.printSheetDescription,
+          this.elements.printSheetDetailList,
+          this.state.currentEntry
+        );
+        this.elements.printSheet.classList.remove("hidden");
+        document.body.classList.add("logbook-printing-dialog");
+        this.closeDialog({ restoreFocus: false });
+      }
+
+      restoreAfterPrint() {
+        if (this.elements.printSheet) {
+          this.elements.printSheet.classList.add("hidden");
+        }
+
+        document.body.classList.remove("logbook-printing-dialog");
+
+        if (!this.state.wasDialogOpenBeforePrint || !this.state.currentEntry) {
+          this.state.wasDialogOpenBeforePrint = false;
+          return;
+        }
+
+        this.state.wasDialogOpenBeforePrint = false;
+        this.openDialog(this.state.currentEntry, this.state.triggerElement);
       }
 
       applyFilter() {

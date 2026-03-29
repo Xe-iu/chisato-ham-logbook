@@ -4,6 +4,7 @@ import Cards from "../../components/Cards.astro";
 import GalleryCard from "../../components/GalleryCard.astro";
 import InfoCard from "../../components/InfoCard.astro";
 import LogbookCard from "../../components/LogbookCard.astro";
+import Prose from "../../components/Prose.astro";
 import SectionBlock from "../../components/SectionBlock.astro";
 import SectionCluster from "../../components/SectionCluster.astro";
 
@@ -13,13 +14,10 @@ export const profile: ProfileMeta = {
   callsign: "BD4WXB",
   status: "inactive",
   pageTitle: "茶栗の個人アマチュア無線局",
+  description: "旧コールサイン BD4WXB の局情報と QSL 案内です。",
   hero: {
     quote: "忘れたくない想い、ありますか？",
     quoteSource: "ef - a tale of memories.",
-    descriptionHtml: `
-      <p>個人アマチュア無線局のホームページへようこそ。</p>
-      <p>このコールサイン BD4WXB は、南京を離れたため 2025 年 9 月 3 日以降は運用していません。</p>
-    `,
   },
 };
 
@@ -29,6 +27,11 @@ export const sections: readonly ProfileSection[] = [
   { id: "logbook", label: "ログ" },
 ];
 ---
+
+<Prose>
+  <p>個人アマチュア無線局のホームページへようこそ。</p>
+  <p>このコールサイン BD4WXB は、南京を離れたため 2025 年 9 月 3 日以降は運用していません。</p>
+</Prose>
 
 <SectionBlock id="basic-info" title="基本情報">
   <Cards columns="2u">
@@ -67,14 +70,14 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL ポリシー">
-    <div class="section-prose">
+    <Prose>
       <p>
         交信した局には、先にカードを受け取った場合、または相手局の郵送先を容易に確認できる場合に紙
         QSL を送ります。
       </p>
       <p>返信用封筒を同封する必要はありません。</p>
       <p>オフラインで実際に会っていない限り、アイボール QSL は交換しません。</p>
-    </div>
+    </Prose>
   </SectionCluster>
 </SectionBlock>
 

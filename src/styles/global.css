@@ -52,6 +52,10 @@
     @apply text-station-accent-strong/80 decoration-station-accent;
   }
 
+  main p {
+    @apply text-base leading-8 text-station-muted;
+  }
+
   pre {
     margin: 0;
   }
@@ -82,22 +86,9 @@
   @apply font-mono text-[0.92rem] uppercase tracking-[0.16rem] text-station-soft;
 }
 
-.body-copy {
-  @apply text-[1.04rem] leading-8 text-station-muted;
-}
-
 /* #endregion Typography */
 
 /* #region Surfaces */
-
-.panel-shell {
-  @apply rounded-[1.35rem] border border-station-line bg-[rgba(255,255,255,0.9)];
-  box-shadow: var(--shadow-panel);
-}
-
-.panel-shell[role="dialog"] {
-  @apply bg-[rgba(255,255,255,0.985)];
-}
 
 .icon-chip {
   @apply inline-flex h-8 w-8 items-center justify-center rounded-lg border border-station-line-accent-strong bg-station-surface-accent text-station-accent-strong;
@@ -128,38 +119,9 @@
 
 /* #region Layout Helpers */
 
-.section-block {
-  position: relative;
-}
-
-.section-block + .section-block {
-  margin-top: 3.5rem;
-  padding-top: 3rem;
-  border-top: 1px solid var(--color-station-line);
-}
-
-.section-block .section-count::before {
+.section .section-count::before {
   counter-increment: section;
   content: "SEC " counter(section, decimal-leading-zero);
-}
-
-.section-block > [data-card-grid] + [data-section-cluster],
-.section-block > [data-section-cluster] + [data-section-cluster] {
-  @apply mt-7 pt-7;
-  border-top: 1px dotted rgba(80, 71, 61, 0.28);
-}
-
-.section-prose {
-  max-width: 68ch;
-  border-left: 2px solid color-mix(in srgb, var(--color-station-accent) 55%, transparent);
-  padding-left: 1.25rem;
-  color: var(--color-station-muted);
-  font-size: 1.06rem;
-  line-height: 1.9;
-}
-
-.section-prose p + p {
-  margin-top: 0.95rem;
 }
 
 /* #endregion Layout Helpers */
@@ -220,6 +182,10 @@
       display: none;
     }
 
+    main p {
+      color: black;
+    }
+
     a {
       text-decoration-color: rgb(28 23 19 / 0.28);
     }
@@ -227,30 +193,7 @@
 }
 
 @media print {
-  .panel-shell,
-  [data-info-card],
-  [data-gallery-card] {
-    border-color: rgb(28 23 19 / 0.18);
-    background: white;
-    box-shadow: none;
-    backdrop-filter: none;
-  }
-
-  .panel-shell,
-  [data-info-card],
-  [data-gallery-card],
-  .section-block,
-  [data-section-cluster] {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  .section-block {
-    scroll-margin-top: 0;
-  }
-
   .meta-label,
-  .body-copy,
   .switch-pill {
     color: black;
   }

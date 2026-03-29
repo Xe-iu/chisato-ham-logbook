@@ -38,11 +38,11 @@
 }
 
 .logbook-detail-row {
-  @apply grid items-center gap-2 md:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] md:gap-6;
+  @apply grid items-center gap-2 md:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] md:gap-6 print:sm:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] print:sm:gap-6;
 }
 
 .logbook-detail-label {
-  @apply m-0 align-baseline font-mono text-xs uppercase tracking-[0.1rem] text-station-soft;
+  @apply m-0 font-mono text-xs uppercase tracking-[0.1rem] text-station-soft;
 }
 
 .logbook-detail-value {
@@ -50,6 +50,14 @@
 }
 
 @media print {
+  body.logbook-printing-dialog > * {
+    display: none !important;
+  }
+
+  body.logbook-printing-dialog > .logbook-print-sheet {
+    display: block !important;
+  }
+
   .logbook-table thead {
     position: static;
     background: white;

@@ -23,10 +23,7 @@ interface Props {
 
 const { profile, locale, locales, stations, sections } = Astro.props;
 const title = `${profile.callsign} | ${locale.siteTitle}`;
-const description = profile.hero.descriptionHtml
-  .replace(/<[^>]*>/g, " ")
-  .replace(/\s+/g, " ")
-  .trim();
+const description = profile.description;
 const mobileSections = sections.filter((section) => section.id !== "overview");
 const desktopSectionNavLabel = locale.labels.sectionShortcuts;
 const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;

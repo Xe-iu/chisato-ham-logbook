@@ -4,6 +4,7 @@ import Cards from "../../components/Cards.astro";
 import GalleryCard from "../../components/GalleryCard.astro";
 import InfoCard from "../../components/InfoCard.astro";
 import LogbookCard from "../../components/LogbookCard.astro";
+import Prose from "../../components/Prose.astro";
 import SectionBlock from "../../components/SectionBlock.astro";
 import SectionCluster from "../../components/SectionCluster.astro";
 
@@ -13,13 +14,10 @@ export const profile: ProfileMeta = {
   callsign: "JL1HRE",
   status: "active",
   pageTitle: "茶栗的个人业余电台",
+  description: "现行呼号 JL1HRE 的台站信息与 QSL 说明。",
   hero: {
     quote: "聴こえますか？真実のメロディ。",
     quoteSource: "ef - a tale of melodies.",
-    descriptionHtml: `
-      <p>这是当前使用中的日本呼号页面。</p>
-      <p>这里把常用操作信息、QSL 规则和设备备注集中在一个轻量静态站点里。</p>
-    `,
   },
 };
 
@@ -29,6 +27,11 @@ export const sections: readonly ProfileSection[] = [
   { id: "logbook", label: "日志" },
 ];
 ---
+
+<Prose>
+  <p>这是当前使用中的日本呼号页面。</p>
+  <p>这里把常用操作信息、QSL 规则和设备备注集中在一个轻量静态站点里。</p>
+</Prose>
 
 <SectionBlock id="basic-info" title="基本信息">
   <Cards columns="2u">
@@ -75,11 +78,11 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL 政策">
-    <div class="section-prose">
+    <Prose>
       <p>常规确认优先使用 LoTW。对于纪念性通联或排程，也欢迎通过 Bureau 或直寄交换纸质 QSL。</p>
       <p>如果需要修正日志或确认细节，发邮件是最快的方式。</p>
       <p>常规本地 V/UHF 通联建议优先使用电子确认。</p>
-    </div>
+    </Prose>
   </SectionCluster>
 </SectionBlock>
 

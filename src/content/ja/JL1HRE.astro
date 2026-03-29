@@ -4,6 +4,7 @@ import Cards from "../../components/Cards.astro";
 import GalleryCard from "../../components/GalleryCard.astro";
 import InfoCard from "../../components/InfoCard.astro";
 import LogbookCard from "../../components/LogbookCard.astro";
+import Prose from "../../components/Prose.astro";
 import SectionBlock from "../../components/SectionBlock.astro";
 import SectionCluster from "../../components/SectionCluster.astro";
 
@@ -13,13 +14,10 @@ export const profile: ProfileMeta = {
   callsign: "JL1HRE",
   status: "active",
   pageTitle: "茶栗の個人アマチュア無線局",
+  description: "現行コールサイン JL1HRE の局情報と QSL 案内です。",
   hero: {
     quote: "聴こえますか？真実のメロディ。",
     quoteSource: "ef - a tale of melodies.",
-    descriptionHtml: `
-      <p>現在運用中の日本のコールサイン用ページです。</p>
-      <p>必要な運用情報、QSL 方針、設備メモを軽量な静的サイトにまとめています。</p>
-    `,
   },
 };
 
@@ -29,6 +27,11 @@ export const sections: readonly ProfileSection[] = [
   { id: "logbook", label: "ログ" },
 ];
 ---
+
+<Prose>
+  <p>現在運用中の日本のコールサイン用ページです。</p>
+  <p>必要な運用情報、QSL 方針、設備メモを軽量な静的サイトにまとめています。</p>
+</Prose>
 
 <SectionBlock id="basic-info" title="基本情報">
   <Cards columns="2u">
@@ -75,14 +78,14 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL ポリシー">
-    <div class="section-prose">
+    <Prose>
       <p>
         日常的な確認は LoTW を優先します。思い出に残る交信やスケジュール QSO では、Bureau
         やダイレクトの紙 QSL も歓迎です。
       </p>
       <p>ログ修正や確認の問い合わせはメールが最速です。</p>
       <p>通常の近距離 V/UHF 交信では電子確認を優先しています。</p>
-    </div>
+    </Prose>
   </SectionCluster>
 </SectionBlock>
 

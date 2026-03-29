@@ -4,18 +4,17 @@ import { toMorse } from "../lib/morse";
 interface Props {
   callsign: string;
   quote: string;
-  descriptionHtml: string;
   overviewLabel: string;
   quoteSource?: string;
 }
 
-const { callsign, quote, descriptionHtml, overviewLabel, quoteSource } = Astro.props;
+const { callsign, quote, overviewLabel, quoteSource } = Astro.props;
 const cqText = "CQCQ DE";
 const cqMorse = toMorse(cqText);
 const callsignMorse = toMorse(callsign);
 ---
 
-<section id="overview" class="space-y-8 border-b border-station-line pb-10" data-section="overview">
+<section id="overview" class="space-y-8 border-b border-station-line pb-10">
   <h1
     class="sr-only print:not-sr-only print:mb-4 print:block print:font-mono print:text-3xl print:font-bold print:tracking-[0.18em] print:text-station-ink"
   >
@@ -71,11 +70,6 @@ const callsignMorse = toMorse(callsign);
       </p>
       {quoteSource && <cite class="mt-4 block not-italic meta-label">{quoteSource}</cite>}
     </blockquote>
-
-    <div
-      class="max-w-3xl text-[1.08rem] leading-9 text-station-muted [&_p+p]:mt-4"
-      set:html={descriptionHtml}
-    />
   </div>
 </section>
 

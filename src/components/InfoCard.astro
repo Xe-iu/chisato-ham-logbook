@@ -13,13 +13,12 @@ const hasDescription = Astro.slots.has("description");
 ---
 
 <article
-  class="rounded-[0.95rem] border border-station-line bg-[rgba(255,255,255,0.72)] p-4 sm:p-5"
-  data-info-card
+  class="rounded-[0.95rem] border border-station-line bg-[rgba(255,255,255,0.72)] p-4 print:[break-inside:avoid] print:[page-break-inside:avoid] print:border-[rgb(28_23_19_/_0.18)] print:bg-white sm:p-5"
 >
   {
     (label || icon) && (
       <div class="mb-0 flex items-start justify-between gap-3">
-        <p class="meta-label-large">{label}</p>
+        <span class="meta-label-large">{label}</span>
         {icon && (
           <span class="icon-chip">
             <Icon name={icon} />
@@ -39,7 +38,7 @@ const hasDescription = Astro.slots.has("description");
     hasDescription && (
       <div
         class:list={[
-          "space-y-4 leading-8 text-station-muted",
+          "leading-8 text-station-muted",
           largeText ? "text-lg" : "text-base",
           hasTitle ? "mt-3" : "",
         ]}

@@ -9,7 +9,7 @@ interface Props {
 const { title, icon } = Astro.props;
 ---
 
-<div class="space-y-4" data-section-cluster>
+<div class="print:[break-inside:avoid] print:[page-break-inside:avoid]">
   <div class="flex items-center gap-3">
     {
       icon && (
@@ -25,5 +25,7 @@ const { title, icon } = Astro.props;
     </h3>
     <span class="h-px flex-1 bg-station-line/70" aria-hidden="true"></span>
   </div>
-  <slot />
+  <div class="mt-4">
+    <slot />
+  </div>
 </div>

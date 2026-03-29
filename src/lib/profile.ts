@@ -11,8 +11,8 @@ export interface ProfileMeta {
   callsign: string;
   status: StationStatus;
   pageTitle: string;
+  description: string;
   hero: {
-    descriptionHtml: string;
     quote: string;
     quoteSource?: string;
   };

@@ -4,6 +4,7 @@ import Cards from "../../components/Cards.astro";
 import GalleryCard from "../../components/GalleryCard.astro";
 import InfoCard from "../../components/InfoCard.astro";
 import LogbookCard from "../../components/LogbookCard.astro";
+import Prose from "../../components/Prose.astro";
 import SectionBlock from "../../components/SectionBlock.astro";
 import SectionCluster from "../../components/SectionCluster.astro";
 
@@ -13,13 +14,10 @@ export const profile: ProfileMeta = {
   callsign: "BD4WXB",
   status: "inactive",
   pageTitle: "chariri's Personal Amateur Radio Station",
+  description: "Inactive former BD4WXB amateur radio station profile and QSL information.",
   hero: {
     quote: "忘れたくない想い、ありますか？",
     quoteSource: "ef - a tale of memories.",
-    descriptionHtml: `
-      <p>Welcome to the homepage of my personal amateur radio station.</p>
-      <p>This callsign, BD4WXB, has been inactive since September 3, 2025 because I left Nanjing.</p>
-    `,
   },
 };
 
@@ -29,6 +27,11 @@ export const sections: readonly ProfileSection[] = [
   { id: "logbook", label: "Logbook" },
 ];
 ---
+
+<Prose>
+  <p>Welcome to the homepage of my personal amateur radio station.</p>
+  <p>This callsign, BD4WXB, has been inactive since September 3, 2025 because I left Nanjing.</p>
+</Prose>
 
 <SectionBlock id="basic-info" title="Basic Info">
   <Cards columns="2u">
@@ -67,14 +70,14 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL Policy">
-    <div class="section-prose">
+    <Prose>
       <p>
         I will send a paper QSL card to contacted stations either when I receive a card first, or
         when the station's postal address can be easily looked up.
       </p>
       <p>No SASE is needed when sending me cards for a card in return.</p>
       <p>I <strong>do not</strong> exchange eyeball QSL cards without meeting in person offline.</p>
-    </div>
+    </Prose>
   </SectionCluster>
 </SectionBlock>
 

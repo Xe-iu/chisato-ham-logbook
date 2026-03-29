@@ -4,6 +4,7 @@ import Cards from "../../components/Cards.astro";
 import GalleryCard from "../../components/GalleryCard.astro";
 import InfoCard from "../../components/InfoCard.astro";
 import LogbookCard from "../../components/LogbookCard.astro";
+import Prose from "../../components/Prose.astro";
 import SectionBlock from "../../components/SectionBlock.astro";
 import SectionCluster from "../../components/SectionCluster.astro";
 
@@ -13,13 +14,10 @@ export const profile: ProfileMeta = {
   callsign: "BD4WXB",
   status: "inactive",
   pageTitle: "茶栗的个人业余电台",
+  description: "已停用呼号 BD4WXB 的台站信息与 QSL 说明。",
   hero: {
     quote: "忘れたくない想い、ありますか？",
     quoteSource: "ef - a tale of memories.",
-    descriptionHtml: `
-      <p>欢迎来到我的个人业余无线电台主页。</p>
-      <p>由于我已离开南京，呼号 BD4WXB 自 2025 年 9 月 3 日起停止使用。</p>
-    `,
   },
 };
 
@@ -29,6 +27,11 @@ export const sections: readonly ProfileSection[] = [
   { id: "logbook", label: "日志" },
 ];
 ---
+
+<Prose>
+  <p>欢迎来到我的个人业余无线电台主页。</p>
+  <p>由于我已离开南京，呼号 BD4WXB 自 2025 年 9 月 3 日起停止使用。</p>
+</Prose>
 
 <SectionBlock id="basic-info" title="基本信息">
   <Cards columns="2u">
@@ -67,11 +70,11 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL 政策">
-    <div class="section-prose">
+    <Prose>
       <p>对于已通联的电台，我会在先收到对方卡片，或能方便查到对方邮寄地址时寄出纸质 QSL 卡。</p>
       <p>给我寄卡片时无需附回邮信封。</p>
       <p>如果没有在线下真实见面，我<strong>不会</strong>交换 Eyeball QSL 卡。</p>
-    </div>
+    </Prose>
   </SectionCluster>
 </SectionBlock>
 
