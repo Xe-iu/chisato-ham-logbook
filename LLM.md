@@ -2,21 +2,21 @@
 
 ## Overview
 
-This project is a static Astro site for a personal amateur radio homepage and profile hub.
+This project is a static Astro site for a personal amateur radio homepage and station logbook.
 
 Core characteristics:
 
 - Static-first routing and rendering
 - No client framework
-- Small, targeted inline scripts only
-- Local assets only for fonts, images, and icons
-- Semantic `.astro` content modules instead of MDX or normalized JSON content
+- Small inline scripts only where interaction is unavoidable
+- Semantic `.astro` content modules instead of MDX or JSON-driven rendering
 - Multi-language and multi-station support derived from discovered profile files
+- Local assets for fonts, icons, and images
 
-Current stations in the repo:
+Current stations:
 
-- `JL1HRE`: active station
-- `BD4WXB`: archived station
+- `JL1HRE`: active
+- `BD4WXB`: archive
 
 Current locales:
 
@@ -30,7 +30,7 @@ Current locales:
 - Tailwind CSS 4 via `@tailwindcss/vite`
 - Font Awesome Free Solid, subsetted into a local SVG sprite
 - Local `JuliaMono` font files from `public/fonts`
-- System/CJK sans stacks defined in CSS variables
+- System sans stacks plus local CSS tokens in `vars.css`
 
 Key config files:
 
@@ -38,16 +38,15 @@ Key config files:
 - [`astro.config.mjs`](/E:/source/repos/chisato-ham-logbook/astro.config.mjs)
 - [`src/styles/vars.css`](/E:/source/repos/chisato-ham-logbook/src/styles/vars.css)
 - [`src/styles/global.css`](/E:/source/repos/chisato-ham-logbook/src/styles/global.css)
-
-There is no MDX integration and no client UI framework.
+- [`src/styles/logbook.css`](/E:/source/repos/chisato-ham-logbook/src/styles/logbook.css)
 
 ## Routing
 
-Routing is file-based:
+Routes are file-based:
 
 - `/`
   - redirect page
-  - uses a short inline script to resolve browser language and redirect to the main active station
+  - uses a small inline script to resolve browser language and redirect to the main active station
 - `/[lang]`
   - redirect page
   - redirects to the main station for that locale
@@ -61,49 +60,52 @@ Key route files:
 - [`src/pages/[lang]/index.astro`](/E:/source/repos/chisato-ham-logbook/src/pages/[lang]/index.astro)
 - [`src/pages/[lang]/[station].astro`](/E:/source/repos/chisato-ham-logbook/src/pages/[lang]/[station].astro)
 
-Important routing helpers live in:
+Routing helpers live in:
 
 - [`src/lib/routing.ts`](/E:/source/repos/chisato-ham-logbook/src/lib/routing.ts)
 
 Current routing behavior:
 
-- Profile modules are discovered with `import.meta.glob("../content/profiles/*/*.astro", { eager: true })`
-- `availableProfiles` is derived from the loaded modules
-- `getStationsOrdered()` sorts active stations before archived stations and de-duplicates by `stationId`
-- `getMainStationId()` picks the first active station, falling back to the first discovered station if needed
+- Profile modules are discovered with `import.meta.glob("../content/*/*.astro", { eager: true })`
+- `availableProfiles` is derived from those modules
+- `getStationsOrdered()` sorts active stations first, then de-duplicates by `stationId`
+- `getMainStationId()` picks the first active station and falls back to the first discovered station
 
 Important constraints:
 
-- Language and station switching must stay plain `<a>` links
-- Section navigation must stay anchor-based with fragment links such as `#overview`
-- Route generation should continue to derive from the discovered profile modules, not a duplicated registry
+- Language and station switching stay plain `<a>` links
+- Section navigation stays fragment-based
+- Route generation stays derived from discovered profile modules, not a duplicated registry
 
 ## Localization
 
-Locale definitions live in:
+Locale data lives in:
 
 - [`src/lib/i18n.ts`](/E:/source/repos/chisato-ham-logbook/src/lib/i18n.ts)
 
-`i18n.ts` currently owns:
+`i18n.ts` owns:
 
 - locale IDs and language tags
-- language switch labels
-- localized site title strings
+- visible header labels
+- accessible labels for nav and switches
+- localized site titles
 - localized footer copy
-- localized station status labels
+- station status labels
+- logbook UI strings
+- logbook no-JS warning text
 
-Do not hardcode these strings in page templates when a locale-level definition is more appropriate.
+Do not hardcode UI strings in templates when a locale-level definition is appropriate.
 
 ## Content Model
 
 Profiles live as semantic Astro modules:
 
-- `src/content/profiles/en/JL1HRE.astro`
-- `src/content/profiles/en/BD4WXB.astro`
-- `src/content/profiles/ja/JL1HRE.astro`
-- `src/content/profiles/ja/BD4WXB.astro`
-- `src/content/profiles/zh-cn/JL1HRE.astro`
-- `src/content/profiles/zh-cn/BD4WXB.astro`
+- `src/content/en/JL1HRE.astro`
+- `src/content/en/BD4WXB.astro`
+- `src/content/ja/JL1HRE.astro`
+- `src/content/ja/BD4WXB.astro`
+- `src/content/zh-cn/JL1HRE.astro`
+- `src/content/zh-cn/BD4WXB.astro`
 
 Each profile module exports:
 
@@ -118,44 +120,37 @@ Shared profile typing lives in:
 
 - [`src/lib/profile.ts`](/E:/source/repos/chisato-ham-logbook/src/lib/profile.ts)
 
-Important current facts:
+Current `profile.hero` shape:
 
-- `stationId` is a string
-- section IDs are currently:
-  - `overview`
-  - `basic-info`
-  - `gear`
-  - `qsl`
-  - `showcase`
-- `profile.hero` currently contains:
-  - `title`
-  - `blurb`
+- `quote`
+- `descriptionHtml`
+- optional `quoteSource`
+
+The hero description is HTML, not plain text. The page metadata strips tags from it for the `<meta name="description">`.
 
 Do not reintroduce:
 
 - MDX for profile authoring
-- JSON blobs plus a generic renderer
-- hardcoded station unions or manually duplicated station registries
-
-The intended authoring model is semantic `.astro` content with light metadata and reusable presentation components.
+- generic JSON content rendering
+- hardcoded station unions or duplicated station registries
 
 ## Render Flow
 
-The main profile page is assembled in:
+The main station page is assembled in:
 
 - [`src/pages/[lang]/[station].astro`](/E:/source/repos/chisato-ham-logbook/src/pages/[lang]/[station].astro)
 
 Current render flow:
 
 1. resolve the requested profile module from `availableProfileModules`
-2. derive locale switch links for the current station
-3. derive station switch links for the current locale
+2. build locale switch links for the current station
+3. build station switch links for the current locale
 4. pass `profile`, `locale`, `locales`, `stations`, and `sections` into the layout
 5. render:
    - `MorseHero`
    - the imported profile Astro content body
 
-There is no separate profile wrapper component anymore.
+There is no separate profile wrapper component.
 
 ## Layout
 
@@ -168,18 +163,20 @@ Responsibilities:
 - global HTML shell
 - metadata and page title
 - icon sprite injection
-- sticky header
+- top header
 - language switcher
 - callsign switcher
 - desktop section sidebar
 - mobile bottom section navigation
+- skip link
 - footer
 
 Layout notes:
 
+- the header is not sticky
 - mobile section shortcuts intentionally omit `overview`
-- the layout owns the global navigation chrome, not the content files
-- profile content is rendered through the default slot
+- the desktop and mobile section navs have distinct accessible labels
+- layout owns the global navigation chrome; profile modules only provide station content
 
 ## Hero
 
@@ -194,129 +191,188 @@ Morse helpers:
 Current behavior:
 
 - renders the `overview` section
-- animates `CQCQ DE` and the callsign as morse text on load
+- animates `CQCQ DE` and the callsign on load
+- server-renders the completed terminal text so no-JS still shows the final state
 - falls back cleanly for reduced-motion users
-- keeps a printable non-animated representation
+- exposes a print-visible `h1` so printed pages still show the callsign
+- renders the quote source when present
 
-Do not move this into a framework runtime or a global page state system.
+The overview label is localized in `i18n.ts` and passed in as a prop. Do not hardcode it in the component.
 
-## Reusable Content Components
+## Shared Components
 
-Content components live in:
+Components live directly in:
 
-- [`src/components/content`](/E:/source/repos/chisato-ham-logbook/src/components/content)
+- [`src/components`](/E:/source/repos/chisato-ham-logbook/src/components)
 
-Current shared content primitives:
+Current shared components:
 
 - `Cards.astro`
   - responsive grid wrapper
-  - current column variants are `2`, `3`, and `4`
-- `InfoCard.astro`
-  - main generic content card
-  - optional label, value, link, and icon
 - `DescriptionListCard.astro`
-  - card shell for grouped labeled rows
-  - currently reuses `InfoCard`
+  - grouped labeled rows using `InfoCard`
 - `DescriptionListItem.astro`
   - labeled row with optional value or link
 - `GalleryCard.astro`
-  - image plus descriptive content
+  - title, prose, then image
+- `Icon.astro`
+  - local SVG sprite consumer
+- `IconSprite.astro`
+  - inline sprite sheet
+- `InfoCard.astro`
+  - generic bordered content container
+- `LogbookCard.astro`
+  - searchable, virtualized logbook viewer with modal detail dialog
+- `MorseHero.astro`
+  - hero/overview block
 - `SectionBlock.astro`
-  - section wrapper with anchor ID and heading
+  - section wrapper with anchor target and heading
 - `SectionCluster.astro`
-  - subsection grouping inside a section
+  - subsection grouping within a section
+- `SectionHeading.astro`
+  - numbered section heading
 - `Stack.astro`
   - vertical spacing wrapper
 - `TwoPane.astro`
-  - two-column composition wrapper
-- `Icon.astro`
-  - local SVG sprite consumer
-
-Supporting shared components outside `content/`:
-
-- [`src/components/SectionHeading.astro`](/E:/source/repos/chisato-ham-logbook/src/components/SectionHeading.astro)
-- [`src/components/IconSprite.astro`](/E:/source/repos/chisato-ham-logbook/src/components/IconSprite.astro)
+  - two-column composition helper
 
 Content authoring guidance:
 
-- Prefer direct `InfoCard` usage over thin one-off wrappers
-- Use `DescriptionListCard` + `DescriptionListItem` for compact labeled route/policy blocks
-- Use plain paragraph content inside `InfoCard` for prose notes
-- Keep section structure explicit in the profile files
+- Prefer direct `InfoCard` usage over thin wrapper components
+- Use `DescriptionListCard` plus `DescriptionListItem` for compact labeled policy/rule blocks
+- Use `.section-prose` for lighter prose containers that should not look like cards
+- Keep section and subsection structure explicit in the profile files
+
+## Logbook
+
+Logbook UI component:
+
+- [`src/components/LogbookCard.astro`](/E:/source/repos/chisato-ham-logbook/src/components/LogbookCard.astro)
+
+Supporting stylesheet:
+
+- [`src/styles/logbook.css`](/E:/source/repos/chisato-ham-logbook/src/styles/logbook.css)
+
+Data files:
+
+- [`public/logdata.json`](/E:/source/repos/chisato-ham-logbook/public/logdata.json)
+- [`public/logdata.callsign-3gram-index.json`](/E:/source/repos/chisato-ham-logbook/public/logdata.callsign-3gram-index.json)
+
+Index generation:
+
+- [`scripts/generate-logbook-callsign-index.mjs`](/E:/source/repos/chisato-ham-logbook/scripts/generate-logbook-callsign-index.mjs)
+- `pnpm run logbook:index`
+
+Current behavior:
+
+- fetches `/logdata.json`
+- filters records by `station_callsign.startsWith(currentProfile.callsign)`
+- tolerates missing ADIF fields and leaves them blank
+- searches only the other station callsign field
+- uses the trigram index for 3+ character queries and falls back to direct substring matching for shorter queries
+- virtualizes table rows
+- uses a global body-level modal dialog for row details
+- uses roving `tabindex` for table row buttons so keyboard users can leave the table with `Tab`
+- renders a no-JS warning and hides the interactive logbook UI when scripting is unavailable
+
+Keep the logbook client code framework-free. Do not replace it with a client UI library.
 
 ## Icons
 
-Icon definitions live in:
+Icon data lives in:
 
 - [`src/lib/icons.ts`](/E:/source/repos/chisato-ham-logbook/src/lib/icons.ts)
 
-Sprite generation lives in:
+Sprite generation/rendering lives in:
 
 - [`src/components/IconSprite.astro`](/E:/source/repos/chisato-ham-logbook/src/components/IconSprite.astro)
 
-Important constraints:
+Constraints:
 
 - icons are local
 - icons are subsetted
-- icon usage should go through the shared icon components
-- do not switch this to a webfont or external CDN
+- icon usage goes through the shared components
+- do not switch this to a webfont or CDN
 
 ## Styling System
 
-Styling is intentionally split into:
+Styling is split into:
 
 1. design tokens and font setup
    - [`src/styles/vars.css`](/E:/source/repos/chisato-ham-logbook/src/styles/vars.css)
-2. reusable global classes and print rules
+2. reusable cross-cutting primitives, document rules, and print rules
    - [`src/styles/global.css`](/E:/source/repos/chisato-ham-logbook/src/styles/global.css)
+3. logbook-only shared rules
+   - [`src/styles/logbook.css`](/E:/source/repos/chisato-ham-logbook/src/styles/logbook.css)
 
-Important existing reusable classes:
+`global.css` should stay narrow. It is for:
 
-- `panel-shell`
-- `info-card`
+- document-wide behavior
+- global focus handling
+- typography primitives reused across components
+- shared surfaces such as `panel-shell`
+- shared control/link patterns such as `switch-pill` and `text-link`
+- section scaffolding and print behavior
+
+One-off layout or component-only styling should stay inline in the component via Tailwind utility classes, not as a new global class.
+
+Current reusable global classes:
+
 - `meta-label`
-- `meta-label-accent`
 - `meta-label-large`
 - `body-copy`
-- `text-link`
-- `header-row`
+- `panel-shell`
 - `icon-chip`
+- `text-link`
 - `switch-pill`
-- `status-pill`
+- `section-block`
+- `section-prose`
 
-Important style constraints:
+`logbook.css` is the place for repeated logbook-only selectors such as:
 
-- keep repeated visual patterns in the shared CSS files rather than duplicating utility strings everywhere
-- preserve the current print styles unless there is a specific reason to change them
-- keep the local font and color token setup in `vars.css`
+- `logbook-table`
+- `logbook-th`
+- `logbook-cell`
+- `logbook-row`
+- `logbook-row-button`
+- `logbook-detail-row`
 
-## Accessibility and UX Constraints
+## Accessibility And UX Constraints
 
-Expected constraints from the current implementation:
+Current implementation expectations:
 
-- navigation is link-based and crawlable
+- navigation stays link-based and crawlable
+- skip link remains present
 - reduced-motion users get a non-animated hero
-- keyboard focus states are defined globally
+- keyboard focus states are visible
 - desktop uses a sidebar for section navigation
 - mobile uses a bottom navigation bar for section navigation
 - print mode is explicitly supported
-- all major assets are local rather than CDN-hosted
+- no-JS users still see the completed hero terminal and a clear logbook limitation message
 
-## Conventions to Preserve
+Do not regress:
+
+- dialog focus trapping and focus restoration
+- roving `tabindex` behavior in the logbook table
+- localized visible and accessible labels
+- print-visible callsign in the hero
+
+## Conventions To Preserve
 
 - Prefer semantic Astro content modules over abstract data-driven rendering
 - Prefer static route generation over client-only page state
 - Keep routing derived from discovered profile modules
 - Keep locale data centralized in `i18n.ts`
 - Keep icons local and subsetted
-- Keep section IDs aligned with the `ProfileSectionId` type
+- Keep `global.css` limited to reusable primitives
+- Inline one-off visual styling in component markup instead of inventing global classes
 - Avoid reintroducing removed wrapper components when `InfoCard` or the page file is enough
 
 ## Practical Entry Points
 
 If you need to change:
 
-- routing and discovery:
+- routing and profile discovery:
   - [`src/pages/index.astro`](/E:/source/repos/chisato-ham-logbook/src/pages/index.astro)
   - [`src/pages/[lang]/index.astro`](/E:/source/repos/chisato-ham-logbook/src/pages/[lang]/index.astro)
   - [`src/pages/[lang]/[station].astro`](/E:/source/repos/chisato-ham-logbook/src/pages/[lang]/[station].astro)
@@ -326,17 +382,16 @@ If you need to change:
 - profile metadata typing:
   - [`src/lib/profile.ts`](/E:/source/repos/chisato-ham-logbook/src/lib/profile.ts)
 - profile content authoring:
-  - [`src/content/profiles`](/E:/source/repos/chisato-ham-logbook/src/content/profiles)
+  - [`src/content`](/E:/source/repos/chisato-ham-logbook/src/content)
 - layout and navigation chrome:
   - [`src/layouts/Layout.astro`](/E:/source/repos/chisato-ham-logbook/src/layouts/Layout.astro)
 - hero behavior:
   - [`src/components/MorseHero.astro`](/E:/source/repos/chisato-ham-logbook/src/components/MorseHero.astro)
   - [`src/lib/morse.ts`](/E:/source/repos/chisato-ham-logbook/src/lib/morse.ts)
-- shared content visuals:
-  - [`src/components/content`](/E:/source/repos/chisato-ham-logbook/src/components/content)
-- icons:
-  - [`src/lib/icons.ts`](/E:/source/repos/chisato-ham-logbook/src/lib/icons.ts)
-  - [`src/components/IconSprite.astro`](/E:/source/repos/chisato-ham-logbook/src/components/IconSprite.astro)
-- design tokens and global styles:
+- logbook behavior:
+  - [`src/components/LogbookCard.astro`](/E:/source/repos/chisato-ham-logbook/src/components/LogbookCard.astro)
+  - [`src/styles/logbook.css`](/E:/source/repos/chisato-ham-logbook/src/styles/logbook.css)
+  - [`scripts/generate-logbook-callsign-index.mjs`](/E:/source/repos/chisato-ham-logbook/scripts/generate-logbook-callsign-index.mjs)
+- shared design tokens and cross-cutting styles:
   - [`src/styles/vars.css`](/E:/source/repos/chisato-ham-logbook/src/styles/vars.css)
   - [`src/styles/global.css`](/E:/source/repos/chisato-ham-logbook/src/styles/global.css)

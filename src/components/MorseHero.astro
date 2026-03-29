@@ -4,97 +4,78 @@ import { toMorse } from "../lib/morse";
 interface Props {
   callsign: string;
   quote: string;
-  blurb: string;
+  descriptionHtml: string;
+  overviewLabel: string;
   quoteSource?: string;
 }
 
-const { callsign, quote, blurb, quoteSource } = Astro.props;
+const { callsign, quote, descriptionHtml, overviewLabel, quoteSource } = Astro.props;
 const cqText = "CQCQ DE";
 const cqMorse = toMorse(cqText);
 const callsignMorse = toMorse(callsign);
 ---
 
-<section id="overview" class="panel-shell overflow-hidden" data-section="overview">
-  <div class="grid gap-6 p-6 lg:p-8">
-    <div class="space-y-5">
-      <div class="sr-only">
-        <h1>{callsign}</h1>
-        <p>{quote}</p>
+<section id="overview" class="space-y-8 border-b border-station-line pb-10" data-section="overview">
+  <h1
+    class="sr-only print:not-sr-only print:mb-4 print:block print:font-mono print:text-3xl print:font-bold print:tracking-[0.18em] print:text-station-ink"
+  >
+    {callsign}
+  </h1>
+
+  <div class="space-y-5">
+    <p class="meta-label print:hidden">{overviewLabel}</p>
+    <div
+      aria-hidden="true"
+      class="max-w-5xl rounded-[1.1rem] border border-terminal-border bg-[rgba(7,23,35,0.98)] p-5 sm:p-6 print:hidden"
+      data-morse-hero
+      data-cq-text={cqText}
+      data-cq-morse={cqMorse}
+      data-callsign-text={callsign}
+      data-callsign-morse={callsignMorse}
+    >
+      <div
+        class="mb-5 flex items-center justify-between gap-4 text-[0.65rem] uppercase tracking-[0.34em] text-emerald-300/70"
+      >
+        <span>TX</span>
+        <span>{callsign}</span>
       </div>
+      <pre
+        class="overflow-x-auto whitespace-pre font-mono text-lg tracking-[0.16em] text-terminal-text"
+        data-cq-text-target>{cqText}</pre>
+      <pre
+        class="mt-2 overflow-x-auto whitespace-pre font-mono text-sm tracking-[0.18em] text-terminal-text-muted"
+        data-cq-morse-target>{cqMorse}</pre>
+      <div class="my-5 h-px bg-terminal-divider"></div>
+      <pre
+        class="overflow-x-auto whitespace-pre font-mono text-[clamp(2.4rem,6vw,5.4rem)] font-bold tracking-[0.16em] text-terminal-text"
+        data-cs-text-target>{callsign}</pre>
+      <pre
+        class="mt-3 overflow-x-auto whitespace-pre font-mono text-base tracking-[0.18em] text-terminal-text-muted"
+        data-cs-morse-target>{callsignMorse}</pre>
+    </div>
+  </div>
 
-      <p class="hidden font-mono text-3xl font-bold tracking-[0.18em] text-station-ink print:block">
-        {callsign}
-      </p>
-
+  <div class="max-w-4xl space-y-5">
+    <blockquote class="relative border-l-2 border-station-accent pl-5">
       <div
         aria-hidden="true"
-        class="rounded-[1.75rem] border border-terminal-border bg-[rgba(7,23,35,1)] p-5 sm:p-6 print:hidden"
-        data-morse-hero
-        data-cq-text={cqText}
-        data-cq-morse={cqMorse}
-        data-callsign-text={callsign}
-        data-callsign-morse={callsignMorse}
+        class="pointer-events-none absolute -left-1 -top-3 font-serif text-[clamp(3rem,7vw,5rem)] leading-none text-station-accent-soft"
       >
-        <div
-          class="mb-5 flex items-center justify-between gap-4 text-[0.65rem] uppercase tracking-[0.34em] text-emerald-300/70"
-        >
-          <span>TX</span>
-          <span>{callsign}</span>
-        </div>
-        <pre
-          class="whitespace-pre-wrap wrap-break-word font-mono text-lg tracking-[0.16em] text-terminal-text"
-          data-cq-text-target>
-        </pre>
-        <pre
-          class="mt-2 whitespace-pre-wrap wrap-break-word font-mono text-sm tracking-[0.18em] text-terminal-text-muted"
-          data-cq-morse-target>
-        </pre>
-        <div class="my-5 h-px bg-terminal-divider"></div>
-        <pre
-          class="whitespace-pre-wrap wrap-break-word font-mono text-[clamp(2.5rem,7vw,5.75rem)] font-bold tracking-[0.16em] text-terminal-text"
-          data-cs-text-target>
-        </pre>
-        <pre
-          class="mt-3 whitespace-pre-wrap wrap-break-word font-mono text-base tracking-[0.18em] text-terminal-text-muted"
-          data-cs-morse-target>
-        </pre>
+        “
       </div>
 
-      <div class="space-y-4">
-        <blockquote
-          class="relative max-w-4xl overflow-hidden rounded-[1.75rem] border border-station-line-accent bg-[linear-gradient(180deg,rgba(255,255,255,0.88)_0%,rgba(255,255,255,0.72)_100%)] px-6 py-5 shadow-sm"
-        >
-          <div
-            aria-hidden="true"
-            class="-left-2 top-1 quotation-mark"
-          >
-            “
-          </div>
+      <p
+        class="pr-6 font-serif text-balance text-[clamp(2rem,4.4vw,3.35rem)] leading-[1.06] tracking-[-0.035em] text-station-ink"
+      >
+        {quote}
+      </p>
+      {quoteSource && <cite class="mt-4 block not-italic meta-label">{quoteSource}</cite>}
+    </blockquote>
 
-          <p
-            class="relative pr-2 pl-6 text-balance text-[clamp(1.7rem,4.6vw,3.2rem)] leading-[1.1] text-station-ink"
-          >
-            {quote}
-          </p>
-          {
-            quoteSource && (
-              <cite class="relative mt-4 block pr-2 pl-6 not-italic font-xs text-station-soft">
-                {quoteSource}
-              </cite>
-            )
-          }
-          <div
-            aria-hidden="true"
-            class="-right-2 -bottom-2 quotation-mark"
-          >
-            ”
-          </div>
-        </blockquote>
-        <p class="text-base leading-7 text-station-muted">
-          {blurb}
-        </p>
-      </div>
-    </div>
+    <div
+      class="max-w-3xl text-[1.08rem] leading-9 text-station-muted [&_p+p]:mt-4"
+      set:html={descriptionHtml}
+    />
   </div>
 </section>
 

@@ -10,10 +10,11 @@ html {
 
 body {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(20, 184, 166, 0.12), transparent 28%),
-    radial-gradient(circle at top right, rgba(245, 158, 11, 0.14), transparent 24%),
-    linear-gradient(180deg, var(--color-station-bg-start) 0%, var(--color-station-bg-end) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--color-station-bg-start) 0%,
+    var(--color-station-bg-end) 100%
+  );
   color: var(--color-station-ink);
   font-family: var(--font-sans);
 }
@@ -22,12 +23,23 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   background-image:
     linear-gradient(var(--color-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
-  background-size: 28px 28px;
-  mask-image: linear-gradient(180deg, var(--color-grid-mask), transparent 92%);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(180deg, black, transparent 96%);
+  pointer-events: none;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 18%),
+    linear-gradient(180deg, rgba(17, 17, 17, 0.025) 0%, rgba(17, 17, 17, 0) 24%);
   pointer-events: none;
 }
 
@@ -48,7 +60,7 @@ pre {
 /* #region Accessibility */
 
 :focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--color-station-accent) 60%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--color-station-accent) 55%, transparent);
   outline-offset: 3px;
 }
 
@@ -56,24 +68,16 @@ pre {
 
 /* #region Typography */
 
-.title-smalltext-l2 {
-  @apply font-mono text-xs uppercase tracking-[0.28em];
-}
-
 .meta-label {
-  @apply font-mono text-xs uppercase tracking-[0.3em] text-station-soft;
-}
-
-.meta-label-accent {
-  @apply font-mono text-xs uppercase tracking-[0.34em] text-station-accent;
+  @apply font-mono text-[0.74rem] uppercase tracking-[0.22rem] text-station-soft;
 }
 
 .meta-label-large {
-  @apply font-mono text-base tracking-widest uppercase text-station-soft;
+  @apply font-mono text-[0.92rem] uppercase tracking-[0.16rem] text-station-soft;
 }
 
 .body-copy {
-  @apply text-sm leading-6 text-station-muted;
+  @apply text-[1.04rem] leading-8 text-station-muted;
 }
 
 /* #endregion Typography */
@@ -81,90 +85,93 @@ pre {
 /* #region Surfaces */
 
 .panel-shell {
-  @apply rounded-4xl border border-station-line bg-white/80 backdrop-blur-sm;
+  @apply rounded-[1.35rem] border border-station-line bg-[rgba(255,255,255,0.9)];
   box-shadow: var(--shadow-panel);
 }
 
 .panel-shell[role="dialog"] {
-  @apply backdrop-blur-none bg-white;
-}
-
-.info-card {
-  @apply rounded-3xl border border-station-line bg-white/85 p-5 shadow-sm backdrop-blur-sm;
+  @apply bg-[rgba(255,255,255,0.985)];
 }
 
 .icon-chip {
-  @apply inline-flex h-9 w-9 items-center justify-center rounded-full border border-station-line-accent-strong bg-station-surface-accent text-station-accent;
+  @apply inline-flex h-8 w-8 items-center justify-center rounded-lg border border-station-line-accent-strong bg-station-surface-accent text-station-accent-strong;
 }
 
 /* #endregion Surfaces */
 
 /* #region Links And Controls */
 
-.skip-link {
-  @apply sr-only fixed left-4 top-4 z-[60] rounded-full border border-station-line bg-white px-4 py-2 text-sm font-medium text-station-ink shadow-lg;
-}
-
-.skip-link:focus {
-  @apply not-sr-only;
-}
-
 .text-link {
-  @apply block text-station-ink underline underline-offset-4 decoration-station-accent-soft transition;
+  @apply inline text-station-accent-strong underline underline-offset-4 decoration-station-accent-soft transition;
+}
+
+.body-copy a,
+.section-prose a {
+  @apply text-station-accent-strong underline underline-offset-4 decoration-station-accent-soft transition;
 }
 
 .text-link:hover {
-  @apply text-station-accent-strong;
+  @apply text-station-accent-strong/80 decoration-station-accent;
+}
+
+.body-copy a:hover,
+.section-prose a:hover {
+  @apply text-station-accent-strong/80 decoration-station-accent;
 }
 
 .switch-pill {
-  @apply inline-flex items-center justify-center rounded-full border border-station-line bg-white px-4 py-2 text-sm font-medium text-station-muted transition;
+  @apply inline-flex items-center justify-center rounded-lg border border-station-line bg-[rgba(255,255,255,0.58)] px-2.5 py-2 text-sm font-medium text-station-muted transition;
 }
 
 .switch-pill:hover {
-  @apply border-station-accent/30 bg-station-surface-accent/55 text-station-accent-strong;
+  @apply border-station-line-accent bg-[rgba(255,255,255,0.75)] text-station-ink;
 }
 
 .switch-pill[data-active="true"] {
-  @apply border-station-accent-strong bg-station-accent-strong text-white shadow-sm;
+  @apply border-station-accent-strong bg-station-accent-strong text-stone-50;
+  box-shadow: 0 10px 18px -16px rgba(90, 53, 23, 0.65);
 }
 
 .switch-pill[data-active="true"]:hover {
-  @apply bg-station-accent-strong/80 text-white;
-}
-
-.status-pill {
-  @apply rounded-full px-2 py-1 text-[0.65rem] uppercase tracking-[0.28em];
-}
-
-.status-pill[data-status="active"] {
-  @apply bg-station-surface-accent/85 text-station-accent-strong;
-}
-
-.status-pill[data-status="inactive"] {
-  @apply bg-station-surface-subtle/90 text-station-muted;
+  @apply bg-station-accent-strong/92 text-stone-50;
 }
 
 /* #endregion Links And Controls */
 
 /* #region Layout Helpers */
 
-.header-row {
-  @apply mb-0 flex items-start justify-between gap-4;
+.section-block {
+  position: relative;
 }
 
-.quotation-mark {
-  @apply pointer-events-none absolute font-mono text-[clamp(4rem,10vw,7rem)] leading-none text-station-accent-soft;
+.section-block + .section-block {
+  margin-top: 3.5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--color-station-line);
 }
 
 .section-block .section-count::before {
   counter-increment: section;
-  content: counter(section, decimal-leading-zero);
+  content: "SEC " counter(section, decimal-leading-zero);
 }
 
-.section-block > [data-section-cluster] + [data-section-cluster],
-.section-block > [data-card-grid] + [data-section-cluster] {
-  @apply mt-4 border-t border-dashed border-station-ink/10 pt-8;
+.section-block > [data-card-grid] + [data-section-cluster],
+.section-block > [data-section-cluster] + [data-section-cluster] {
+  @apply mt-7 pt-7;
+  border-top: 1px dotted rgba(80, 71, 61, 0.28);
+}
+
+.section-prose {
+  max-width: 68ch;
+  border-left: 2px solid color-mix(in srgb, var(--color-station-accent) 55%, transparent);
+  padding-left: 1.25rem;
+  color: var(--color-station-muted);
+  font-size: 1.06rem;
+  line-height: 1.9;
+}
+
+.section-prose p + p {
+  margin-top: 0.95rem;
 }
 
 /* #endregion Layout Helpers */
@@ -217,20 +224,23 @@ pre {
     color: black;
   }
 
-  body::before {
+  body::before,
+  body::after {
     display: none;
   }
 
   .panel-shell,
-  .info-card {
-    border-color: rgb(15 23 42 / 0.18);
+  [data-info-card],
+  [data-gallery-card] {
+    border-color: rgb(28 23 19 / 0.18);
     background: white;
     box-shadow: none;
     backdrop-filter: none;
   }
 
   .panel-shell,
-  .info-card,
+  [data-info-card],
+  [data-gallery-card],
   .section-block,
   [data-section-cluster] {
     break-inside: avoid;
@@ -241,27 +251,19 @@ pre {
     scroll-margin-top: 0;
   }
 
-  .section-block > [data-section-cluster] + [data-section-cluster] {
-    border-top-color: rgb(15 23 42 / 0.18);
-  }
-
   .meta-label,
-  .meta-label-accent,
   .body-copy,
   .text-link,
-  .status-pill,
   .switch-pill {
     color: black;
   }
 
   .text-link {
-    text-decoration-color: rgb(15 23 42 / 0.28);
+    text-decoration-color: rgb(28 23 19 / 0.28);
   }
 
-  .icon-chip,
-  .status-pill[data-status="active"],
-  .status-pill[data-status="inactive"] {
-    border-color: rgb(15 23 42 / 0.18);
+  .icon-chip {
+    border-color: rgb(28 23 19 / 0.18);
     background: white;
     color: black;
   }

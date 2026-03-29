@@ -16,8 +16,10 @@ export const profile: ProfileMeta = {
   hero: {
     quote: "忘れたくない想い、ありますか？",
     quoteSource: "ef - a tale of memories.",
-    blurb:
-      "欢迎来到我的个人业余无线电台主页。由于我已离开南京，呼号 BD4WXB 自 2025 年 9 月 3 日起停止使用。",
+    descriptionHtml: `
+      <p>欢迎来到我的个人业余无线电台主页。</p>
+      <p>由于我已离开南京，呼号 BD4WXB 自 2025 年 9 月 3 日起停止使用。</p>
+    `,
   },
 };
 
@@ -60,11 +62,11 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL 政策">
-    <InfoCard largeText={true}>
+    <div class="section-prose">
       <p>对于已通联的电台，我会在先收到对方卡片，或能方便查到对方邮寄地址时寄出纸质 QSL 卡。</p>
       <p>给我寄卡片时无需附回邮信封。</p>
       <p>如果没有在线下真实见面，我<strong>不会</strong>交换 Eyeball QSL 卡。</p>
-    </InfoCard>
+    </div>
   </SectionCluster>
 </SectionBlock>
 
@@ -106,15 +108,17 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster title="奖项" icon="award">
-    <GalleryCard
-      src="/images/award/202505zjvhf.avif"
-      alt="2025 年 5 月 5 日浙江省 VHF DX Contest 奖状，BD4WXB 获得第 6 名，得分 251。"
-      title="2025-55ZJVHF"
-    >
-      <p>2025 年 5 月 5 日 浙江省 VHF DX Contest</p>
-      <p><strong>名次</strong>: 第 6 名</p>
-      <p><strong>得分</strong>: 251</p>
-    </GalleryCard>
+    <div class="max-w-3xl">
+      <GalleryCard
+        src="/images/award/202505zjvhf.avif"
+        alt="2025 年 5 月 5 日浙江省 VHF DX Contest 奖状，BD4WXB 获得第 6 名，得分 251。"
+        title="2025五五节浙江 VHF DX 通信比赛"
+      >
+        <p>2025 年 5 月 5 日 浙江省业余无线电协会 浙江省 VHF DX 通信比赛</p>
+        <p><strong>名次</strong>: 第 6 名</p>
+        <p><strong>得分</strong>: 251</p>
+      </GalleryCard>
+    </div>
   </SectionCluster>
 </SectionBlock>
 

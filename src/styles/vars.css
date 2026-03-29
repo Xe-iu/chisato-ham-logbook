@@ -17,20 +17,28 @@
 
 @layer base {
   :root {
-    --font-cjk:
+    --font-sans-cjk:
       "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Source Sans CN";
+    --font-serif-cjk: "Songti SC", "Source Han Serif SC", "Noto Serif SC", "STSong", "SimSun";
   }
   :root:lang(ja) {
-    --font-cjk: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Meiryo", "Yu Gothic";
+    --font-sans-cjk:
+      "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Meiryo", "Yu Gothic";
+    --font-serif-cjk:
+      "Hiragino Mincho ProN", "Yu Mincho", "Source Han Serif JP", "Noto Serif JP", "MS Mincho";
   }
 }
 
 @theme inline {
   --font-sans-wo-fallback:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
-    var(--font-cjk);
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    var(--font-sans-cjk), "Noto Sans", "Source Sans";
+  --font-serif-wo-fallback:
+    "Times New Roman", Georgia, "Liberation Serif", var(--font-serif-cjk), "Noto Serif",
+    "Source Han Serif";
 
-  --font-sans: var(--font-sans-wo-fallback), sans-serif;
+  --font-serif: var(--font-serif-wo-fallback), ui-serif, serif;
+  --font-sans: var(--font-sans-wo-fallback), ui-sans-serif, sans-serif;
   /* 中文字体没有等宽的概念 */
   --font-mono: "JuliaMono", var(--font-sans-wo-fallback), ui-monospace, monospace;
 }
@@ -39,22 +47,22 @@
 
 /* #region Color */
 
-@theme inline{
-  --color-station-bg-start: #f7f6ef;
-  --color-station-bg-end: #f1f3ee;
-  --color-station-ink: #0f172a;
-  --color-station-muted: #475569;
-  --color-station-soft: #64748b;
+@theme inline {
+  --color-station-bg-start: #fcfcfa;
+  --color-station-bg-end: #f2f2ef;
+  --color-station-ink: #141414;
+  --color-station-muted: #444444;
+  --color-station-soft: #707070;
 
-  --color-station-line: rgb(15 23 42 / 0.1);
-  --color-station-line-accent: rgb(15 118 110 / 0.18);
-  --color-station-line-accent-strong: rgb(19 78 74 / 0.16);
+  --color-station-line: rgb(17 17 17 / 0.13);
+  --color-station-line-accent: rgb(29 78 137 / 0.22);
+  --color-station-line-accent-strong: rgb(29 78 137 / 0.28);
 
-  --color-station-accent: #0f766e;
-  --color-station-accent-strong: #134e4a;
-  --color-station-accent-soft: rgb(15 118 110 / 0.25);
-  --color-station-surface-accent: #ccfbf1;
-  --color-station-surface-subtle: #f1f5f9;
+  --color-station-accent: #1d4e89;
+  --color-station-accent-strong: #133a67;
+  --color-station-accent-soft: rgb(29 78 137 / 0.2);
+  --color-station-surface-accent: #e8eef5;
+  --color-station-surface-subtle: #f5f6f8;
 
   --color-terminal-border: rgb(52 211 153 / 0.2);
   --color-terminal-divider: rgb(52 211 153 / 0.2);
@@ -62,11 +70,11 @@
   --color-terminal-text-soft: rgb(110 231 183 / 0.8);
   --color-terminal-text-muted: rgb(110 231 183 / 0.7);
 
-  --color-grid: rgba(15, 23, 42, 0.135);
-  --color-grid-mask: rgba(0, 0, 0, 0.4);
-  --color-terminal-glow: rgba(16, 185, 129, 0.16);
+  --color-grid: rgba(22, 22, 22, 0.07);
+  --color-grid-mask: rgba(0, 0, 0, 0.18);
+  --color-terminal-glow: rgba(16, 185, 129, 0.12);
 
-  --shadow-panel: 0 20px 70px -36px rgba(15, 23, 42, 0.35);
+  --shadow-panel: 0 18px 36px -34px rgba(0, 0, 0, 0.34);
 }
 
 /* #endregion Color */

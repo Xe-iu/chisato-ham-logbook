@@ -13,10 +13,13 @@ const { label, value, href, icon, largeText = false } = Astro.props;
 const hasContent = Astro.slots.has("default");
 ---
 
-<article class="info-card">
+<article
+  class="rounded-[0.95rem] border border-station-line bg-[rgba(255,255,255,0.72)] p-4 sm:p-5"
+  data-info-card
+>
   {
     (label || icon) && (
-      <div class="header-row">
+      <div class="mb-0 flex items-start justify-between gap-3">
         <p class="meta-label-large">{label}</p>
         {icon && (
           <span class="icon-chip">
@@ -29,16 +32,22 @@ const hasContent = Astro.slots.has("default");
   {
     value &&
       (href ? (
-        <a class="text-link text-lg font-semibold" href={href}>
+        <a class="text-link text-lg font-semibold text-station-ink" href={href}>
           {value}
         </a>
       ) : (
-        <p class="text-lg font-semibold text-slate-950">{value}</p>
+        <p class="text-lg font-semibold leading-tight text-station-ink">{value}</p>
       ))
   }
   {
     hasContent && (
-      <div class:list={["space-y-4 leading-6", largeText ? "text-base" : "text-sm", value ? "mt-3" : ""]}>
+      <div
+        class:list={[
+          "space-y-4 leading-8 text-station-muted",
+          largeText ? "text-lg" : "text-base",
+          value ? "mt-3" : "",
+        ]}
+      >
         <slot />
       </div>
     )

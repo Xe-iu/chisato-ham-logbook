@@ -7,10 +7,12 @@ interface Props {
 const { id, title } = Astro.props;
 ---
 
-<div class="relative mb-5 flex items-end justify-between gap-4">
-  <div class="space-y-2">
-    <p class="section-count meta-label-accent"></p>
-    <h2 id={id} class="font-mono text-2xl text-station-ink sm:text-3xl">{title}</h2>
+<div class="mb-6 grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-end">
+  <div class="space-y-3">
+    <p class="section-count font-mono text-[0.76rem] uppercase tracking-[0.24rem] text-station-accent-strong print:text-black"></p>
+    <h2 id={id} class="font-sans text-[clamp(2rem,4vw,3.2rem)] leading-none text-station-ink">
+      {title}
+    </h2>
   </div>
-  <div class="hidden h-px flex-1 bg-station-line sm:block"></div>
+  <div class="hidden h-px bg-station-line sm:block"></div>
 </div>

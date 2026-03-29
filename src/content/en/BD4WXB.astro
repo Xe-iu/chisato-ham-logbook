@@ -16,8 +16,10 @@ export const profile: ProfileMeta = {
   hero: {
     quote: "忘れたくない想い、ありますか？",
     quoteSource: "ef - a tale of memories.",
-    blurb:
-      "Welcome to the homepage of my personal amateur radio station. This callsign (BD4WXB) has been inactive since September 3, 2025 because I left Nanjing.",
+    descriptionHtml: `
+      <p>Welcome to the homepage of my personal amateur radio station.</p>
+      <p>This callsign, BD4WXB, has been inactive since September 3, 2025 because I left Nanjing.</p>
+    `,
   },
 };
 
@@ -60,14 +62,14 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL Policy">
-    <InfoCard largeText={true}>
+    <div class="section-prose">
       <p>
         I will send a paper QSL card to contacted stations either when I receive a card first, or
         when the station's postal address can be easily looked up.
       </p>
       <p>No SASE is needed when sending me cards for a card in return.</p>
       <p>I <strong>do not</strong> exchange eyeball QSL cards without meeting in person offline.</p>
-    </InfoCard>
+    </div>
   </SectionCluster>
 </SectionBlock>
 
@@ -114,15 +116,17 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster title="Awards" icon="award">
-    <GalleryCard
-      src="/images/award/202505zjvhf.avif"
-      alt="Award certificate for the 2025.5.5 ZARA Zhejiang Province VHF DX Contest to BD4WXB with the ranking of 6th place and a score of 251."
-      title="2025-55ZJVHF"
-    >
-      <p>May 5, 2025 Zhejiang Province VHF DX Contest</p>
-      <p><strong>Rank</strong>: 6th</p>
-      <p><strong>Score</strong>: 251</p>
-    </GalleryCard>
+    <div class="max-w-3xl">
+      <GalleryCard
+        src="/images/award/202505zjvhf.avif"
+        alt="Award certificate for the 2025.5.5 ZARA Zhejiang Province VHF DX Contest to BD4WXB with the ranking of 6th place and a score of 251."
+        title="2025-55ZJVHF"
+      >
+        <p>May 5, 2025 Zhejiang Province VHF DX Contest</p>
+        <p><strong>Rank</strong>: 6th</p>
+        <p><strong>Score</strong>: 251</p>
+      </GalleryCard>
+    </div>
   </SectionCluster>
 </SectionBlock>
 

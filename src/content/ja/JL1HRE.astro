@@ -16,8 +16,10 @@ export const profile: ProfileMeta = {
   hero: {
     quote: "聴こえますか？真実のメロディ。",
     quoteSource: "ef - a tale of melodies.",
-    blurb:
-      "現在運用中の日本のコールサイン用ページです。必要な運用情報、QSL 方針、設備メモを軽量な静的サイトにまとめています。",
+    descriptionHtml: `
+      <p>現在運用中の日本のコールサイン用ページです。</p>
+      <p>必要な運用情報、QSL 方針、設備メモを軽量な静的サイトにまとめています。</p>
+    `,
   },
 };
 
@@ -60,14 +62,14 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL ポリシー">
-    <InfoCard largeText={true}>
+    <div class="section-prose">
       <p>
         日常的な確認は LoTW を優先します。思い出に残る交信やスケジュール QSO では、Bureau
         やダイレクトの紙 QSL も歓迎です。
       </p>
       <p>ログ修正や確認の問い合わせはメールが最速です。</p>
       <p>通常の近距離 V/UHF 交信では電子確認を優先しています。</p>
-    </InfoCard>
+    </div>
   </SectionCluster>
 </SectionBlock>
 

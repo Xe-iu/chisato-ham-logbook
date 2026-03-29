@@ -16,8 +16,10 @@ export const profile: ProfileMeta = {
   hero: {
     quote: "忘れたくない想い、ありますか？",
     quoteSource: "ef - a tale of memories.",
-    blurb:
-      "個人アマチュア無線局のホームページへようこそ。このコールサイン BD4WXB は、南京を離れたため 2025 年 9 月 3 日以降は運用していません。",
+    descriptionHtml: `
+      <p>個人アマチュア無線局のホームページへようこそ。</p>
+      <p>このコールサイン BD4WXB は、南京を離れたため 2025 年 9 月 3 日以降は運用していません。</p>
+    `,
   },
 };
 
@@ -60,14 +62,14 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL ポリシー">
-    <InfoCard largeText={true}>
+    <div class="section-prose">
       <p>
         交信した局には、先にカードを受け取った場合、または相手局の郵送先を容易に確認できる場合に紙
         QSL を送ります。
       </p>
       <p>返信用封筒を同封する必要はありません。</p>
       <p>オフラインで実際に会っていない限り、アイボール QSL は交換しません。</p>
-    </InfoCard>
+    </div>
   </SectionCluster>
 </SectionBlock>
 
@@ -113,15 +115,17 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster title="アワード" icon="award">
-    <GalleryCard
-      src="/images/award/202505zjvhf.avif"
-      alt="2025 年 5 月 5 日浙江省 VHF DX コンテストで BD4WXB が 6 位、251 点を獲得した賞状。"
-      title="2025-55ZJVHF"
-    >
-      <p>2025 年 5 月 5 日 浙江省 VHF DX コンテスト</p>
-      <p><strong>順位</strong>: 6 位</p>
-      <p><strong>得点</strong>: 251</p>
-    </GalleryCard>
+    <div class="max-w-3xl">
+      <GalleryCard
+        src="/images/award/202505zjvhf.avif"
+        alt="2025 年 5 月 5 日浙江省 VHF DX コンテストで BD4WXB が 6 位、251 点を獲得した賞状。"
+        title="2025-55ZJVHF"
+      >
+        <p>2025 年 5 月 5 日 浙江省 VHF DX コンテスト</p>
+        <p><strong>順位</strong>: 6 位</p>
+        <p><strong>得点</strong>: 251</p>
+      </GalleryCard>
+    </div>
   </SectionCluster>
 </SectionBlock>
 

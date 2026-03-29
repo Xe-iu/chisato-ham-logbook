@@ -16,8 +16,10 @@ export const profile: ProfileMeta = {
   hero: {
     quote: "聴こえますか？真実のメロディ。",
     quoteSource: "ef - a tale of melodies.",
-    blurb:
-      "Active Japanese callsign profile. This page keeps operating essentials, QSL policy, and station notes in one lightweight static hub.",
+    descriptionHtml: `
+      <p>Active Japanese callsign profile.</p>
+      <p>This page keeps operating essentials, QSL policy, and station notes in one lightweight static hub.</p>
+    `,
   },
 };
 
@@ -60,7 +62,7 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL Policy">
-    <InfoCard largeText={true}>
+    <div class="section-prose">
       <p>
         LoTW is the preferred confirmation route for routine contacts. Bureau and direct paper cards
         are both fine for memorable QSOs and schedule work.
@@ -69,7 +71,7 @@ export const sections: readonly ProfileSection[] = [
         If you need a correction, confirmation check, or carding detail, email is the fastest path.
       </p>
       <p>Digital confirmations are preferred for routine local V/UHF contacts.</p>
-    </InfoCard>
+    </div>
   </SectionCluster>
 </SectionBlock>
 

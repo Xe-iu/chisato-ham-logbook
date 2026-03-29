@@ -57,9 +57,23 @@ export interface LocaleContext {
   languageName: string;
   skipToContent: string;
   siteTitle: string;
+  labels: {
+    language: string;
+    station: string;
+    sections: string;
+    sectionShortcuts: string;
+    quickSectionShortcuts: string;
+    heroOverview: string;
+    homeLink: string;
+    languageSwitcher: string;
+    stationSwitcher: string;
+  };
   footer: {
     note: string;
     copyright: string;
+  };
+  noscript: {
+    logbook: string;
   };
   stationStatus: Record<StationStatus, string>;
   logbook: LogbookUi;
@@ -81,9 +95,24 @@ const localeDefinitions = {
     languageName: "English",
     skipToContent: "Skip to main content",
     siteTitle: "Amateur Radio Homepage - Chisato HAM Logbook",
+    labels: {
+      language: "Lang",
+      station: "Station",
+      sections: "Sections",
+      sectionShortcuts: "Section shortcuts",
+      quickSectionShortcuts: "Quick section shortcuts",
+      heroOverview: "Station Overview",
+      homeLink: "Go to chariri.moe",
+      languageSwitcher: "Language switcher",
+      stationSwitcher: "Callsign switcher",
+    },
     footer: {
-      note: "Made with TypeScript, TailwindCSS, OpenAI Codex and ♥ (yes this UI seems VERY AI-slop, but I heavily refactored the code and design details).",
+      note: "Static page, local assets, and a lightweight toolchain.",
       copyright: "Chisato HAM Logbook, Copyleft by 茶栗chariri",
+    },
+    noscript: {
+      logbook:
+        "The interactive logbook viewer requires JavaScript. You can still read the rest of the station page without it.",
     },
     stationStatus: {
       active: "On Air",
@@ -148,9 +177,23 @@ const localeDefinitions = {
     languageName: "简体中文",
     skipToContent: "跳到主要内容",
     siteTitle: "业余无线电台主页 - Chisato HAM Logbook",
+    labels: {
+      language: "语言",
+      station: "电台",
+      sections: "章节",
+      sectionShortcuts: "章节快捷导航",
+      quickSectionShortcuts: "快速章节导航",
+      heroOverview: "电台概览",
+      homeLink: "前往 chariri.moe",
+      languageSwitcher: "语言切换",
+      stationSwitcher: "呼号切换",
+    },
     footer: {
-      note: "Made with TypeScript, TailwindCSS, OpenAI Codex and ♥ (yes this UI seems VERY AI-slop, but I heavily refactored the code and design details).",
+      note: "静态页面、本地资源，以及轻量的工具链。",
       copyright: "Chisato HAM Logbook",
+    },
+    noscript: {
+      logbook: "交互式日志查看器需要 JavaScript。关闭脚本时，页面其余内容仍可正常阅读。",
     },
     stationStatus: {
       active: "活跃",
@@ -212,9 +255,24 @@ const localeDefinitions = {
     languageName: "日本語",
     skipToContent: "本文へ移動",
     siteTitle: "アマチュア無線局ホームページ - Chisato HAM Logbook",
+    labels: {
+      language: "言語",
+      station: "局",
+      sections: "セクション",
+      sectionShortcuts: "セクションショートカット",
+      quickSectionShortcuts: "クイックセクションショートカット",
+      heroOverview: "局の概要",
+      homeLink: "chariri.moe へ移動",
+      languageSwitcher: "言語切り替え",
+      stationSwitcher: "コールサイン切り替え",
+    },
     footer: {
-      note: "フォント、画像、スクリプトはすべてローカル配信で、外部 CDN は使っていません。",
+      note: "静的ページ、ローカル配信アセット、軽量なツールチェーンで構成しています。",
       copyright: "Chisato HAM Logbook",
+    },
+    noscript: {
+      logbook:
+        "インタラクティブなログビューアには JavaScript が必要です。無効でもページ本文は閲覧できます。",
     },
     stationStatus: {
       active: "運用中",

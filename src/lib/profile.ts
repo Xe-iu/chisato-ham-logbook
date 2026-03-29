@@ -12,7 +12,7 @@ export interface ProfileMeta {
   status: StationStatus;
   pageTitle: string;
   hero: {
-    blurb: string;
+    descriptionHtml: string;
     quote: string;
     quoteSource?: string;
   };

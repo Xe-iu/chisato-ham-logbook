@@ -16,8 +16,10 @@ export const profile: ProfileMeta = {
   hero: {
     quote: "聴こえますか？真実のメロディ。",
     quoteSource: "ef - a tale of melodies.",
-    blurb:
-      "这是当前使用中的日本呼号页面，把常用操作信息、QSL 规则和设备备注集中在一个轻量静态站点里。",
+    descriptionHtml: `
+      <p>这是当前使用中的日本呼号页面。</p>
+      <p>这里把常用操作信息、QSL 规则和设备备注集中在一个轻量静态站点里。</p>
+    `,
   },
 };
 
@@ -60,11 +62,11 @@ export const sections: readonly ProfileSection[] = [
   </SectionCluster>
 
   <SectionCluster icon="policy" title="QSL 政策">
-    <InfoCard largeText={true}>
+    <div class="section-prose">
       <p>常规确认优先使用 LoTW。对于纪念性通联或排程，也欢迎通过 Bureau 或直寄交换纸质 QSL。</p>
       <p>如果需要修正日志或确认细节，发邮件是最快的方式。</p>
       <p>常规本地 V/UHF 通联建议优先使用电子确认。</p>
-    </InfoCard>
+    </div>
   </SectionCluster>
 </SectionBlock>
 

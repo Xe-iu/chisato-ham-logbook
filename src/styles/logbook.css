@@ -6,19 +6,19 @@
 }
 
 .logbook-table thead {
-  @apply sticky top-0 z-10 bg-white/95 backdrop-blur-sm;
+  @apply sticky top-0 z-10 bg-[rgba(246,241,233,0.96)];
 }
 
 .logbook-th {
-  @apply border-b border-station-line px-3 py-2 font-mono text-[0.72rem] uppercase tracking-[0.22em] text-station-soft;
+  @apply border-b border-station-line px-3 py-2 font-mono text-[0.68rem] uppercase tracking-[0.2em] text-station-soft;
 }
 
 .logbook-cell {
-  @apply border-b border-station-line/70 px-3 py-2 align-middle text-station-muted;
+  @apply border-b border-station-line/70 px-3 py-2 align-baseline text-station-muted;
 }
 
 .logbook-row {
-  @apply cursor-pointer transition hover:bg-station-surface-accent/50;
+  @apply cursor-pointer transition hover:bg-station-surface-accent/45;
 }
 
 .logbook-row:has(.logbook-row-button:focus-visible) {
@@ -38,11 +38,11 @@
 }
 
 .logbook-detail-row {
-  @apply grid gap-2 md:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] md:gap-6;
+  @apply grid items-center gap-2 md:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] md:gap-6;
 }
 
 .logbook-detail-label {
-  @apply pl-4 m-0 text-sm text-station-soft;
+  @apply m-0 align-baseline font-mono text-xs uppercase tracking-[0.1rem] text-station-soft;
 }
 
 .logbook-detail-value {
@@ -53,6 +53,5 @@
   .logbook-table thead {
     position: static;
     background: white;
-    backdrop-filter: none;
   }
 }
