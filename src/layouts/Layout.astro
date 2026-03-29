@@ -49,7 +49,7 @@ const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;
     <div class="relative min-h-screen">
       <a
         href="#main-content"
-        class="sr-only fixed left-4 top-4 z-[60] rounded-md border border-station-line bg-[rgba(252,249,244,0.98)] px-4 py-2 text-sm font-medium text-station-ink shadow-lg focus:not-sr-only"
+        class="sr-only fixed left-4 top-4 z-[60] rounded-md border border-station-line bg-[rgba(252,249,244,0.98)] px-4 py-2 text-sm font-medium text-station-ink no-underline shadow-lg focus:not-sr-only"
       >
         {locale.skipToContent}
       </a>
@@ -60,7 +60,7 @@ const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;
               <a
                 href="https://chariri.moe"
                 aria-label={locale.labels.homeLink}
-                class="shrink-0 rounded-[1rem] border border-station-line bg-[rgba(255,255,255,0.58)] p-1"
+                class="shrink-0 rounded-[1rem] border border-station-line bg-[rgba(255,255,255,0.58)] p-1 no-underline"
               >
                 <img
                   src="/images/head.webp"
@@ -154,7 +154,7 @@ const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;
                 sections.map((section) => (
                   <a
                     href={`#${section.id}`}
-                    class="block border-l-2 border-transparent py-1 pl-3 text-sm text-station-soft transition hover:border-station-line-accent hover:text-station-ink"
+                    class="block border-l-2 border-transparent py-1 pl-3 text-sm text-station-soft no-underline transition hover:border-station-line-accent hover:text-station-ink"
                   >
                     {section.label}
                   </a>
@@ -180,7 +180,7 @@ const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;
             mobileSections.map((section) => (
               <a
                 href={`#${section.id}`}
-                class="grow rounded-md border border-station-line bg-[rgba(255,255,255,0.6)] px-3 py-3 text-center text-[0.72rem] font-medium text-station-muted"
+                class="grow rounded-md border border-station-line bg-[rgba(255,255,255,0.6)] px-3 py-3 text-center text-[0.72rem] font-medium text-station-muted no-underline"
               >
                 {section.label}
               </a>

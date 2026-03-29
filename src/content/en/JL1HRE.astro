@@ -32,31 +32,44 @@ export const sections: readonly ProfileSection[] = [
 
 <SectionBlock id="basic-info" title="Basic Info">
   <Cards columns="2u">
-    <InfoCard label="QTH" value="PM95" icon="grid">Tokyo, Japan</InfoCard>
-    <InfoCard label="License" value="Japanese First-Class Amateur Radio Operator" icon="license">
-      Portable VHF/UHF today, with room for later HF expansion.
+    <InfoCard label="QTH" icon="grid">
+      PM95
+      <Fragment slot="description">Tokyo, Japan</Fragment>
     </InfoCard>
-    <InfoCard
-      label="Contact"
-      value="chariri@chariri.moe"
-      href="mailto:chariri@chariri.moe"
-      icon="mail"
-    />
-    <InfoCard label="Preferred QSL" value="LoTW + Bureau" icon="mail">
-      Paper cards are welcome after confirmed QSOs.
+    <InfoCard label="License" icon="license">
+      Japanese First-Class Amateur Radio Operator
+      <Fragment slot="description">
+        Portable VHF/UHF today, with room for later HF expansion.
+      </Fragment>
+    </InfoCard>
+    <InfoCard label="Contact" icon="mail">
+      <a href="mailto:chariri@chariri.moe">chariri@chariri.moe</a>
+    </InfoCard>
+    <InfoCard label="Preferred QSL" icon="mail">
+      LoTW + Bureau
+      <Fragment slot="description">Paper cards are welcome after confirmed QSOs.</Fragment>
     </InfoCard>
   </Cards>
 
   <SectionCluster icon="gear" title="Gear">
     <Cards columns="2">
-      <InfoCard label="Rig" value="Yaesu FT5D + handheld whip set" icon="radio">
-        Current portable V/UHF chain for day-to-day operation, monitoring, and field testing.
+      <InfoCard label="Rig" icon="radio">
+        Yaesu FT5D + handheld whip set
+        <Fragment slot="description">
+          Current portable V/UHF chain for day-to-day operation, monitoring, and field testing.
+        </Fragment>
       </InfoCard>
-      <InfoCard label="Workflow" value="Notebook + logging workflow" icon="gear">
-        A low-friction paper-and-terminal workflow for station notes and later digital log prep.
+      <InfoCard label="Workflow" icon="gear">
+        Notebook + logging workflow
+        <Fragment slot="description">
+          A low-friction paper-and-terminal workflow for station notes and later digital log prep.
+        </Fragment>
       </InfoCard>
-      <InfoCard label="Station plan" value="HF fixed station in planning" icon="radio">
-        Feedline, antenna, and desk layout are being staged for a later permanent installation.
+      <InfoCard label="Station plan" icon="radio">
+        HF fixed station in planning
+        <Fragment slot="description">
+          Feedline, antenna, and desk layout are being staged for a later permanent installation.
+        </Fragment>
       </InfoCard>
     </Cards>
   </SectionCluster>
@@ -97,15 +110,24 @@ export const sections: readonly ProfileSection[] = [
 
   <SectionCluster title="Awards / Notes" icon="award">
     <Cards columns="3">
-      <InfoCard label="Qualification" value="First-class operator qualification" icon="award">
-        Prepared for broader operating privileges and a cleaner path toward a fuller home station.
+      <InfoCard label="Qualification" icon="award">
+        First-class operator qualification
+        <Fragment slot="description">
+          Prepared for broader operating privileges and a cleaner path toward a fuller home station.
+        </Fragment>
       </InfoCard>
-      <InfoCard label="Operating style" value="Portable-first operation" icon="signal">
-        The station is optimized for fast deployment, simple checks, and local V/UHF
-        experimentation.
+      <InfoCard label="Operating style" icon="signal">
+        Portable-first operation
+        <Fragment slot="description">
+          The station is optimized for fast deployment, simple checks, and local V/UHF
+          experimentation.
+        </Fragment>
       </InfoCard>
-      <InfoCard label="Site approach" value="Static by design" icon="gear">
-        The homepage keeps essential station information readable without heavy client code.
+      <InfoCard label="Site approach" icon="gear">
+        Static by design
+        <Fragment slot="description">
+          The homepage keeps essential station information readable without heavy client code.
+        </Fragment>
       </InfoCard>
     </Cards>
   </SectionCluster>

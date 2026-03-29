@@ -3,14 +3,13 @@ import Icon from "./Icon.astro";
 
 interface Props {
   label?: string;
-  value?: string;
-  href?: string;
   icon?: Parameters<typeof Icon>[0]["name"];
   largeText?: boolean;
 }
 
-const { label, value, href, icon, largeText = false } = Astro.props;
-const hasContent = Astro.slots.has("default");
+const { label, icon, largeText = false } = Astro.props;
+const hasTitle = Astro.slots.has("default");
+const hasDescription = Astro.slots.has("description");
 ---
 
 <article
@@ -30,25 +29,22 @@ const hasContent = Astro.slots.has("default");
     )
   }
   {
-    value &&
-      (href ? (
-        <a class="text-link text-lg font-semibold text-station-ink" href={href}>
-          {value}
-        </a>
-      ) : (
-        <p class="text-lg font-semibold leading-tight text-station-ink">{value}</p>
-      ))
+    hasTitle && (
+      <div class="text-lg font-semibold leading-tight text-station-ink">
+        <slot />
+      </div>
+    )
   }
   {
-    hasContent && (
+    hasDescription && (
       <div
         class:list={[
           "space-y-4 leading-8 text-station-muted",
           largeText ? "text-lg" : "text-base",
-          value ? "mt-3" : "",
+          hasTitle ? "mt-3" : "",
         ]}
       >
-        <slot />
+        <slot name="description" />
       </div>
     )
   }

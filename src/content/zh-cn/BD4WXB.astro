@@ -32,32 +32,37 @@ export const sections: readonly ProfileSection[] = [
 
 <SectionBlock id="basic-info" title="基本信息">
   <Cards columns="2u">
-    <InfoCard label="QTH" value="OL39" icon="grid">CRAC 第 8 区 - 重庆</InfoCard>
-    <InfoCard label="执照" value="中国业余无线电 B 类执照" icon="signal">
-      <p>144 / 430 MHz @ 25 W</p>
-      <p>HF @ 15 W</p>
+    <InfoCard label="QTH" icon="grid">
+      OL39
+      <Fragment slot="description">CRAC 第 8 区 - 重庆</Fragment>
     </InfoCard>
-    <InfoCard
-      label="联系邮箱"
-      value="chariri@chariri.moe"
-      href="mailto:chariri@chariri.moe"
-      icon="email"
-    />
-    <InfoCard
-      label="邮寄地址"
-      value="P.O. Box 21004294, Nanjing, Jiangsu 210042, P.R. China"
-      icon="mail"
-    />
+    <InfoCard label="执照" icon="signal">
+      中国业余无线电 B 类执照
+      <Fragment slot="description">
+        <p>144 / 430 MHz @ 25 W</p>
+        <p>HF @ 15 W</p>
+      </Fragment>
+    </InfoCard>
+    <InfoCard label="联系邮箱" icon="email">
+      <a href="mailto:chariri@chariri.moe">chariri@chariri.moe</a>
+    </InfoCard>
+    <InfoCard label="邮寄地址" icon="mail">
+      P.O. Box 21004294, Nanjing, Jiangsu 210042, P.R. China
+    </InfoCard>
   </Cards>
 
   <SectionCluster icon="gear" title="设备">
     <Cards columns="2">
-      <InfoCard label="Rig" value="Wouxun KG-UV9D Plus" icon="radio">
-        FM @ VHF (144 MHz), 5 W
+      <InfoCard label="Rig" icon="radio">
+        Wouxun KG-UV9D Plus
+        <Fragment slot="description">FM @ VHF (144 MHz), 5 W</Fragment>
       </InfoCard>
-      <InfoCard label="Rig" value="ICOM IC-7300" icon="radio">SSB, FT8 @ HF, 15 W</InfoCard>
-      <InfoCard label="天线" value="DIAMOND SRH771" icon="antenna" />
-      <InfoCard label="天线" value="BG8GVJ 制作的 HF 便携 V 偶极" icon="antenna" />
+      <InfoCard label="Rig" icon="radio">
+        ICOM IC-7300
+        <Fragment slot="description">SSB, FT8 @ HF, 15 W</Fragment>
+      </InfoCard>
+      <InfoCard label="天线" icon="antenna">DIAMOND SRH771</InfoCard>
+      <InfoCard label="天线" icon="antenna">BG8GVJ 制作的 HF 便携 V 偶极</InfoCard>
     </Cards>
   </SectionCluster>
 

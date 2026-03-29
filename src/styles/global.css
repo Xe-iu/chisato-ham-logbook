@@ -1,70 +1,76 @@
 @import "tailwindcss";
 @import "./vars.css";
 
-/* #region Document */
+@layer base {
+  /* #region Document */
 
-html {
-  color-scheme: light;
-  scroll-behavior: smooth;
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(
+      180deg,
+      var(--color-station-bg-start) 0%,
+      var(--color-station-bg-end) 100%
+    );
+    color: var(--color-station-ink);
+    font-family: var(--font-sans);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-image:
+      linear-gradient(var(--color-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: linear-gradient(180deg, black, transparent 96%);
+    pointer-events: none;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 18%),
+      linear-gradient(180deg, rgba(17, 17, 17, 0.025) 0%, rgba(17, 17, 17, 0) 24%);
+    pointer-events: none;
+  }
+
+  a {
+    @apply text-station-accent-strong underline underline-offset-4 decoration-station-accent-soft transition;
+  }
+
+  a:hover {
+    @apply text-station-accent-strong/80 decoration-station-accent;
+  }
+
+  pre {
+    margin: 0;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  /* #endregion Document */
+
+  /* #region Accessibility */
+
+  :focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--color-station-accent) 55%, transparent);
+    outline-offset: 3px;
+  }
+
+  /* #endregion Accessibility */
 }
-
-body {
-  min-height: 100vh;
-  background: linear-gradient(
-    180deg,
-    var(--color-station-bg-start) 0%,
-    var(--color-station-bg-end) 100%
-  );
-  color: var(--color-station-ink);
-  font-family: var(--font-sans);
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background-image:
-    linear-gradient(var(--color-grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
-  background-size: 24px 24px;
-  mask-image: linear-gradient(180deg, black, transparent 96%);
-  pointer-events: none;
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 18%),
-    linear-gradient(180deg, rgba(17, 17, 17, 0.025) 0%, rgba(17, 17, 17, 0) 24%);
-  pointer-events: none;
-}
-
-a {
-  color: inherit;
-}
-
-pre {
-  margin: 0;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-/* #endregion Document */
-
-/* #region Accessibility */
-
-:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--color-station-accent) 55%, transparent);
-  outline-offset: 3px;
-}
-
-/* #endregion Accessibility */
 
 /* #region Typography */
 
@@ -101,26 +107,8 @@ pre {
 
 /* #region Links And Controls */
 
-.text-link {
-  @apply inline text-station-accent-strong underline underline-offset-4 decoration-station-accent-soft transition;
-}
-
-.body-copy a,
-.section-prose a {
-  @apply text-station-accent-strong underline underline-offset-4 decoration-station-accent-soft transition;
-}
-
-.text-link:hover {
-  @apply text-station-accent-strong/80 decoration-station-accent;
-}
-
-.body-copy a:hover,
-.section-prose a:hover {
-  @apply text-station-accent-strong/80 decoration-station-accent;
-}
-
 .switch-pill {
-  @apply inline-flex items-center justify-center rounded-lg border border-station-line bg-[rgba(255,255,255,0.58)] px-2.5 py-2 text-sm font-medium text-station-muted transition;
+  @apply inline-flex items-center justify-center rounded-lg border border-station-line bg-[rgba(255,255,255,0.58)] px-2.5 py-2 text-sm font-medium text-station-muted no-underline transition;
 }
 
 .switch-pill:hover {
@@ -191,17 +179,19 @@ pre {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+@layer base {
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
 
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
@@ -213,22 +203,30 @@ pre {
   margin: 12mm;
 }
 
+@layer base {
+  @media print {
+    html {
+      scroll-behavior: auto;
+    }
+
+    body {
+      min-height: auto;
+      background: white;
+      color: black;
+    }
+
+    body::before,
+    body::after {
+      display: none;
+    }
+
+    a {
+      text-decoration-color: rgb(28 23 19 / 0.28);
+    }
+  }
+}
+
 @media print {
-  html {
-    scroll-behavior: auto;
-  }
-
-  body {
-    min-height: auto;
-    background: white;
-    color: black;
-  }
-
-  body::before,
-  body::after {
-    display: none;
-  }
-
   .panel-shell,
   [data-info-card],
   [data-gallery-card] {
@@ -253,13 +251,8 @@ pre {
 
   .meta-label,
   .body-copy,
-  .text-link,
   .switch-pill {
     color: black;
-  }
-
-  .text-link {
-    text-decoration-color: rgb(28 23 19 / 0.28);
   }
 
   .icon-chip {

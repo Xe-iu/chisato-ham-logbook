@@ -32,31 +32,44 @@ export const sections: readonly ProfileSection[] = [
 
 <SectionBlock id="basic-info" title="基本情報">
   <Cards columns="2u">
-    <InfoCard label="QTH" value="PM95" icon="grid">東京都</InfoCard>
-    <InfoCard label="資格" value="第一級アマチュア無線技士" icon="license">
-      現在はポータブル VHF/UHF が中心で、将来的な HF 拡張も見込んでいます。
+    <InfoCard label="QTH" icon="grid">
+      PM95
+      <Fragment slot="description">東京都</Fragment>
     </InfoCard>
-    <InfoCard
-      label="連絡先"
-      value="chariri@chariri.moe"
-      href="mailto:chariri@chariri.moe"
-      icon="mail"
-    />
-    <InfoCard label="優先 QSL" value="LoTW + Bureau" icon="mail">
-      交信確認後の紙 QSL も歓迎です。
+    <InfoCard label="資格" icon="license">
+      第一級アマチュア無線技士
+      <Fragment slot="description">
+        現在はポータブル VHF/UHF が中心で、将来的な HF 拡張も見込んでいます。
+      </Fragment>
+    </InfoCard>
+    <InfoCard label="連絡先" icon="mail">
+      <a href="mailto:chariri@chariri.moe">chariri@chariri.moe</a>
+    </InfoCard>
+    <InfoCard label="優先 QSL" icon="mail">
+      LoTW + Bureau
+      <Fragment slot="description">交信確認後の紙 QSL も歓迎です。</Fragment>
     </InfoCard>
   </Cards>
 
   <SectionCluster icon="gear" title="設備">
     <Cards columns="2">
-      <InfoCard label="Rig" value="Yaesu FT5D + ハンディ用ホイップ" icon="radio">
-        日常運用、モニター、フィールドテスト用の現行ポータブル V/UHF 構成です。
+      <InfoCard label="Rig" icon="radio">
+        Yaesu FT5D + ハンディ用ホイップ
+        <Fragment slot="description">
+          日常運用、モニター、フィールドテスト用の現行ポータブル V/UHF 構成です。
+        </Fragment>
       </InfoCard>
-      <InfoCard label="ワークフロー" value="ノート + ログ整理フロー" icon="gear">
-        紙とターミナル中心の軽い運用メモ環境で、後日のログ整理にも向いています。
+      <InfoCard label="ワークフロー" icon="gear">
+        ノート + ログ整理フロー
+        <Fragment slot="description">
+          紙とターミナル中心の軽い運用メモ環境で、後日のログ整理にも向いています。
+        </Fragment>
       </InfoCard>
-      <InfoCard label="局計画" value="HF 固定局を準備中" icon="radio">
-        給電線、アンテナ、机周りを段階的に整え、後の常設構成につなげています。
+      <InfoCard label="局計画" icon="radio">
+        HF 固定局を準備中
+        <Fragment slot="description">
+          給電線、アンテナ、机周りを段階的に整え、後の常設構成につなげています。
+        </Fragment>
       </InfoCard>
     </Cards>
   </SectionCluster>
@@ -95,14 +108,23 @@ export const sections: readonly ProfileSection[] = [
 
   <SectionCluster title="資格 / ノート" icon="award">
     <Cards columns="3">
-      <InfoCard label="資格" value="第一級の資格" icon="award">
-        より広い運用権限と、将来の本格的な固定局構築に向けた基盤です。
+      <InfoCard label="資格" icon="award">
+        第一級の資格
+        <Fragment slot="description">
+          より広い運用権限と、将来の本格的な固定局構築に向けた基盤です。
+        </Fragment>
       </InfoCard>
-      <InfoCard label="運用スタイル" value="ポータブル優先" icon="signal">
-        素早い展開、簡単な局チェック、ローカル V/UHF の試行を重視しています。
+      <InfoCard label="運用スタイル" icon="signal">
+        ポータブル優先
+        <Fragment slot="description">
+          素早い展開、簡単な局チェック、ローカル V/UHF の試行を重視しています。
+        </Fragment>
       </InfoCard>
-      <InfoCard label="サイト方針" value="静的構成を優先" icon="gear">
-        重要な局情報を、重いクライアントコードなしで読みやすく保っています。
+      <InfoCard label="サイト方針" icon="gear">
+        静的構成を優先
+        <Fragment slot="description">
+          重要な局情報を、重いクライアントコードなしで読みやすく保っています。
+        </Fragment>
       </InfoCard>
     </Cards>
   </SectionCluster>

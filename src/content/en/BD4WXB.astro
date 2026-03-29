@@ -32,32 +32,37 @@ export const sections: readonly ProfileSection[] = [
 
 <SectionBlock id="basic-info" title="Basic Info">
   <Cards columns="2u">
-    <InfoCard label="QTH" value="OL39" icon="grid">CRAC Area 8 - Chongqing</InfoCard>
-    <InfoCard label="License" value="Class B, China Amateur Radio License" icon="signal">
-      <p>144 / 430 MHz @ 25 W</p>
-      <p>HF @ 15 W</p>
+    <InfoCard label="QTH" icon="grid">
+      OL39
+      <Fragment slot="description">CRAC Area 8 - Chongqing</Fragment>
     </InfoCard>
-    <InfoCard
-      label="Contact"
-      value="chariri@chariri.moe"
-      href="mailto:chariri@chariri.moe"
-      icon="email"
-    />
-    <InfoCard
-      label="Postal Address"
-      value="P.O. Box 21004294, Nanjing, Jiangsu 210042, P.R. China"
-      icon="mail"
-    />
+    <InfoCard label="License" icon="signal">
+      Class B, China Amateur Radio License
+      <Fragment slot="description">
+        <p>144 / 430 MHz @ 25 W</p>
+        <p>HF @ 15 W</p>
+      </Fragment>
+    </InfoCard>
+    <InfoCard label="Contact" icon="email">
+      <a href="mailto:chariri@chariri.moe">chariri@chariri.moe</a>
+    </InfoCard>
+    <InfoCard label="Postal Address" icon="mail">
+      P.O. Box 21004294, Nanjing, Jiangsu 210042, P.R. China
+    </InfoCard>
   </Cards>
 
   <SectionCluster icon="gear" title="Gear">
     <Cards columns="2">
-      <InfoCard label="Rig" value="Wouxun KG-UV9D Plus" icon="radio">
-        FM @ VHF (144 MHz), 5 W
+      <InfoCard label="Rig" icon="radio">
+        Wouxun KG-UV9D Plus
+        <Fragment slot="description">FM @ VHF (144 MHz), 5 W</Fragment>
       </InfoCard>
-      <InfoCard label="Rig" value="ICOM IC-7300" icon="radio">SSB, FT8 @ HF, 15 W</InfoCard>
-      <InfoCard label="Antenna" value="DIAMOND SRH771" icon="antenna" />
-      <InfoCard label="Antenna" value="HF Portable V-Dipole by BG8GVJ" icon="antenna" />
+      <InfoCard label="Rig" icon="radio">
+        ICOM IC-7300
+        <Fragment slot="description">SSB, FT8 @ HF, 15 W</Fragment>
+      </InfoCard>
+      <InfoCard label="Antenna" icon="antenna">DIAMOND SRH771</InfoCard>
+      <InfoCard label="Antenna" icon="antenna">HF Portable V-Dipole by BG8GVJ</InfoCard>
     </Cards>
   </SectionCluster>
 
