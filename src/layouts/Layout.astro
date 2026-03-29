@@ -46,24 +46,24 @@ const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;
     <div class="relative min-h-screen">
       <a
         href="#main-content"
-        class="sr-only fixed left-4 top-4 z-[60] rounded-md border border-station-line bg-[rgba(252,249,244,0.98)] px-4 py-2 text-sm font-medium text-station-ink no-underline shadow-lg focus:not-sr-only"
+        class="sr-only fixed left-4 top-4 z-[60] rounded-md border border-station-line bg-[rgb(252_249_244_/_0.98)] px-4 py-2 text-sm font-medium text-station-ink no-underline shadow-lg focus:not-sr-only dark:bg-[rgb(20_24_29_/_0.96)]"
       >
         {locale.skipToContent}
       </a>
-      <header class="border-b border-station-line bg-[rgba(252,252,250,0.96)] print:bg-white">
+      <header class="border-b border-station-line bg-(--color-station-surface-chrome) print:bg-white">
         <div class="mx-auto max-w-[88rem] px-4 py-5 sm:px-6 lg:px-8">
           <div class="grid gap-5 lg:grid-cols-[minmax(0,1.2fr)_auto] lg:items-start print:block">
             <div class="flex min-w-0 items-center gap-4 print:gap-x-3">
               <a
                 href="https://chariri.moe"
                 aria-label={locale.labels.homeLink}
-                class="shrink-0 rounded-[1rem] border border-station-line bg-[rgba(255,255,255,0.58)] p-1 no-underline"
+                class="shrink-0 rounded-2xl border border-station-line bg-(--color-station-surface-translucent) p-1 no-underline"
               >
                 <img
                   src="/images/head.webp"
                   alt=""
                   loading="lazy"
-                  class="h-16 w-16 rounded-[0.8rem] object-cover print:h-14 print:w-14"
+                  class="h-16 w-16 rounded-xl object-cover print:h-14 print:w-14"
                 />
               </a>
               <div class="min-w-0 space-y-1">
@@ -119,7 +119,7 @@ const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;
                         <span class="font-mono text-sm tracking-[0.18em]">{station.callsign}</span>
                         <span
                           class:list={[
-                            "rounded-md border border-transparent px-2 py-1 text-[0.62rem] uppercase tracking-[0.18em] print:border-[rgb(28_23_19_/_0.18)] print:bg-white print:text-black",
+                            "rounded-md border border-transparent px-2 py-1 text-[0.62rem] uppercase tracking-[0.18em] print:border-(--color-print-line) print:bg-white print:text-black",
                             station.status === "active"
                               ? "border-station-line-accent-strong bg-station-surface-accent text-station-accent-strong"
                               : "border-station-line bg-station-surface-subtle text-station-muted",
@@ -167,7 +167,7 @@ const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;
       </div>
 
       <nav
-        class="fixed inset-x-0 bottom-0 z-40 border-t border-station-line bg-[rgba(252,252,250,0.97)] print:hidden lg:hidden"
+        class="fixed inset-x-0 bottom-0 z-40 border-t border-station-line bg-(--color-station-surface-chrome) print:hidden lg:hidden"
         aria-label={mobileSectionNavLabel}
       >
         <div
@@ -177,7 +177,7 @@ const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;
             mobileSections.map((section) => (
               <a
                 href={`#${section.id}`}
-                class="grow rounded-md border border-station-line bg-[rgba(255,255,255,0.6)] px-3 py-3 text-center text-[0.72rem] font-medium text-station-muted no-underline"
+                class="grow rounded-md border border-station-line bg-(--color-station-surface-translucent) px-3 py-3 text-center text-[0.72rem] font-medium text-station-muted no-underline"
               >
                 {section.label}
               </a>

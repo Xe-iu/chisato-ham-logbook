@@ -63,6 +63,13 @@
   --color-station-accent-soft: rgb(29 78 137 / 0.2);
   --color-station-surface-accent: #e8eef5;
   --color-station-surface-subtle: #f5f6f8;
+  --color-station-surface-chrome: rgb(252 252 250 / 0.96);
+  --color-station-surface-translucent: rgb(255 255 255 / 0.58);
+  --color-station-surface-translucent-hover: rgb(255 255 255 / 0.75);
+  --color-station-surface-card: rgb(255 255 255 / 0.72);
+  --color-station-surface-shell: rgb(255 255 255 / 0.9);
+  --color-station-surface-dialog: rgb(255 255 255 / 0.985);
+  --color-station-surface-table-head: rgb(246 241 233 / 0.96);
 
   --color-terminal-border: rgb(52 211 153 / 0.2);
   --color-terminal-divider: rgb(52 211 153 / 0.2);
@@ -72,9 +79,44 @@
 
   --color-grid: rgba(22, 22, 22, 0.07);
   --color-grid-mask: rgba(0, 0, 0, 0.18);
+  --color-print-line: rgb(28 23 19 / 0.18);
   --color-terminal-glow: rgba(16, 185, 129, 0.12);
 
   --shadow-panel: 0 18px 36px -34px rgba(0, 0, 0, 0.34);
+}
+
+@layer base {
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-station-bg-start: #14171c;
+      --color-station-bg-end: #0d1014;
+      --color-station-ink: #edf1f7;
+      --color-station-muted: #c4ccd8;
+      --color-station-soft: #95a1b0;
+
+      --color-station-line: rgb(255 255 255 / 0.12);
+      --color-station-line-accent: rgb(113 167 255 / 0.25);
+      --color-station-line-accent-strong: rgb(113 167 255 / 0.38);
+
+      --color-station-accent: #71a7ff;
+      --color-station-accent-strong: #2c6bc7;
+      --color-station-accent-soft: rgb(113 167 255 / 0.2);
+      --color-station-surface-accent: #16243a;
+      --color-station-surface-subtle: #171c23;
+      --color-station-surface-chrome: rgb(20 24 29 / 0.96);
+      --color-station-surface-translucent: rgb(28 33 40 / 0.72);
+      --color-station-surface-translucent-hover: rgb(36 43 52 / 0.86);
+      --color-station-surface-card: rgb(24 29 36 / 0.84);
+      --color-station-surface-shell: rgb(18 23 28 / 0.92);
+      --color-station-surface-dialog: rgb(15 19 24 / 0.98);
+      --color-station-surface-table-head: rgb(22 27 33 / 0.98);
+
+      --color-grid: rgba(255, 255, 255, 0.04);
+      --color-grid-mask: rgba(255, 255, 255, 0.12);
+
+      --shadow-panel: 0 22px 44px -30px rgba(0, 0, 0, 0.72);
+    }
+  }
 }
 
 /* #endregion Color */

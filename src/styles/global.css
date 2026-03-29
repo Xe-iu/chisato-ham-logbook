@@ -5,7 +5,7 @@
   /* #region Document */
 
   html {
-    color-scheme: light;
+    color-scheme: light dark;
     scroll-behavior: smooth;
   }
 
@@ -99,11 +99,13 @@
 /* #region Links And Controls */
 
 .switch-pill {
-  @apply inline-flex items-center justify-center rounded-lg border border-station-line bg-[rgba(255,255,255,0.58)] px-2.5 py-2 text-sm font-medium text-station-muted no-underline transition;
+  @apply inline-flex items-center justify-center rounded-lg border border-station-line px-2.5 py-2 text-sm font-medium text-station-muted no-underline transition;
+  background-color: var(--color-station-surface-translucent);
 }
 
 .switch-pill:hover {
-  @apply border-station-line-accent bg-[rgba(255,255,255,0.75)] text-station-ink;
+  @apply border-station-line-accent text-station-ink;
+  background-color: var(--color-station-surface-translucent-hover);
 }
 
 .switch-pill[data-active="true"] {
@@ -142,6 +144,18 @@
 }
 
 @layer base {
+  @media (prefers-color-scheme: dark) {
+    html {
+      color-scheme: dark;
+    }
+
+    body::after {
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 18%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 24%);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -199,7 +213,7 @@
   }
 
   .icon-chip {
-    border-color: rgb(28 23 19 / 0.18);
+    border-color: var(--color-print-line);
     background: white;
     color: black;
   }

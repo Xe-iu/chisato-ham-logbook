@@ -9,7 +9,7 @@ Core characteristics:
 - Static-first routing and rendering
 - No client framework
 - Small inline scripts only where interaction is unavoidable
-- Semantic `.astro` content modules instead of MDX or JSON-driven rendering
+- Semantic `.astro` content modules instead of MDX or generic data-driven rendering
 - Multi-language and multi-station support derived from discovered profile files
 - Local assets for fonts, icons, and images
 
@@ -120,18 +120,28 @@ Shared profile typing lives in:
 
 - [`src/lib/profile.ts`](/E:/source/repos/chisato-ham-logbook/src/lib/profile.ts)
 
-Current `profile.hero` shape:
+Current `ProfileMeta` shape:
 
-- `quote`
-- `descriptionHtml`
-- optional `quoteSource`
+- `lang`
+- `stationId`
+- `callsign`
+- `status`
+- `pageTitle`
+- `description`
+- `hero.quote`
+- optional `hero.quoteSource`
 
-The hero description is HTML, not plain text. The page metadata strips tags from it for the `<meta name="description">`.
+Important authoring rule:
+
+- `profile.description` is a short plain-text metadata description for the HTML head
+- the visible intro prose is not stored in `profile`
+- each profile file starts its body with a top-level `<Prose>...</Prose>` block for the visible introduction
 
 Do not reintroduce:
 
 - MDX for profile authoring
 - generic JSON content rendering
+- long HTML blobs inside `profile`
 - hardcoded station unions or duplicated station registries
 
 ## Render Flow
@@ -177,6 +187,7 @@ Layout notes:
 - mobile section shortcuts intentionally omit `overview`
 - the desktop and mobile section navs have distinct accessible labels
 - layout owns the global navigation chrome; profile modules only provide station content
+- the home/logo link uses an explicit localized accessible name
 
 ## Hero
 
@@ -205,42 +216,45 @@ Components live directly in:
 
 - [`src/components`](/E:/source/repos/chisato-ham-logbook/src/components)
 
-Current shared components:
+Current profile-facing components:
 
 - `Cards.astro`
   - responsive grid wrapper
-- `DescriptionListCard.astro`
-  - grouped labeled rows using `InfoCard`
-- `DescriptionListItem.astro`
-  - labeled row with optional value or link
 - `GalleryCard.astro`
   - title, prose, then image
-- `Icon.astro`
-  - local SVG sprite consumer
-- `IconSprite.astro`
-  - inline sprite sheet
 - `InfoCard.astro`
   - generic bordered content container
+  - uses the default slot for the main title/value
+  - uses the named `description` slot for the smaller secondary content
 - `LogbookCard.astro`
   - searchable, virtualized logbook viewer with modal detail dialog
 - `MorseHero.astro`
   - hero/overview block
+- `Prose.astro`
+  - bordered prose block for intro/QSL-policy style text
 - `SectionBlock.astro`
   - section wrapper with anchor target and heading
 - `SectionCluster.astro`
   - subsection grouping within a section
-- `SectionHeading.astro`
-  - numbered section heading
+
+Supporting shared components:
+
+- `Icon.astro`
+  - local SVG sprite consumer
+- `IconSprite.astro`
+  - inline sprite sheet
+
+Legacy layout helpers still present in the repo:
+
 - `Stack.astro`
-  - vertical spacing wrapper
 - `TwoPane.astro`
-  - two-column composition helper
+
+They are not part of the current profile composition flow. Do not introduce them casually unless there is a clear layout need.
 
 Content authoring guidance:
 
 - Prefer direct `InfoCard` usage over thin wrapper components
-- Use `DescriptionListCard` plus `DescriptionListItem` for compact labeled policy/rule blocks
-- Use `.section-prose` for lighter prose containers that should not look like cards
+- Put visible prose into `Prose` or plain markup, not into profile metadata
 - Keep section and subsection structure explicit in the profile files
 
 ## Logbook
@@ -274,6 +288,8 @@ Current behavior:
 - uses a global body-level modal dialog for row details
 - uses roving `tabindex` for table row buttons so keyboard users can leave the table with `Tab`
 - renders a no-JS warning and hides the interactive logbook UI when scripting is unavailable
+- when printing with a logbook dialog open, does not print the live modal
+- instead renders a dedicated print-only detail sheet, hides the rest of the page for print, then restores the dialog after print
 
 Keep the logbook client code framework-free. Do not replace it with a client UI library.
 
@@ -291,7 +307,8 @@ Constraints:
 
 - icons are local
 - icons are subsetted
-- icon usage goes through the shared components
+- icon usage goes through shared components
+- the sprite should remain hidden and sane even when CSS fails to load
 - do not switch this to a webfont or CDN
 
 ## Styling System
@@ -300,7 +317,7 @@ Styling is split into:
 
 1. design tokens and font setup
    - [`src/styles/vars.css`](/E:/source/repos/chisato-ham-logbook/src/styles/vars.css)
-2. reusable cross-cutting primitives, document rules, and print rules
+2. global defaults plus a small set of reused primitives
    - [`src/styles/global.css`](/E:/source/repos/chisato-ham-logbook/src/styles/global.css)
 3. logbook-only shared rules
    - [`src/styles/logbook.css`](/E:/source/repos/chisato-ham-logbook/src/styles/logbook.css)
@@ -308,25 +325,41 @@ Styling is split into:
 `global.css` should stay narrow. It is for:
 
 - document-wide behavior
-- global focus handling
-- typography primitives reused across components
-- shared surfaces such as `panel-shell`
-- shared control/link patterns such as `switch-pill` and `text-link`
-- section scaffolding and print behavior
+- base-layer element defaults
+- accessibility defaults such as focus treatment
+- a small number of repeated primitives reused across components
+- print and reduced-motion behavior
 
-One-off layout or component-only styling should stay inline in the component via Tailwind utility classes, not as a new global class.
+Current base-layer defaults include:
+
+- `html`
+- `body`
+- `body::before`
+- `body::after`
+- global `a`
+- `main p`
+- `pre`
+- `[hidden]`
+- `:focus-visible`
+- reduced-motion element defaults
+- print element defaults
 
 Current reusable global classes:
 
 - `meta-label`
 - `meta-label-large`
-- `body-copy`
-- `panel-shell`
 - `icon-chip`
-- `text-link`
 - `switch-pill`
-- `section-block`
-- `section-prose`
+- `.section .section-count::before`
+- `.is-typing::after`
+
+Important styling conventions:
+
+- global prose/reference link styling lives on base `a`
+- navigation and other chrome links opt out locally with utility classes
+- one-off layout or component-only styling should stay inline in the component via Tailwind utility classes
+- do not create style-only `data-*` hooks
+- if a selector exists only for logbook internals, prefer `logbook.css`
 
 `logbook.css` is the place for repeated logbook-only selectors such as:
 
@@ -336,6 +369,7 @@ Current reusable global classes:
 - `logbook-row`
 - `logbook-row-button`
 - `logbook-detail-row`
+- `logbook-print-sheet`
 
 ## Accessibility And UX Constraints
 
@@ -356,6 +390,7 @@ Do not regress:
 - roving `tabindex` behavior in the logbook table
 - localized visible and accessible labels
 - print-visible callsign in the hero
+- print-only logbook detail sheet behavior when printing an open dialog
 
 ## Conventions To Preserve
 
@@ -364,9 +399,10 @@ Do not regress:
 - Keep routing derived from discovered profile modules
 - Keep locale data centralized in `i18n.ts`
 - Keep icons local and subsetted
-- Keep `global.css` limited to reusable primitives
+- Keep `global.css` limited to actual global defaults and small reused primitives
 - Inline one-off visual styling in component markup instead of inventing global classes
 - Avoid reintroducing removed wrapper components when `InfoCard` or the page file is enough
+- Do not use style-only `data-*` attributes
 
 ## Practical Entry Points
 
@@ -388,6 +424,12 @@ If you need to change:
 - hero behavior:
   - [`src/components/MorseHero.astro`](/E:/source/repos/chisato-ham-logbook/src/components/MorseHero.astro)
   - [`src/lib/morse.ts`](/E:/source/repos/chisato-ham-logbook/src/lib/morse.ts)
+- shared prose/card/section authoring:
+  - [`src/components/Prose.astro`](/E:/source/repos/chisato-ham-logbook/src/components/Prose.astro)
+  - [`src/components/InfoCard.astro`](/E:/source/repos/chisato-ham-logbook/src/components/InfoCard.astro)
+  - [`src/components/GalleryCard.astro`](/E:/source/repos/chisato-ham-logbook/src/components/GalleryCard.astro)
+  - [`src/components/SectionBlock.astro`](/E:/source/repos/chisato-ham-logbook/src/components/SectionBlock.astro)
+  - [`src/components/SectionCluster.astro`](/E:/source/repos/chisato-ham-logbook/src/components/SectionCluster.astro)
 - logbook behavior:
   - [`src/components/LogbookCard.astro`](/E:/source/repos/chisato-ham-logbook/src/components/LogbookCard.astro)
   - [`src/styles/logbook.css`](/E:/source/repos/chisato-ham-logbook/src/styles/logbook.css)

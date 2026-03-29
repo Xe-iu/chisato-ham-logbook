@@ -1,6 +1,4 @@
 ---
-import SectionHeading from "./SectionHeading.astro";
-
 interface Props {
   id: string;
   title: string;
@@ -12,10 +10,18 @@ const headingId = `${id}-heading`;
 
 <section
   id={id}
-  class="section relative scroll-mt-32 print:scroll-mt-0 print:[break-inside:avoid] print:[page-break-inside:avoid] [&+&]:mt-14 [&+&]:border-t [&+&]:border-station-line [&+&]:pt-12"
+  class="section relative scroll-mt-32 print:scroll-mt-0 print:break-inside-avoid print:[page-break-inside:avoid] [&+&]:mt-14 [&+&]:border-t [&+&]:border-station-line [&+&]:pt-12"
   aria-labelledby={headingId}
 >
-  <SectionHeading id={headingId} title={title} />
+  <div class="mb-6 grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-end">
+    <div class="space-y-3">
+      <p class="section-count font-mono text-[0.76rem] uppercase tracking-[0.24rem] text-station-accent-strong print:text-black"></p>
+      <h2 id={headingId} class="font-sans text-[clamp(2rem,4vw,3.2rem)] leading-none text-station-ink">
+        {title}
+      </h2>
+    </div>
+    <div class="hidden h-px bg-station-line sm:block"></div>
+  </div>
   <div class="mt-6 space-y-7">
     <slot />
   </div>

@@ -13,7 +13,7 @@ const hasDescription = Astro.slots.has("description");
 ---
 
 <article
-  class="rounded-[0.95rem] border border-station-line bg-[rgba(255,255,255,0.72)] p-4 print:[break-inside:avoid] print:[page-break-inside:avoid] print:border-[rgb(28_23_19_/_0.18)] print:bg-white sm:p-5"
+  class="rounded-xl border border-station-line bg-(--color-station-surface-card) p-4 print:break-inside-avoid print:[page-break-inside:avoid] print:border-(--color-print-line) print:bg-white sm:p-5"
 >
   {
     (label || icon) && (

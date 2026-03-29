@@ -6,7 +6,8 @@
 }
 
 .logbook-table thead {
-  @apply sticky top-0 z-10 bg-[rgba(246,241,233,0.96)];
+  @apply sticky top-0 z-10;
+  background-color: var(--color-station-surface-table-head);
 }
 
 .logbook-th {
