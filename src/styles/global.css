@@ -11,11 +11,7 @@
 
   body {
     min-height: 100vh;
-    background: linear-gradient(
-      180deg,
-      var(--color-station-bg-start) 0%,
-      var(--color-station-bg-end) 100%
-    );
+    background: var(--color-station-bg);
     color: var(--color-station-ink);
     font-family: var(--font-sans);
   }
@@ -79,11 +75,11 @@
 /* #region Typography */
 
 .meta-label {
-  @apply font-mono text-[0.74rem] uppercase tracking-[0.22rem] text-station-soft;
+  @apply font-mono text-ui-label uppercase tracking-[0.16rem] text-station-soft;
 }
 
 .meta-label-large {
-  @apply font-mono text-[0.92rem] uppercase tracking-[0.16rem] text-station-soft;
+  @apply font-mono text-ui-label-lg uppercase tracking-[0.16rem] text-station-soft;
 }
 
 /* #endregion Typography */
@@ -98,22 +94,22 @@
 
 /* #region Links And Controls */
 
-.switch-pill {
+.station-button {
   @apply inline-flex items-center justify-center rounded-lg border border-station-line px-2.5 py-2 text-sm font-medium text-station-muted no-underline transition;
   background-color: var(--color-station-surface-translucent);
 }
 
-.switch-pill:hover {
+.station-button:hover {
   @apply border-station-line-accent text-station-ink;
   background-color: var(--color-station-surface-translucent-hover);
 }
 
-.switch-pill[data-active="true"] {
+.station-button[data-active="true"] {
   @apply border-station-accent-strong bg-station-accent-strong text-stone-50;
   box-shadow: 0 10px 18px -16px rgba(90, 53, 23, 0.65);
 }
 
-.switch-pill[data-active="true"]:hover {
+.station-button[data-active="true"]:hover {
   @apply bg-station-accent-strong/92 text-stone-50;
 }
 
@@ -127,21 +123,6 @@
 }
 
 /* #endregion Layout Helpers */
-
-/* #region Motion */
-
-.is-typing::after {
-  content: "_";
-  margin-left: 0.18rem;
-  color: var(--color-terminal-text-soft);
-  animation: terminal-blink 1s step-end infinite;
-}
-
-@keyframes terminal-blink {
-  50% {
-    opacity: 0;
-  }
-}
 
 @layer base {
   @media (prefers-color-scheme: dark) {
@@ -170,8 +151,6 @@
     }
   }
 }
-
-/* #endregion Motion */
 
 /* #region Print */
 
@@ -203,23 +182,6 @@
     a {
       text-decoration-color: rgb(28 23 19 / 0.28);
     }
-  }
-}
-
-@media print {
-  .meta-label,
-  .switch-pill {
-    color: black;
-  }
-
-  .icon-chip {
-    border-color: var(--color-print-line);
-    background: white;
-    color: black;
-  }
-
-  .is-typing::after {
-    display: none;
   }
 }
 

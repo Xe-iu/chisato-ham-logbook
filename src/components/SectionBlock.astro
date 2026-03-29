@@ -10,12 +10,16 @@ const headingId = `${id}-heading`;
 
 <section
   id={id}
-  class="section relative scroll-mt-32 print:scroll-mt-0 print:break-inside-avoid print:[page-break-inside:avoid] [&+&]:mt-14 [&+&]:border-t [&+&]:border-station-line [&+&]:pt-12"
+  class="section relative scroll-mt-32 print:scroll-mt-0 \
+  [&+&]:mt-14 [&+&]:border-t [&+&]:border-station-line [&+&]:pt-12"
   aria-labelledby={headingId}
 >
-  <div class="mb-6 grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-end">
+  <div class="mb-6 grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-end print:break-after-avoid">
     <div class="space-y-3">
-      <p class="section-count font-mono text-[0.76rem] uppercase tracking-[0.24rem] text-station-accent-strong print:text-black"></p>
+      <span
+        aria-hidden="true"
+        class="section-count block font-mono text-ui-label uppercase tracking-[0.24rem] text-station-accent-strong"
+      ></span>
       <h2 id={headingId} class="font-sans text-[clamp(2rem,4vw,3.2rem)] leading-none text-station-ink">
         {title}
       </h2>

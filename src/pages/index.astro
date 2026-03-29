@@ -7,7 +7,7 @@ const fallbackHref = buildProfileHref(localeIds[0], activeStationId);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="und">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -41,10 +41,11 @@ const fallbackHref = buildProfileHref(localeIds[0], activeStationId);
       window.location.replace(`/${language}/${activeStationId}/`);
     </script>
 
-    <main>
+    <main aria-labelledby="redirect-title">
+      <h1 id="redirect-title">Redirecting...</h1>
       <p>Redirecting... 重定向中... 画面遷移中...</p>
       <a href={fallbackHref}>
-        If the redirection fails, click the here or links below.
+        If the redirection fails, use this fallback link or the links below.
         如果未重定向成功，点这里或下面的链接。画面が遷移しなければ、ここや下記のリンクをクリックしてください。
       </a>
       <ul>

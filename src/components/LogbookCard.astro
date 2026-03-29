@@ -1,6 +1,5 @@
 ---
 import { getLocale, type LocaleId } from "../lib/i18n";
-import "../styles/logbook.css";
 
 interface Props {
   lang: LocaleId;
@@ -17,11 +16,16 @@ const dialogDescriptionId = `${dialogId}-description`;
 const printSheetId = `${dialogId}-print`;
 const resultsId = `${dialogId}-results`;
 const tableDescriptionId = `${dialogId}-table-description`;
+const tableHeaderCellClass =
+  "px-3 py-2 border-b border-station-line font-mono text-ui-micro uppercase tracking-[0.16rem] text-station-soft";
+const tableCellClass =
+  "px-3 py-2 border-b border-station-line/70 align-baseline text-station-muted";
+const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
 ---
 
 <section
-  class="overflow-hidden rounded-2xl border border-station-line bg-(--color-station-surface-shell) shadow-[var(--shadow-panel)] dark:bg-[rgb(18_23_28_/_0.92)] \
-  print:border-(--color-print-line) print:bg-white print:shadow-none"
+  class="overflow-hidden print:shadow-none rounded-2xl \
+  border border-station-line shadow-(--shadow-panel) bg-station-bg"
   data-logbook-root
   data-logbook-url={dataUrl}
   data-logbook-index-url={indexUrl}
@@ -32,27 +36,34 @@ const tableDescriptionId = `${dialogId}-table-description`;
 >
   <noscript>
     <div
-      class="m-4 rounded-xl border border-station-line bg-station-surface-subtle px-4 py-4 text-sm leading-7 text-station-muted"
+      class="m-4 px-4 py-4 rounded-xl \
+      border border-station-line \
+      bg-station-surface-subtle \
+      text-sm leading-7 text-station-muted"
       role="note"
       aria-label={t.clusterTitle}
     >
       <p class="font-medium text-station-ink">{t.clusterTitle}</p>
-      <p class="mt-2">{getLocale(lang).noscript.logbook}</p>
+      <p class="mt-2">{t.noscript}</p>
     </div>
     <style>
-      [data-logbook-app] {
+      .logbook-app {
         display: none !important;
       }
     </style>
   </noscript>
 
-  <div data-logbook-app>
+  <div class="logbook-app">
     <div class="border-b border-station-line p-2 sm:p-4">
       <label class="block">
         <span class="meta-label">{t.searchLabel}</span>
         <input
           type="search"
-          class="mt-3 w-full rounded-xl border border-station-line bg-station-surface-subtle px-3 py-2 text-sm text-station-ink shadow-sm transition placeholder:text-station-soft/70 hover:border-station-accent/30 focus:border-station-accent/40"
+          class="mt-3 w-full transition \
+          px-3 py-2 rounded-xl \
+          border border-station-line shadow-sm \
+          bg-station-surface-subtle text-sm text-station-ink placeholder:text-station-soft/70 \
+          hover:border-station-accent/30 focus:border-station-accent/40"
           data-logbook-search
           placeholder={t.searchPlaceholder}
           autocomplete="off"
@@ -61,7 +72,9 @@ const tableDescriptionId = `${dialogId}-table-description`;
     </div>
 
     <div
-      class="flex flex-col gap-2 border-b border-station-line px-6 py-2 sm:flex-row sm:items-center sm:justify-between"
+      class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between \
+      px-6 py-2 \
+      border-b border-station-line"
     >
       <p
         id={resultsId}
@@ -83,35 +96,35 @@ const tableDescriptionId = `${dialogId}-table-description`;
     <div class="overflow-x-auto">
       <div class="max-h-136 overflow-auto" data-logbook-viewport>
         <table
-          class="logbook-table w-full min-w-235"
+          class="w-full min-w-235 border-collapse text-left text-sm"
           aria-describedby={`${tableDescriptionId} ${resultsId}`}
         >
           <caption class="sr-only">{t.cardLabel}</caption>
           <colgroup>
-            <col style="width: 10rem" />
-            <col style="width: 6rem" />
-            <col style="width: 4rem" />
-            <col style="width: 4rem" />
-            <col style="width: 7rem" />
-            <col style="width: 7rem" />
-            <col style="width: 4rem" />
-            <col style="width: 4rem" />
+            <col class="w-40" />
+            <col class="w-24" />
+            <col class="w-16" />
+            <col class="w-16" />
+            <col class="w-28" />
+            <col class="w-28" />
+            <col class="w-16" />
+            <col class="w-16" />
           </colgroup>
-          <thead>
+          <thead class="sticky top-0 z-10 bg-station-surface-table-head print:static print:bg-white">
             <tr>
-              <th scope="col" class="logbook-th">{t.columns.utc}</th>
-              <th scope="col" class="logbook-th">{t.columns.callsign}</th>
-              <th scope="col" class="logbook-th">{t.columns.sent}</th>
-              <th scope="col" class="logbook-th">{t.columns.received}</th>
-              <th scope="col" class="logbook-th">{t.columns.txFreq}</th>
-              <th scope="col" class="logbook-th">{t.columns.rxFreq}</th>
-              <th scope="col" class="logbook-th">{t.columns.mode}</th>
-              <th scope="col" class="logbook-th">{t.columns.txPower}</th>
+              <th scope="col" class={tableHeaderCellClass}>{t.columns.utc}</th>
+              <th scope="col" class={tableHeaderCellClass}>{t.columns.callsign}</th>
+              <th scope="col" class={tableHeaderCellClass}>{t.columns.sent}</th>
+              <th scope="col" class={tableHeaderCellClass}>{t.columns.received}</th>
+              <th scope="col" class={tableHeaderCellClass}>{t.columns.txFreq}</th>
+              <th scope="col" class={tableHeaderCellClass}>{t.columns.rxFreq}</th>
+              <th scope="col" class={tableHeaderCellClass}>{t.columns.mode}</th>
+              <th scope="col" class={tableHeaderCellClass}>{t.columns.txPower}</th>
             </tr>
           </thead>
           <tbody data-logbook-body>
             <tr>
-              <td colspan="8" class="px-5 py-6 text-left text-sm text-station-muted">
+              <td colspan="8" class={messageCellClass}>
                 {t.loading}
               </td>
             </tr>
@@ -123,40 +136,45 @@ const tableDescriptionId = `${dialogId}-table-description`;
 
   <template data-logbook-message-template>
     <tr>
-      <td
-        colspan="8"
-        class="px-5 py-6 text-left text-sm text-station-muted"
-        data-logbook-message-cell
-      >
+      <td colspan="8" class={messageCellClass} data-logbook-message-cell>
       </td>
     </tr>
   </template>
 
   <template data-logbook-spacer-template>
     <tr aria-hidden="true">
-      <td colspan="8" style="padding:0;border:0;" data-logbook-spacer-cell></td>
+      <td colspan="8" class="p-0 border-0" data-logbook-spacer-cell></td>
     </tr>
   </template>
 
   <template data-logbook-row-template>
-    <tr class="logbook-row" data-logbook-row>
-      <td class="logbook-cell" data-logbook-utc></td>
-      <td class="logbook-cell">
+    <tr
+      class="cursor-pointer transition hover:bg-station-surface-accent/45 \
+      [&:has([data-logbook-open]:focus-visible)]:outline-3 \
+      [&:has([data-logbook-open]:focus-visible)]:outline-offset-[-3px] \
+      [&:has([data-logbook-open]:focus-visible)]:outline-station-accent"
+      data-logbook-row
+    >
+      <td class={tableCellClass} data-logbook-utc></td>
+      <td class={tableCellClass}>
         <button
           type="button"
-          class="logbook-row-button font-mono text-station-ink"
+          class="block w-full cursor-pointer text-left transition \
+          font-mono text-station-ink \
+          underline-offset-4 decoration-transparent \
+          hover:text-station-accent-strong focus-visible:outline-none"
           aria-haspopup="dialog"
           data-logbook-index
           data-logbook-open
         >
         </button>
       </td>
-      <td class="logbook-cell" data-logbook-sent></td>
-      <td class="logbook-cell" data-logbook-received></td>
-      <td class="logbook-cell" data-logbook-tx-freq></td>
-      <td class="logbook-cell" data-logbook-rx-freq></td>
-      <td class="logbook-cell" data-logbook-mode></td>
-      <td class="logbook-cell" data-logbook-tx-power></td>
+      <td class={tableCellClass} data-logbook-sent></td>
+      <td class={tableCellClass} data-logbook-received></td>
+      <td class={tableCellClass} data-logbook-tx-freq></td>
+      <td class={tableCellClass} data-logbook-rx-freq></td>
+      <td class={tableCellClass} data-logbook-mode></td>
+      <td class={tableCellClass} data-logbook-tx-power></td>
     </tr>
   </template>
 
@@ -177,9 +195,17 @@ const tableDescriptionId = `${dialogId}-table-description`;
   </template>
 
   <template data-logbook-detail-row-template>
-    <div class="logbook-detail-row" data-logbook-detail-row>
-      <dt class="logbook-detail-label" data-logbook-detail-label></dt>
-      <dd class="logbook-detail-value" data-logbook-detail-value></dd>
+    <div
+      class="grid items-start gap-2 md:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] md:items-baseline \
+      md:gap-6 print:sm:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] \
+      print:sm:items-baseline print:sm:gap-6"
+      data-logbook-detail-row
+    >
+      <dt
+        class="m-0 font-mono text-xs uppercase tracking-[0.1rem] text-station-soft"
+        data-logbook-detail-label
+      ></dt>
+      <dd class="m-0 text-sm text-station-ink" data-logbook-detail-value></dd>
     </div>
   </template>
 
@@ -187,12 +213,16 @@ const tableDescriptionId = `${dialogId}-table-description`;
     <div id={dialogId} data-logbook-dialog class="fixed inset-0 z-50" hidden>
       <div class="absolute inset-0 bg-slate-950/60" data-logbook-close></div>
       <div
-        class="relative flex min-h-full items-start justify-center overflow-y-auto px-3 py-4 sm:px-6 sm:py-8"
+        class="relative flex min-h-full items-start justify-center overflow-y-auto \
+        px-3 py-4 \
+        sm:px-6 sm:py-8"
         data-logbook-close-surface
       >
         <div
-          class="flex w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-station-line bg-(--color-station-surface-dialog) shadow-(--shadow-panel) dark:bg-[rgb(15_19_24_/_0.98)]"
-          style="max-height: calc(100dvh - 2rem);"
+          class="flex w-full max-w-4xl max-h-[calc(100dvh-2rem)] flex-col overflow-hidden rounded-2xl \
+          border border-station-line \
+          shadow-(--shadow-panel) \
+          bg-station-bg"
           role="dialog"
           aria-modal="true"
           aria-labelledby={dialogTitleId}
@@ -201,7 +231,8 @@ const tableDescriptionId = `${dialogId}-table-description`;
           data-logbook-panel
         >
           <div
-            class="flex items-start justify-between gap-4 border-b border-station-line px-5 py-4 sm:px-6"
+            class="flex items-start justify-between gap-4 px-5 py-4 sm:px-6 \
+            border-b border-station-line"
           >
             <div class="space-y-2">
               <p class="meta-label">{t.clusterTitle}</p>
@@ -212,7 +243,7 @@ const tableDescriptionId = `${dialogId}-table-description`;
               >
               </h3>
             </div>
-            <button type="button" class="switch-pill" data-logbook-close>{t.close}</button>
+            <button type="button" class="station-button" data-logbook-close>{t.close}</button>
           </div>
           <div class="min-h-0 overflow-y-auto p-5 sm:p-6" data-logbook-dialog-body></div>
         </div>
@@ -220,6 +251,16 @@ const tableDescriptionId = `${dialogId}-table-description`;
     </div>
   </template>
 </section>
+
+<style is:global>
+  body.logbook-printing-dialog > * {
+    display: none !important;
+  }
+
+  body.logbook-printing-dialog > .logbook-print-sheet {
+    display: block !important;
+  }
+</style>
 
 <script is:inline>
   (() => {

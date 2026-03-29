@@ -22,11 +22,6 @@ interface Props {
 }
 
 const { profile, locale, locales, stations, sections } = Astro.props;
-const title = `${profile.callsign} | ${locale.siteTitle}`;
-const description = profile.description;
-const mobileSections = sections.filter((section) => section.id !== "overview");
-const desktopSectionNavLabel = locale.labels.sectionShortcuts;
-const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;
 ---
 
 <!doctype html>
@@ -38,112 +33,113 @@ const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <meta name="author" content="茶栗chariri" />
-    <meta name="description" content={description} />
-    <title>{title}</title>
+    <meta name="description" content={profile.description} />
+    <title>{`${profile.callsign} | ${locale.siteTitle}`}</title>
   </head>
   <body>
     <IconSprite />
     <div class="relative min-h-screen">
       <a
         href="#main-content"
-        class="sr-only fixed left-4 top-4 z-[60] rounded-md border border-station-line bg-[rgb(252_249_244_/_0.98)] px-4 py-2 text-sm font-medium text-station-ink no-underline shadow-lg focus:not-sr-only dark:bg-[rgb(20_24_29_/_0.96)]"
+        class="sr-only focus:not-sr-only fixed left-4 top-4 z-60 px-4 py-2 \
+        border border-station-line bg-station-surface-chrome text-sm font-medium text-station-ink"
       >
         {locale.skipToContent}
       </a>
-      <header class="border-b border-station-line bg-(--color-station-surface-chrome) print:bg-white">
-        <div class="mx-auto max-w-[88rem] px-4 py-5 sm:px-6 lg:px-8">
-          <div class="grid gap-5 lg:grid-cols-[minmax(0,1.2fr)_auto] lg:items-start print:block">
-            <div class="flex min-w-0 items-center gap-4 print:gap-x-3">
-              <a
-                href="https://chariri.moe"
-                aria-label={locale.labels.homeLink}
-                class="shrink-0 rounded-2xl border border-station-line bg-(--color-station-surface-translucent) p-1 no-underline"
-              >
-                <img
-                  src="/images/head.webp"
-                  alt=""
-                  loading="lazy"
-                  class="h-16 w-16 rounded-xl object-cover print:h-14 print:w-14"
-                />
-              </a>
-              <div class="min-w-0 space-y-1">
-                <p class="meta-label">Chisato HAM Logbook</p>
-                <p
-                  class="font-sans text-[clamp(1.05rem,1.55vw,1.65rem)] leading-[1.08] text-station-ink"
-                >
-                  {profile.pageTitle}
-                </p>
+      <header class="border-b border-station-line bg-station-surface-chrome">
+        <div
+          class="grid gap-5 lg:grid-cols-[minmax(0,1.2fr)_auto] lg:items-start mx-auto max-w-352 \
+          px-4 py-5 sm:px-6 lg:px-8"
+        >
+          <div class="flex min-w-0 items-center gap-4 print:gap-x-3">
+            <a
+              href="https://chariri.moe"
+              aria-label={locale.labels.homeLink}
+              class="shrink-0 no-underline p-1 rounded-2xl border border-station-line \
+              bg-station-surface-translucent"
+            >
+              <img
+                src="/images/head.webp"
+                alt=""
+                loading="lazy"
+                class="h-16 w-16 print:h-14 print:w-14 object-cover rounded-xl"
+              />
+            </a>
+            <div class="min-w-0 space-y-1">
+              <p class="meta-label">Chisato HAM Logbook</p>
+              <p class="font-sans text-[clamp(1.05rem,1.55vw,1.65rem)] text-station-ink">
+                {profile.pageTitle}
+              </p>
+            </div>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-[auto_auto] lg:justify-end print:hidden">
+            <nav
+              class="pl-4 border-l border-station-line"
+              aria-label={locale.labels.stationSwitcher}
+            >
+              <div class="flex items-center justify-between gap-3">
+                <span class="meta-label">{locale.labels.station}</span>
               </div>
-            </div>
-            <div class="grid gap-4 sm:grid-cols-[auto_auto] lg:justify-end print:hidden">
-              <nav
-                class="border-l border-station-line pl-4"
-                aria-label={locale.labels.languageSwitcher}
-              >
-                <div class="flex items-center justify-between gap-3">
-                  <span class="meta-label">{locale.labels.language}</span>
-                </div>
-                <div class="mt-3 flex flex-wrap gap-2">
-                  {
-                    locales.map((locale) => (
-                      <a
-                        href={locale.href}
-                        class="switch-pill"
-                        data-active={locale.current}
-                        aria-current={locale.current ? "page" : undefined}
-                        aria-label={locale.languageName}
+              <div class="mt-3 flex flex-wrap gap-2">
+                {
+                  stations.map((station) => (
+                    <a
+                      href={station.href}
+                      class="station-button gap-3"
+                      data-active={station.current}
+                      aria-current={station.current ? "page" : undefined}
+                    >
+                      <span class="font-mono text-sm tracking-[0.16rem]">{station.callsign}</span>
+                      <span
+                        class:list={[
+                          "px-2 py-1 rounded-md border border-transparent text-ui-badge uppercase tracking-[0.16rem]",
+                          station.status === "active"
+                            ? "border-station-line-accent-strong bg-station-surface-accent text-station-accent-strong"
+                            : "border-station-line bg-station-surface-subtle text-station-muted",
+                        ]}
                       >
-                        {locale.switchLabel}
-                      </a>
-                    ))
-                  }
-                </div>
-              </nav>
-
-              <nav
-                class="border-l border-station-line pl-4"
-                aria-label={locale.labels.stationSwitcher}
-              >
-                <div class="flex items-center justify-between gap-3">
-                  <span class="meta-label">{locale.labels.station}</span>
-                </div>
-                <div class="mt-3 flex flex-wrap gap-2">
-                  {
-                    stations.map((station) => (
-                      <a
-                        href={station.href}
-                        class="switch-pill gap-3"
-                        data-active={station.current}
-                        aria-current={station.current ? "page" : undefined}
-                      >
-                        <span class="font-mono text-sm tracking-[0.18em]">{station.callsign}</span>
-                        <span
-                          class:list={[
-                            "rounded-md border border-transparent px-2 py-1 text-[0.62rem] uppercase tracking-[0.18em] print:border-(--color-print-line) print:bg-white print:text-black",
-                            station.status === "active"
-                              ? "border-station-line-accent-strong bg-station-surface-accent text-station-accent-strong"
-                              : "border-station-line bg-station-surface-subtle text-station-muted",
-                          ]}
-                        >
-                          {station.statusLabel}
-                        </span>
-                      </a>
-                    ))
-                  }
-                </div>
-              </nav>
-            </div>
+                        {station.statusLabel}
+                      </span>
+                    </a>
+                  ))
+                }
+              </div>
+            </nav>
+            <nav
+              class="pl-4 border-l border-station-line"
+              aria-label={locale.labels.languageSwitcher}
+            >
+              <div class="flex items-center justify-between gap-3">
+                <span class="meta-label">{locale.labels.language}</span>
+              </div>
+              <div class="mt-3 flex flex-wrap gap-2">
+                {
+                  locales.map((locale) => (
+                    <a
+                      href={locale.href}
+                      class="station-button"
+                      data-active={locale.current}
+                      aria-current={locale.current ? "page" : undefined}
+                      aria-label={locale.languageName}
+                    >
+                      {locale.switchLabel}
+                    </a>
+                  ))
+                }
+              </div>
+            </nav>
           </div>
         </div>
       </header>
 
       <div
-        class="mx-auto grid max-w-[88rem] gap-10 px-4 pb-8 pt-8 sm:px-6 lg:grid-cols-[13rem_minmax(0,1fr)] lg:px-8 print:block print:max-w-none print:px-0 print:pb-0 print:pt-4"
+        class="grid gap-10 lg:grid-cols-[13rem_minmax(0,1fr)] print:block mx-auto max-w-352 print:max-w-none \
+        px-4 pt-8 pb-8 sm:px-6 lg:px-8 print:px-0 print:pt-4 print:pb-0"
       >
         <aside class="hidden lg:block print:hidden">
           <nav
-            class="sticky top-10 border-l-2 border-station-line pl-4"
-            aria-label={desktopSectionNavLabel}
+            class="sticky top-10 pl-4 border-l-2 border-station-line"
+            aria-label={locale.labels.sectionShortcuts}
           >
             <p class="meta-label">{locale.labels.sections}</p>
             <div class="mt-1 grid gap-1">
@@ -151,7 +147,8 @@ const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;
                 sections.map((section) => (
                   <a
                     href={`#${section.id}`}
-                    class="block border-l-2 border-transparent py-1 pl-3 text-sm text-station-soft no-underline transition hover:border-station-line-accent hover:text-station-ink"
+                    class="block py-1 pl-3 no-underline transition border-l-2 border-transparent \
+                    hover:border-station-line-accent text-sm text-station-soft hover:text-station-ink"
                   >
                     {section.label}
                   </a>
@@ -167,27 +164,35 @@ const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;
       </div>
 
       <nav
-        class="fixed inset-x-0 bottom-0 z-40 border-t border-station-line bg-(--color-station-surface-chrome) print:hidden lg:hidden"
-        aria-label={mobileSectionNavLabel}
+        class="fixed inset-x-0 bottom-0 z-40 print:hidden lg:hidden \
+        border-t border-station-line bg-station-surface-chrome"
+        aria-label={locale.labels.quickSectionShortcuts}
       >
         <div
-          class="mx-auto flex max-w-xl flex-wrap gap-2 px-4 pb-[calc(0.85rem+env(safe-area-inset-bottom))] pt-3"
+          class="flex flex-wrap gap-2 mx-auto max-w-xl \
+          px-4 pt-3 pb-[calc(0.85rem+env(safe-area-inset-bottom))]"
         >
           {
-            mobileSections.map((section) => (
-              <a
-                href={`#${section.id}`}
-                class="grow rounded-md border border-station-line bg-(--color-station-surface-translucent) px-3 py-3 text-center text-[0.72rem] font-medium text-station-muted no-underline"
-              >
-                {section.label}
-              </a>
-            ))
+            sections
+              .filter((section) => section.id !== "overview")
+              .map((section) => (
+                <a
+                  href={`#${section.id}`}
+                  class="grow no-underline px-3 py-3 rounded-md 
+                  border border-station-line bg-station-surface-translucent \
+                  text-center text-ui-label font-medium text-station-muted"
+                >
+                  {section.label}
+                </a>
+              ))
           }
         </div>
       </nav>
 
       <footer
-        class="mx-auto mt-8 max-w-[88rem] border-t border-station-line px-4 pb-24 pt-5 text-sm text-station-muted sm:px-6 lg:px-8 lg:pb-10 print:mt-8 print:max-w-none print:px-0 print:pb-0"
+        class="mx-auto mt-8 print:mt-8 max-w-352 print:max-w-none \
+        px-4 pt-5 pb-24 sm:px-6 lg:px-8 lg:pb-10 print:px-0 print:pb-0 border-t border-station-line \
+        text-sm text-station-muted"
       >
         <p>{locale.footer.copyright}</p>
         <p class="mt-1 min-h-5 max-w-3xl">

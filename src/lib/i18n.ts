@@ -5,6 +5,7 @@ export interface LogbookUi {
   clusterTitle: string;
   cardLabel: string;
   intro: string;
+  noscript: string;
   searchLabel: string;
   searchPlaceholder: string;
   resultsTemplate: string;
@@ -72,9 +73,6 @@ export interface LocaleContext {
     note: string;
     copyright: string;
   };
-  noscript: {
-    logbook: string;
-  };
   stationStatus: Record<StationStatus, string>;
   logbook: LogbookUi;
 }
@@ -110,10 +108,6 @@ const localeDefinitions = {
       note: "Static page, local assets, and a lightweight toolchain.",
       copyright: "Chisato HAM Logbook, Copyleft by 茶栗chariri",
     },
-    noscript: {
-      logbook:
-        "The interactive logbook viewer requires JavaScript. You can still read the rest of the station page without it.",
-    },
     stationStatus: {
       active: "On Air",
       inactive: "Archive",
@@ -123,6 +117,8 @@ const localeDefinitions = {
       cardLabel: "Recent log archive",
       intro:
         "Search first, then scroll. Only the visible rows are rendered, so browser find will miss most records.",
+      noscript:
+        "The interactive logbook viewer requires JavaScript. You can still read the rest of the station page without it.",
       searchLabel: "Search",
       searchPlaceholder: "Their callsign...",
       resultsTemplate: "{visible} / {total} QSOs",
@@ -192,9 +188,6 @@ const localeDefinitions = {
       note: "静态页面、本地资源，以及轻量的工具链。",
       copyright: "Chisato HAM Logbook",
     },
-    noscript: {
-      logbook: "交互式日志查看器需要 JavaScript。关闭脚本时，页面其余内容仍可正常阅读。",
-    },
     stationStatus: {
       active: "活跃",
       inactive: "存档",
@@ -203,6 +196,7 @@ const localeDefinitions = {
       clusterTitle: "通联日志",
       cardLabel: "日志归档",
       intro: "请先搜索，再滚动。这里只渲染当前可见的行，所以浏览器自带查找无法覆盖全部记录。",
+      noscript: "交互式日志查看器需要 JavaScript。关闭脚本时，页面其余内容仍可正常阅读。",
       searchLabel: "搜索",
       searchPlaceholder: "对方呼号...",
       resultsTemplate: "{visible} / {total} 条",
@@ -270,10 +264,6 @@ const localeDefinitions = {
       note: "静的ページ、ローカル配信アセット、軽量なツールチェーンで構成しています。",
       copyright: "Chisato HAM Logbook",
     },
-    noscript: {
-      logbook:
-        "インタラクティブなログビューアには JavaScript が必要です。無効でもページ本文は閲覧できます。",
-    },
     stationStatus: {
       active: "運用中",
       inactive: "アーカイブ",
@@ -283,6 +273,8 @@ const localeDefinitions = {
       cardLabel: "ログアーカイブ",
       intro:
         "先に検索してからスクロールしてください。表示中の行だけ描画するため、ブラウザ検索では大半の記録を拾えません。",
+      noscript:
+        "インタラクティブなログビューアには JavaScript が必要です。無効でもページ本文は閲覧できます。",
       searchLabel: "検索",
       searchPlaceholder: "相手コールサイン...",
       resultsTemplate: "{visible} / {total} 件",

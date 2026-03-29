@@ -38,7 +38,6 @@ Key config files:
 - [`astro.config.mjs`](/E:/source/repos/chisato-ham-logbook/astro.config.mjs)
 - [`src/styles/vars.css`](/E:/source/repos/chisato-ham-logbook/src/styles/vars.css)
 - [`src/styles/global.css`](/E:/source/repos/chisato-ham-logbook/src/styles/global.css)
-- [`src/styles/logbook.css`](/E:/source/repos/chisato-ham-logbook/src/styles/logbook.css)
 
 ## Routing
 
@@ -92,7 +91,7 @@ Locale data lives in:
 - localized footer copy
 - station status labels
 - logbook UI strings
-- logbook no-JS warning text
+- logbook no-JS warning text via `locale.logbook.noscript`
 
 Do not hardcode UI strings in templates when a locale-level definition is appropriate.
 
@@ -244,11 +243,6 @@ Supporting shared components:
 - `IconSprite.astro`
   - inline sprite sheet
 
-Legacy layout helpers still present in the repo:
-
-- `Stack.astro`
-- `TwoPane.astro`
-
 They are not part of the current profile composition flow. Do not introduce them casually unless there is a clear layout need.
 
 Content authoring guidance:
@@ -262,10 +256,6 @@ Content authoring guidance:
 Logbook UI component:
 
 - [`src/components/LogbookCard.astro`](/E:/source/repos/chisato-ham-logbook/src/components/LogbookCard.astro)
-
-Supporting stylesheet:
-
-- [`src/styles/logbook.css`](/E:/source/repos/chisato-ham-logbook/src/styles/logbook.css)
 
 Data files:
 
@@ -290,6 +280,8 @@ Current behavior:
 - renders a no-JS warning and hides the interactive logbook UI when scripting is unavailable
 - when printing with a logbook dialog open, does not print the live modal
 - instead renders a dedicated print-only detail sheet, hides the rest of the page for print, then restores the dialog after print
+- keeps logbook-only repeated utility strings in the component frontmatter when they are reused several times
+- uses a tiny local `style is:global` block only for the print-body selector that cannot be expressed with ordinary element utilities
 
 Keep the logbook client code framework-free. Do not replace it with a client UI library.
 
@@ -319,8 +311,6 @@ Styling is split into:
    - [`src/styles/vars.css`](/E:/source/repos/chisato-ham-logbook/src/styles/vars.css)
 2. global defaults plus a small set of reused primitives
    - [`src/styles/global.css`](/E:/source/repos/chisato-ham-logbook/src/styles/global.css)
-3. logbook-only shared rules
-   - [`src/styles/logbook.css`](/E:/source/repos/chisato-ham-logbook/src/styles/logbook.css)
 
 `global.css` should stay narrow. It is for:
 
@@ -349,7 +339,7 @@ Current reusable global classes:
 - `meta-label`
 - `meta-label-large`
 - `icon-chip`
-- `switch-pill`
+- `station-button`
 - `.section .section-count::before`
 - `.is-typing::after`
 
@@ -359,17 +349,17 @@ Important styling conventions:
 - navigation and other chrome links opt out locally with utility classes
 - one-off layout or component-only styling should stay inline in the component via Tailwind utility classes
 - do not create style-only `data-*` hooks
-- if a selector exists only for logbook internals, prefer `logbook.css`
+- if a selector exists only for logbook internals, prefer inline utilities in `LogbookCard.astro`
+- only keep a local `style is:global` block when the selector genuinely depends on global ancestry, such as `body.logbook-printing-dialog > *`
 
-`logbook.css` is the place for repeated logbook-only selectors such as:
+`vars.css` currently also carries a small typography token layer in addition to colors and fonts:
 
-- `logbook-table`
-- `logbook-th`
-- `logbook-cell`
-- `logbook-row`
-- `logbook-row-button`
-- `logbook-detail-row`
-- `logbook-print-sheet`
+- `text-ui-badge`
+- `text-ui-micro`
+- `text-ui-label`
+- `text-ui-label-lg`
+
+Keep display-scale `clamp(...)` text sizes inline in components when they are truly component-specific. Use theme text tokens for repeated micro-UI sizing.
 
 ## Accessibility And UX Constraints
 
@@ -432,7 +422,6 @@ If you need to change:
   - [`src/components/SectionCluster.astro`](/E:/source/repos/chisato-ham-logbook/src/components/SectionCluster.astro)
 - logbook behavior:
   - [`src/components/LogbookCard.astro`](/E:/source/repos/chisato-ham-logbook/src/components/LogbookCard.astro)
-  - [`src/styles/logbook.css`](/E:/source/repos/chisato-ham-logbook/src/styles/logbook.css)
   - [`scripts/generate-logbook-callsign-index.mjs`](/E:/source/repos/chisato-ham-logbook/scripts/generate-logbook-callsign-index.mjs)
 - shared design tokens and cross-cutting styles:
   - [`src/styles/vars.css`](/E:/source/repos/chisato-ham-logbook/src/styles/vars.css)

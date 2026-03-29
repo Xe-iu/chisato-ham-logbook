@@ -16,7 +16,9 @@ const callsignMorse = toMorse(callsign);
 
 <section id="overview" class="space-y-8 border-b border-station-line pb-10">
   <h1
-    class="sr-only print:not-sr-only print:mb-4 print:block print:font-mono print:text-3xl print:font-bold print:tracking-[0.18em] print:text-station-ink"
+    class="sr-only print:not-sr-only print:block print:mb-4 \
+    print:font-mono print:text-3xl print:font-bold print:tracking-[0.18em] \
+    text-station-ink"
   >
     {callsign}
   </h1>
@@ -25,7 +27,8 @@ const callsignMorse = toMorse(callsign);
     <p class="meta-label print:hidden">{overviewLabel}</p>
     <div
       aria-hidden="true"
-      class="max-w-5xl rounded-2xl border border-terminal-border bg-[rgba(7,23,35,0.98)] p-5 sm:p-6 print:hidden"
+      class="max-w-5xl print:hidden p-5 sm:p-6 rounded-2xl \
+      border border-[#34d39933] bg-[#071723fa]"
       data-morse-hero
       data-cq-text={cqText}
       data-cq-morse={cqMorse}
@@ -33,38 +36,45 @@ const callsignMorse = toMorse(callsign);
       data-callsign-morse={callsignMorse}
     >
       <div
-        class="mb-5 flex items-center justify-between gap-4 text-[0.65rem] uppercase tracking-[0.34em] text-emerald-300/70"
+        class="mb-5 flex items-center justify-between gap-4 \
+        text-ui-micro uppercase tracking-[0.34em] text-[#6ee7b7b3]"
       >
         <span>TX</span>
         <span>{callsign}</span>
       </div>
       <pre
-        class="overflow-x-auto whitespace-pre font-mono text-lg tracking-[0.16em] text-terminal-text"
+        class="overflow-x-auto whitespace-pre \
+        font-mono text-lg tracking-[0.16em] text-[#d1fae5]"
         data-cq-text-target>{cqText}</pre>
       <pre
-        class="mt-2 overflow-x-auto whitespace-pre font-mono text-sm tracking-[0.18em] text-terminal-text-muted"
+        class="mt-2 overflow-x-auto whitespace-pre \
+        font-mono text-sm tracking-[0.18em] text-[#6ee7b7b3]"
         data-cq-morse-target>{cqMorse}</pre>
-      <div class="my-5 h-px bg-terminal-divider"></div>
+      <div class="my-5 h-px bg-[#34d39933]"></div>
       <pre
-        class="overflow-x-auto whitespace-pre font-mono text-[clamp(2.4rem,6vw,5.4rem)] font-bold tracking-[0.16em] text-terminal-text"
+        class="overflow-x-auto whitespace-pre \
+        font-mono text-[clamp(2.4rem,6vw,5.4rem)] font-bold tracking-[0.16em] text-[#d1fae5]"
         data-cs-text-target>{callsign}</pre>
       <pre
-        class="mt-3 overflow-x-auto whitespace-pre font-mono text-base tracking-[0.18em] text-terminal-text-muted"
+        class="mt-3 overflow-x-auto whitespace-pre \
+        font-mono text-base tracking-[0.18em] text-[#6ee7b7b3]"
         data-cs-morse-target>{callsignMorse}</pre>
     </div>
   </div>
 
   <div class="max-w-4xl space-y-5">
-    <blockquote class="relative border-l-2 border-station-accent pl-5">
+    <blockquote class="relative pl-5 border-l-2 border-station-accent">
       <div
         aria-hidden="true"
-        class="pointer-events-none absolute -left-1 -top-3 font-serif text-[clamp(3rem,7vw,5rem)] leading-none text-station-accent-soft"
+        class="absolute -left-1 -top-3 pointer-events-none \
+        font-serif text-[clamp(3rem,7vw,5rem)] leading-none text-station-accent-soft"
       >
         “
       </div>
 
       <p
-        class="pr-6 font-serif text-balance text-[clamp(2rem,4.4vw,3.35rem)] leading-[1.06] tracking-[-0.035em] text-station-ink"
+        class="pr-6 \
+        font-serif text-balance text-[clamp(2rem,4.4vw,3.35rem)] leading-normal tracking-[-0.035em] text-station-ink"
       >
         {quote}
       </p>
@@ -72,6 +82,27 @@ const callsignMorse = toMorse(callsign);
     </blockquote>
   </div>
 </section>
+
+<style>
+.is-typing::after {
+  content: "_";
+  margin-left: 0.18rem;
+  color: currentColor;
+  animation: terminal-blink 1s step-end infinite;
+}
+
+@keyframes terminal-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media print {
+  .is-typing::after {
+    display: none;
+  }
+}
+</style>
 
 <script is:inline>
   const hero = document.querySelector("[data-morse-hero]");

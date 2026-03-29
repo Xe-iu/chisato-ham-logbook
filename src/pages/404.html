@@ -669,12 +669,13 @@
     <div id="cf-wrapper">
         <div id="cf-error-details" class="p-0">
             <header class="mx-auto pt-10 lg:pt-6 lg:px-8 w-240 lg:w-full mb-8">
-                <h1
+                <h1 id="error-title"
                     class="inline-block sm:block sm:mb-2 font-light text-60 lg:text-4xl text-black-dark leading-tight mr-2">
                     <span class="inline-block">Page not Found</span>
                     <span class="code-label">Error code 404</span>
                 </h1>
             </header>
+            <main aria-labelledby="error-title">
             <div class="my-8 bg-gradient-gray">
                 <div class="w-240 lg:w-full mx-auto">
                     <div class="clearfix md:px-8">
@@ -686,8 +687,8 @@
                                     class="cf-icon-error w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>
                             </div>
                             <span class="md:block w-full truncate">You</span>
-                            <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">Your
-                                URL</h3>
+                            <p class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">Your
+                                URL</p>
                             <span class="leading-1.3 text-2xl" style="color: #bd2426">Maybe wrong?🤔</span>
                         </div>
                         <div id="cf-cloudflare-status"
@@ -698,8 +699,8 @@
                                     class="cf-icon-ok w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>
                             </div>
                             <span class="md:block w-full truncate">My Server</span>
-                            <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">
-                                @somewhere</h3>
+                            <p class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">
+                                @somewhere</p>
                             <span class="leading-1.3 text-2xl" style="color: #9bca3e">Working, I assume</span>
                         </div>
                         <div id="cf-host-status"
@@ -710,8 +711,8 @@
                                     class="cf-icon-ok w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>
                             </div>
                             <span class="md:block w-full truncate">Chisato HAM Logbook</span>
-                            <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">
-                                Application</h3>
+                            <p class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">
+                                Application</p>
                             <span class="leading-1.3 text-2xl" style="color: #9bca3e">Working, for most of the
                                 time</span>
                         </div>
@@ -738,6 +739,7 @@
                     <span class="cf-footer-item sm:block sm:mb-1">Performance &amp; security proudly by <strong>myself</strong> | Page design courtesy to CloudFlare and donlon</span>
                 </p>
             </div><!-- /.error-footer -->
+            </main>
         </div>
     </div>
 </body>
