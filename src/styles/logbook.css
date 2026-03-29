@@ -22,11 +22,11 @@
 }
 
 .logbook-row:has(.logbook-row-button:focus-visible) {
-  @apply outline outline-3 outline-offset-[-3px] outline-station-accent;
+  @apply outline-3 outline-offset-[-3px] outline-station-accent;
 }
 
 .logbook-row-button {
-  @apply block w-full text-left underline-offset-4 decoration-transparent transition;
+  @apply block cursor-pointer w-full text-left underline-offset-4 decoration-transparent transition;
 }
 
 .logbook-row-button:hover {

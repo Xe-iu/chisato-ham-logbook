@@ -149,12 +149,12 @@ const mobileSectionNavLabel = locale.labels.quickSectionShortcuts;
             aria-label={desktopSectionNavLabel}
           >
             <p class="meta-label">{locale.labels.sections}</p>
-            <div class="mt-5 grid gap-1">
+            <div class="mt-1 grid gap-1">
               {
                 sections.map((section) => (
                   <a
                     href={`#${section.id}`}
-                    class="block border-l-2 border-transparent py-2 pl-3 text-sm text-station-soft transition hover:border-station-line-accent hover:text-station-ink"
+                    class="block border-l-2 border-transparent py-1 pl-3 text-sm text-station-soft transition hover:border-station-line-accent hover:text-station-ink"
                   >
                     {section.label}
                   </a>
