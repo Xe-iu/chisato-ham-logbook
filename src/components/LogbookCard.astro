@@ -100,6 +100,8 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
         <table
           class="w-full min-w-235 border-collapse text-left text-sm"
           aria-describedby={`${tableDescriptionId} ${resultsId}`}
+          aria-rowcount="2"
+          data-logbook-table
         >
           <caption class="sr-only">{t.cardLabel}</caption>
           <colgroup>
@@ -115,7 +117,7 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
           <thead
             class="sticky top-0 z-10 bg-station-surface-table-head print:static print:bg-white"
           >
-            <tr>
+            <tr aria-rowindex="1">
               <th scope="col" class={tableHeaderCellClass}>{t.columns.utc}</th>
               <th scope="col" class={tableHeaderCellClass}>{t.columns.callsign}</th>
               <th scope="col" class={tableHeaderCellClass}>{t.columns.sent}</th>
@@ -139,7 +141,7 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
   </div>
 
   <template data-logbook-message-template>
-    <tr>
+    <tr data-logbook-message-row>
       <td colspan="8" class={messageCellClass} data-logbook-message-cell></td>
     </tr>
   </template>
@@ -309,6 +311,8 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
           filtered: [],
           callsignIndex: null,
           activeRowIndex: 0,
+          currentRenderRange: null,
+          focusIndexAfterRender: null,
           query: "",
           printSliceRange: null,
           renderPending: false,
@@ -337,6 +341,7 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
           resultsNode: this.root.querySelector("[data-logbook-results]"),
           viewport: this.root.querySelector("[data-logbook-viewport]"),
           body: this.root.querySelector("[data-logbook-body]"),
+          table: this.root.querySelector("[data-logbook-table]"),
           messageTemplate: this.root.querySelector("[data-logbook-message-template]"),
           spacerTemplate: this.root.querySelector("[data-logbook-spacer-template]"),
           rowTemplate: this.root.querySelector("[data-logbook-row-template]"),
@@ -667,14 +672,23 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
         }
 
         const fragment = this.cloneTemplate(this.elements.messageTemplate);
+        const row = fragment?.querySelector("[data-logbook-message-row]");
         const cell = fragment?.querySelector("[data-logbook-message-cell]");
-        if (!(cell instanceof HTMLTableCellElement)) {
+        if (!(row instanceof HTMLTableRowElement) || !(cell instanceof HTMLTableCellElement)) {
           this.elements.body.replaceChildren();
           return;
         }
 
+        this.setTableAriaRowCount(2);
+        row.setAttribute("aria-rowindex", "2");
         cell.textContent = message;
         this.elements.body.replaceChildren(fragment);
+      }
+
+      setTableAriaRowCount(rowCount) {
+        if (this.elements.table instanceof HTMLTableElement) {
+          this.elements.table.setAttribute("aria-rowcount", String(rowCount));
+        }
       }
 
       createSpacerRow(height) {
@@ -724,6 +738,7 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
         });
 
         row.dataset.recordIndex = String(index);
+        row.setAttribute("aria-rowindex", String(index + 2));
         utcCell.textContent = entry.utcLabel;
         button.textContent = entry.destCallsign;
         button.dataset.logbookIndex = String(index);
@@ -761,9 +776,59 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
         }
       }
 
+      queueRowFocus(index) {
+        this.state.focusIndexAfterRender = index;
+      }
+
+      restoreQueuedRowFocus() {
+        if (typeof this.state.focusIndexAfterRender !== "number") {
+          return;
+        }
+
+        const targetIndex = this.state.focusIndexAfterRender;
+        this.state.focusIndexAfterRender = null;
+
+        window.requestAnimationFrame(() => {
+          const button = this.elements.body?.querySelector(
+            `[data-logbook-open][data-logbook-index="${targetIndex}"]`
+          );
+          if (button instanceof HTMLButtonElement) {
+            button.focus({ preventScroll: true });
+          }
+        });
+      }
+
+      isSameRenderRange(nextRange) {
+        const currentRange = this.state.currentRenderRange;
+        return (
+          currentRange &&
+          currentRange.start === nextRange.start &&
+          currentRange.end === nextRange.end &&
+          currentRange.topPad === nextRange.topPad &&
+          currentRange.bottomPad === nextRange.bottomPad
+        );
+      }
+
       scheduleRender() {
         if (this.state.renderPending) {
           return;
+        }
+
+        const nextRange = this.getRenderRange();
+        if (this.isSameRenderRange(nextRange)) {
+          return;
+        }
+
+        const activeButton =
+          document.activeElement instanceof Element
+            ? document.activeElement.closest("[data-logbook-open]")
+            : null;
+        if (
+          activeButton instanceof HTMLButtonElement &&
+          this.elements.body?.contains(activeButton) &&
+          activeButton.dataset.logbookIndex
+        ) {
+          this.queueRowFocus(Number(activeButton.dataset.logbookIndex));
         }
 
         this.state.renderPending = true;
@@ -816,6 +881,7 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
         }
 
         if (!this.state.filtered.length) {
+          this.state.currentRenderRange = null;
           this.renderMessageRow(
             this.state.query ? this.translations.noMatches : this.translations.empty
           );
@@ -836,10 +902,12 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
         const fragment = document.createDocumentFragment();
 
         this.state.activeRowIndex = tabbableIndex;
+        this.setTableAriaRowCount(this.state.filtered.length + 1);
         this.appendSpacer(fragment, topPad);
         this.appendDataRows(fragment, start, end);
         this.appendSpacer(fragment, bottomPad);
 
+        this.state.currentRenderRange = { start, end, topPad, bottomPad };
         this.elements.body.replaceChildren(fragment);
         this.setResultsText(
           this.fillTemplate(this.translations.resultsTemplate, {
@@ -847,6 +915,7 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
             total: this.state.all.length,
           })
         );
+        this.restoreQueuedRowFocus();
       }
 
       createDetailRow(label, value, index) {
@@ -969,16 +1038,11 @@ const messageCellClass = "px-5 py-6 text-left text-sm text-station-muted";
 
         const boundedIndex = Math.max(0, Math.min(nextIndex, this.state.filtered.length - 1));
         this.state.activeRowIndex = boundedIndex;
+        if (focus) {
+          this.queueRowFocus(boundedIndex);
+        }
         this.scrollRowIntoView(boundedIndex);
         this.renderRows();
-
-        if (focus) {
-          window.requestAnimationFrame(() => {
-            this.elements.body
-              ?.querySelector(`[data-logbook-open][data-logbook-index="${boundedIndex}"]`)
-              ?.focus();
-          });
-        }
       }
 
       scrollRowIntoView(index) {

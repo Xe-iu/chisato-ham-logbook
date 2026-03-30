@@ -99,7 +99,7 @@ const localeDefinitions = {
     },
     footer:
       'Made with Astro, TailwindCSS, heavy-prompted GPT 5.4 + codex and ❤️. \
-      This site is <a href="https://github.com/cqjjjzr/chisato-log-hambook">open source</a> on GitHub.',
+      This site is <a href="https://github.com/cqjjjzr/chisato-ham-logbook">open source</a> on GitHub.',
     stationStatus: {
       active: "Active",
       inactive: "Inactive",
@@ -176,7 +176,7 @@ const localeDefinitions = {
     },
     footer:
       'Made with Astro, TailwindCSS, 大量提示词的 GPT 5.4 + codex 与 ❤️. \
-      本站点<a href="https://github.com/cqjjjzr/chisato-log-hambook">开源在</a>GitHub.',
+      本站点<a href="https://github.com/cqjjjzr/chisato-ham-logbook">开源在</a>GitHub.',
     stationStatus: {
       active: "活跃",
       inactive: "休止",
@@ -248,7 +248,7 @@ const localeDefinitions = {
     },
     footer:
       'Made with Astro, TailwindCSS, heavy-prompted GPT 5.4 + codex and ❤️. \
-      当サイトはGitHubにて<a href="https://github.com/cqjjjzr/chisato-log-hambook">オープンソース</a>です.',
+      当サイトはGitHubにて<a href="https://github.com/cqjjjzr/chisato-ham-logbook">オープンソース</a>です.',
     stationStatus: {
       active: "運用中",
       inactive: "休止",

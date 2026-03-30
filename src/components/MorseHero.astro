@@ -75,9 +75,8 @@ const callsignMorse = toMorse(callsign);
       <p
         class="pr-6 \
         font-serif text-balance text-[clamp(2rem,4.4vw,3.35rem)] leading-normal tracking-[-0.035em] text-station-ink"
-      >
-        {quote}
-      </p>
+        set:html={quote}
+      />
       {quoteSource && <cite class="mt-4 block not-italic meta-label">{quoteSource}</cite>}
     </blockquote>
   </div>
