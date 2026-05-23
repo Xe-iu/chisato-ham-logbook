@@ -28,9 +28,6 @@ const fallbackHref = buildProfileHref(localeIds[0], activeStationId);
           if (normalized.startsWith("zh")) {
             return "zh-cn";
           }
-          if (normalized.startsWith("ja")) {
-            return "ja";
-          }
           if (normalized.startsWith("en")) {
             return "en";
           }
@@ -43,10 +40,10 @@ const fallbackHref = buildProfileHref(localeIds[0], activeStationId);
 
     <main aria-labelledby="redirect-title">
       <h1 id="redirect-title">Redirecting...</h1>
-      <p>Redirecting... 重定向中... 画面遷移中...</p>
+      <p>Redirecting... 重定向中...</p>
       <a href={fallbackHref}>
         If the redirection fails, use this fallback link or the links below.
-        如果未重定向成功，点这里或下面的链接。画面が遷移しなければ、ここや下記のリンクをクリックしてください。
+        如果未重定向成功，点这里或下面的链接。
       </a>
       <ul>
         {

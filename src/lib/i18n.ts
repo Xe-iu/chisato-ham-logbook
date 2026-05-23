@@ -1,4 +1,4 @@
-export type LocaleId = "en" | "zh-cn" | "ja";
+export type LocaleId = "en" | "zh-cn" ;//| "ja";
 export type StationStatus = "active" | "inactive";
 
 export interface LogbookUi {
@@ -93,13 +93,13 @@ const localeDefinitions = {
       sections: "Sections",
       sectionShortcuts: "Section shortcuts",
       heroOverview: "Station Overview",
-      homeLink: "Go to my blog chariri.moe",
+      homeLink: "Go to my blog blog.xeiu.top",
       languageSwitcher: "Language switcher",
       stationSwitcher: "Callsign switcher",
     },
     footer:
-      'Made with Astro, TailwindCSS, heavy-prompted GPT 5.4 + codex and ❤️. \
-      This site is <a href="https://github.com/cqjjjzr/chisato-ham-logbook">open source</a> on GitHub.',
+      'Personal Amateur Radio Station BG7ORX Website. \
+      This site is <a href="https://github.com/cqjjjzr/chisato-ham-logbook">open source</a> on GitHub. Powered By <a href="https://chariri.moe/">茶栗chariri</a>.',
     stationStatus: {
       active: "Active",
       inactive: "Inactive",
@@ -170,13 +170,13 @@ const localeDefinitions = {
       sections: "章节",
       sectionShortcuts: "章节导航",
       heroOverview: "业余无线电台概览",
-      homeLink: "前往我的blog：chariri.moe",
+      homeLink: "前往我的blog：blog.xeiu.top",
       languageSwitcher: "语言切换",
       stationSwitcher: "呼号切换",
     },
     footer:
-      'Made with Astro, TailwindCSS, 大量提示词的 GPT 5.4 + codex 与 ❤️. \
-      本站点<a href="https://github.com/cqjjjzr/chisato-ham-logbook">开源在</a>GitHub.',
+      '个人业余无线电台 BG7ORX 的主页。 \
+      本站点<a href="https://github.com/cqjjjzr/chisato-ham-logbook">开源</a>在GitHub. Powered By <a href="https://chariri.moe/">茶栗chariri</a>.',
     stationStatus: {
       active: "活跃",
       inactive: "休止",
@@ -229,7 +229,7 @@ const localeDefinitions = {
       },
     },
   },
-  ja: {
+  /**ja: {
     id: "ja",
     tag: "ja",
     switchLabel: "日",
@@ -302,7 +302,7 @@ const localeDefinitions = {
         satellite: "衛星名",
       },
     },
-  },
+  },*/
 } as const satisfies Record<LocaleId, LocaleContext>;
 
 export const localeIds = Object.keys(localeDefinitions) as LocaleId[];

@@ -1,0 +1,126 @@
+---
+import type { ProfileMeta, ProfileSection } from "../../lib/profile";
+import Cards from "../../components/Cards.astro";
+import GalleryCard from "../../components/GalleryCard.astro";
+import InfoCard from "../../components/InfoCard.astro";
+import LogbookCard from "../../components/LogbookCard.astro";
+import Prose from "../../components/Prose.astro";
+import SectionBlock from "../../components/SectionBlock.astro";
+import SectionCluster from "../../components/SectionCluster.astro";
+
+export const profile: ProfileMeta = {
+  lang: "zh-cn",
+  stationId: "BG7ORX",
+  callsign: "BG7ORX",
+  status: "active",
+  pageTitle: "Xe_iu的个人业余电台",
+  description: "个人业余无线电台 BG7ORX 的台站信息，QSL 说明，与图集展示。",
+  hero: {
+    quote: '<span lang="zh">既然无法改变世界，那就默默无闻的生活在这个世上吧。</span>',
+    quoteSource: "ef - a tale of memories.",
+  },
+};
+
+export const sections: readonly ProfileSection[] = [
+  { id: "basic-info", label: "基本信息" },
+  { id: "showcase", label: "展示" },
+  { id: "logbook", label: "日志" },
+];
+---
+
+<Prose>
+  <p>
+    欢迎来到我的个人业余无线电台主页。同时也欢迎去<a href="https://blog.xeiu.top/">我的blog看看。</a>
+  </p>
+  <p>
+    正如您所见，这个页面是vibecoding.
+    由 <a href="https://chariri.moe/">茶栗chariri</a> 肘击AI开发出来的。目前开源在 <a href="https://github.com/cqjjjzr/chisato-ham-logbook">Github</a> 上。
+  </p>
+  <p>
+    关于我的业余无线电台的碎碎念放在了我的blog上，<a
+      href="https://blog.xeiu.top/archives/category/amateur-radio/"
+    >
+      链接在这里。
+    </a>
+  </p>
+</Prose>
+
+<SectionBlock id="basic-info" title="基本信息">
+  <Cards columns="2u">
+    <InfoCard label="QTH" icon="grid">
+      OL39
+      <Fragment slot="description">CRAC 第7区 - 广东</Fragment>
+    </InfoCard>
+    <InfoCard label="执照" icon="signal">
+      中国业余无线电台操作技术能力验证证书A类操作证书 + 广东省业余无线电台执照A类电台执照
+      <Fragment slot="description">
+        VHF @ 25 W<br />
+        UHF @ 25 W
+      </Fragment>
+    </InfoCard>
+    <InfoCard label="联系邮箱" icon="email">
+      <a href="mailto:BG7ORX@xeiu.top">BG7ORX@xeiu.top</a>
+      <a href="mailto:xe_iu@outlook.com">xe_iu@outlook.com</a>
+    </InfoCard>
+    <InfoCard label="邮寄地址" icon="mail">
+      516341 中华人民共和国 广东省惠州市惠东县白盆珠镇南一街11号（白盆珠邮政局代收）
+    </InfoCard>
+  </Cards>
+
+  <SectionCluster icon="gear" title="设备">
+    <Cards columns="1">
+      <InfoCard label="电台" icon="radio">
+        泉盛(Quansheng) UV-K6
+        <Fragment slot="description">FM @ VHF (144-148 MHz), 5 W</Fragment>
+        <Fragment slot="description">FM @ UHF (430-440 MHz), 5 W</Fragment>
+      </InfoCard>
+      <InfoCard label="天线" icon="antenna">
+        泉盛(Quansheng) UV-K6 原装天线
+      </InfoCard>
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster icon="policy" title="QSL 政策">
+    <Prose>
+      <p>
+        对于每次通联，我将在如下任一情况下寄送卡片：
+        <ul>
+          <li>通联时约定了如何寄送卡片；</li>
+          <li>对方的地址能轻易在 QRZ.com 等地方查到，且此次通联不是比赛或 FT8 通联；</li>
+          <li>我收到了对方寄来的卡片；</li>
+        </ul>
+      </p>
+      <p>
+        对于其它情况，我仅会将日志上传到本站、LoTW与QRZ.com，
+        您亦可以通过上述邮箱地址或邮寄地址联系我寄卡，给我寄卡片或信件时无需附
+        SASE。另外对于频繁通联的老朋友，我可能将合并寄送或不寄送其中的部分通联。
+      </p>
+      <p>如果没有在线下见过面，我<strong>不会交换</strong>Eyeball QSL 卡。</p>
+    </Prose>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="showcase" title="展示">
+  <SectionCluster title="QSL 卡片" icon="gallery">
+    <Cards columns="1">
+      <GalleryCard
+        src="/images/qsl/QSLCard-back-v1-sample.webp"
+        alt="QSL 卡正面，可填写对方呼号与 QSL 确认种类，非填表式。背景隐约的二次元人物为 maimai dx 的 Salt。"
+        title="QSL v1 - 正面"
+      >
+        非填表式的 QSL 卡片，且做了可直接邮寄的处理。
+        背景隐约的二次元人物为 maimai dx 的 Salt。 原图在 <a href="https://www.pixiv.net/artworks/127744759">pixiv</a> 由<a href="https://www.pixiv.net/users/27236214">青葉もち</a>绘制。
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-v1-sample.webp"
+        alt="QSL 卡背面，为一张风景图，图中的建筑是位于广东惠州的白盆珠水库。有 BG7ORX 的呼号和“中华人民共和国个人业余无线电台”的字样。"
+        title="QSL v1 - 背面"
+      >
+        背面风景图在 广东省惠州市惠东县白盆珠镇白盆珠水库 于 2024 年 10 月06 日 由  <a href="https://blog.xeiu.top">Xe_iu</a> 拍摄。
+      </GalleryCard>
+    </Cards>
+  </SectionCluster>
+
+<SectionBlock id="logbook" title="日志">
+  <LogbookCard lang="zh-cn" callsign={profile.callsign} />
+</SectionBlock>

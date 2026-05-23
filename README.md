@@ -1,3 +1,11 @@
+# BG7ORX Website
+
+感谢茶栗chariri开源，我在原项目上做了点修改以适配我的需求。
+
+------
+
+以下是原README的内容。
+
 # Chisato HAM Logbook
 
 因为先前的 Chihiro HAM Logbook 有点过于简陋，因此写了一个新的。

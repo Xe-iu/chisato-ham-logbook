@@ -1,0 +1,131 @@
+---
+import type { ProfileMeta, ProfileSection } from "../../lib/profile";
+import Cards from "../../components/Cards.astro";
+import GalleryCard from "../../components/GalleryCard.astro";
+import InfoCard from "../../components/InfoCard.astro";
+import LogbookCard from "../../components/LogbookCard.astro";
+import Prose from "../../components/Prose.astro";
+import SectionBlock from "../../components/SectionBlock.astro";
+import SectionCluster from "../../components/SectionCluster.astro";
+
+export const profile: ProfileMeta = {
+  lang: "en",
+  stationId: "BG7ORX",
+  callsign: "BG7ORX",
+  status: "active",
+  pageTitle: "Xe_iu's Personal Amateur Radio Station",
+  description:
+    "Station information, QSL policy, and gallery for the personal amateur radio station BG7ORX.",
+  hero: {
+    quote: '<span lang="en">Since I cannot change the world, let me exist quietly in it.</span>',
+    quoteSource: "ef - a tale of memories.",
+  },
+};
+
+export const sections: readonly ProfileSection[] = [
+  { id: "basic-info", label: "Basic Info" },
+  { id: "showcase", label: "Showcase" },
+  { id: "logbook", label: "Logbook" },
+];
+---
+
+<Prose>
+  <p>
+    Welcome to my personal amateur radio station homepage. Also, feel free to <a href="https://blog.xeiu.top/">check out my blog.</a>
+  </p>
+  <p>
+    As you can see, this page is vibecoding. It was developed by <a href="https://chariri.moe/">Chariri</a> using elbow-strike AI. Currently open sourced on <a href="https://github.com/cqjjjzr/chisato-ham-logbook">GitHub</a>.
+  </p>
+  <p>
+    My ramblings about my amateur radio station are on my blog, <a
+      href="https://blog.xeiu.top/archives/category/amateur-radio/"
+    >
+      link here.
+    </a>
+  </p>
+</Prose>
+
+<SectionBlock id="basic-info" title="Basic Info">
+  <Cards columns="2u">
+    <InfoCard label="QTH" icon="grid">
+      OL39
+      <Fragment slot="description">CRAC District 7 - Guangdong</Fragment>
+    </InfoCard>
+    <InfoCard label="License" icon="signal">
+      China Amateur Radio Operation Technical Capability Certificate Class A Operation Certificate + Guangdong Amateur Radio Station License Class A Station License
+      <Fragment slot="description">
+        VHF @ 25 W<br />
+        UHF @ 25 W
+      </Fragment>
+    </InfoCard>
+    <InfoCard label="Contact Email" icon="email">
+      <a href="mailto:BG7ORX@xeiu.top">BG7ORX@xeiu.top</a>
+      <a href="mailto:xe_iu@outlook.com">xe_iu@outlook.com</a>
+    </InfoCard>
+    <InfoCard label="Mailing Address" icon="mail">
+      516341 P.R.China 广东省惠州市惠东县白盆珠镇南一街11号（白盆珠邮政局代收）
+      ## Please print or fill in Chinese
+    </InfoCard>
+  </Cards>
+
+  <SectionCluster icon="gear" title="Gear">
+    <Cards columns="1">
+      <InfoCard label="Rig" icon="radio">
+        Quansheng UV-K6
+        <Fragment slot="description">FM @ VHF (144-148 MHz), 5 W</Fragment>
+        <Fragment slot="description">FM @ UHF (430-440 MHz), 5 W</Fragment>
+      </InfoCard>
+      <InfoCard label="Antenna" icon="antenna">
+        Quansheng UV-K6 Original antenna
+      </InfoCard>
+    </Cards>
+  </SectionCluster>
+
+  <SectionCluster icon="policy" title="QSL Policy">
+    <Prose>
+      <p>For each contact, I will send a paper card when any of the following applies:</p>
+      <ul>
+        <li>we agreed during the QSO how the cards would be exchanged;</li>
+        <li>
+          the other station's mailing address can be easily found on QRZ.com or elsewhere, and the
+          contact was neither a contest QSO nor an FT8 QSO;
+        </li>
+        <li>I receive a card from the other station first;</li>
+      </ul>
+      <p>
+        In other cases, I will only upload the log to this site, LoTW, and QRZ.com. You can still
+        contact me through the email or mailing address above if you want a card. When sending me a
+        card or letter, no SASE is needed. For OMs with frequent contacts, I may combine several
+        QSOs into one outgoing card, or omit some of them.
+      </p>
+      <p>
+        I <strong>do not</strong> exchange eyeball QSL cards unless we have actually met offline.
+      </p>
+    </Prose>
+  </SectionCluster>
+</SectionBlock>
+
+<SectionBlock id="showcase" title="Showcase">
+  <SectionCluster title="QSL Card" icon="gallery">
+    <Cards columns="1">
+      <GalleryCard
+        src="/images/qsl/QSLCard-back-v1-sample.webp"
+        alt="Front of QSL card, can fill in the other station's callsign and QSL confirmation type, non-form style. The faint anime character in the background is Salt from maimai dx."
+        title="QSL v1 - Front"
+      >
+        A non-form QSL card, also processed for direct mailing.
+        The faint anime character in the background is Salt from maimai dx. The original image is on <a href="https://www.pixiv.net/artworks/127744759">pixiv</a> by <a href="https://www.pixiv.net/users/27236214">青葉もち</a>.
+      </GalleryCard>
+      <GalleryCard
+        src="/images/qsl/QSLCard-v1-sample.webp"
+        alt="Back of QSL card, a landscape photo of Baipenzhu Reservoir in Huizhou, Guangdong Province. Shows the callsign BG7ORX and the text 'People's Republic of China Personal Amateur Radio Station'."
+        title="QSL v1 - Back"
+      >
+        The landscape on the back was taken at Baipenzhu Reservoir, Baipenzhu Town, Huidong County, Huizhou City, Guangdong Province on October 6, 2024 by <a href="https://blog.xeiu.top">Xe_iu</a>.
+      </GalleryCard>
+    </Cards>
+  </SectionCluster>
+
+<SectionBlock id="logbook" title="Logbook">
+  <LogbookCard lang="en" callsign={profile.callsign} />
+</SectionBlock>
